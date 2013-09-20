@@ -34,6 +34,7 @@ bin/frstack
 
 * Login to OpenAM at http://openam.example.com/openam  (amadmin/password)
 * Login to OpenIDM at http://openam.example.com/openidmgui  (openidm-admin/openidm-admin)
+* You can ssh into the guest using `ssh fr@openam.example.com`
 
 
 ## Notes
