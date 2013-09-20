@@ -1,0 +1,7 @@
+---
+
+# Download local s/w to shared folder
+- remote_user: fr
+  hosts: vagrant
+  roles:
+   - download-local

@@ -1,0 +1,11 @@
+# Google compute engine nodes
+[gce]
+demo1
+
+# For vagrant we configure a static host only IP address
+[vagrant]
+192.168.56.10
+
+# Target for frstack. Put the IP of guest to be configured with the OIS stack
+[ois]
+192.168.56.10

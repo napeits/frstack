@@ -1,0 +1,14 @@
+---
+
+# Set up Google Compute Engine node
+# TODO: This needs to be retested
+# Need commands to open firewall ports
+#
+# The first play needs to be run as your own userid here - since that is what 
+# GCE creates the new instance account.
+# This will create the demo fr user account that is used to complete the rest of the install
+- hosts: gce
+  user: warren
+  sudo: yes  
+  roles: 
+   - create-fr-user

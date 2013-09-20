@@ -1,0 +1,36 @@
+# location of downloaded software zip files relative to the guest image
+# We try to keep this consistent across environments
+# For vagrant this will be a shared directory mounted from the host
+# For GWS, etc. this will be local to the machine
+download_dir: "/var/tmp/software"
+
+
+
+# Locations for downloading software bits
+tomcat_version: 7.0.42
+tomcat_download_url: "http://apache.cs.utah.edu/tomcat/tomcat-7/v${tomcat_version}/bin/apache-tomcat-${tomcat_version}.tar.gz"
+
+# opendj
+opendj_rpm: "opendj-2.7.0-1.20130917.noarch.rpm"
+opendj_download_url: "http://download.forgerock.org/downloads/opendj/20130917020001/${opendj_rpm}"
+
+# openam
+openam_version: "11.0.0-SNAPSHOT"
+openam_download_url: "http://download.forgerock.org/downloads/openam/openam-distribution-kit-${openam_version}_nightly_20130917.zip"
+
+# Agents
+tomcat_agent_download_url: "http://download.forgerock.org/downloads/openam/j2eeagents/nightly/tomcat_v6_agent_3.2.0-SNAPSHOT.zip"
+apache_agent_download_url: "http://download.forgerock.org/downloads/openam/webagents/nightly/Linux/apache_v24_Linux_64_agent_4.0.0-SNAPSHOT.zip"
+
+# openidm
+openidm_version: 2.1.0-SNAPSHOT
+openidm_download_url: "http://download.forgerock.org/downloads/openidm/snapshot/openidm-${openidm_version}.zip"
+
+# Config defaults
+openam_config_root: "dc=openam,dc=forgerock,dc=org"
+
+
+# userid to run tomcat as. We use the "fr" user
+tomcat_user: "fr"
+# Where to put tomcat installs
+tomcat_parent: /home/fr

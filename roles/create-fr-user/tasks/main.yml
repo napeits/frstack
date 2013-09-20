@@ -1,0 +1,20 @@
+---
+# This role creates the demo forgerock user account that will be used for the remainder of the install
+
+- name: Create fr demo user
+  user: name=fr system=yes comment="ForgeRock Demo Account"
+
+# todo: Find a better way to lookup the key that works for everyone
+# If the user path is changed to a var it does not seem to work
+# (appends the literal lookup string instead of the key contents)
+- name: Append our .ssh key to the fr demo user 
+  authorized_key: user=fr key="{{item}}"
+  with_file:
+    - warren_id_rsa.pub 
+
+# Escaping is needed here to handle the colon in the NOPASSWD line
+- name: Add fr user to sudoers
+  action: 'lineinfile
+          dest=/etc/sudoers
+          regexp="\%^fr"
+          line="fr ALL=NOPASSWD: ALL"'

@@ -1,0 +1,23 @@
+---
+# This role installs opendj from a nightly build that is downloaded 
+
+- name: install opendj rpm
+  yum: name=${download_dir}/${opendj_rpm} state=installed
+
+- name: copy opendj props file
+  copy: src=opendj.properties dest=/tmp/opendj.properties 
+
+# todo: How to detect if opendj is already installed so we skip this
+- name: setup opendj
+  command: creates=/opt/opendj/config /opt/opendj/setup --cli --propertiesFilePath /tmp/opendj.properties --acceptLicense --no-prompt 
+
+- name: Create rc script
+  command: /opt/opendj/bin/create-rc-script -f /etc/init.d/opendj -u root
+
+- name: Start opendj
+  service: name=opendj state=restarted enabled=yes
+  
+- name: Create suffix for openam config store
+  command: /opt/opendj/bin/dsconfig set-backend-prop --backend-name userRoot --add base-dn:dc=openam,dc=forgerock,dc=org
+    --hostname localhost --port 4444 --bindDN cn=Directory\ Manager --bindPassword password
+    --trustAll --noPropertiesFile --no-prompt

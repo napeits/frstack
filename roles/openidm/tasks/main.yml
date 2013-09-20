@@ -1,0 +1,9 @@
+---
+# This role installs openidm
+
+  
+- name: unpack openidm
+  command: creates=/home/fr/openidm unzip "${download_dir}/openidm*.zip" -d /home/fr
+
+- name: copy boot.properties
+  copy: src=boot.properties dest=/home/fr/openidm/conf/boot

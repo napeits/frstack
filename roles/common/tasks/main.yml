@@ -1,0 +1,13 @@
+---
+# This role installs common base pre-reqs for the ForgeRock stack
+
+# todo: if you use this update tomcat setenv.sh to change JDK_HOME
+#- name: Install JDK from downloaded rpm 
+#  command: rpm -i ${download_dir}/jdk-7u40-linux-x64.rpm
+  
+- name: Install java and other required packages
+  yum: name={{item}} state=latest
+  with_items:
+   - unzip
+   - java-1.7.0-openjdk-devel
+   

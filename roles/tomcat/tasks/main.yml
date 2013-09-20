@@ -1,0 +1,38 @@
+--- 
+# Create tomcat instance. Variables to pass in to this role (these can also be global defaults)
+# tomcat_parent - Parent directory for installation (example: /home/fr)
+# tomcat_instance - Intance name (e.g. tomcat-openam). 
+# tomcat_user - user id to run as 
+# tomcat_http_port
+# tomcat_https_port
+
+- name: create instance dir
+  command: mkdir -p ${tomcat_parent}/${tomcat_instance}
+  
+- name: Extract archive
+  command: creates=${tomcat_parent}/${tomcat_instance}/bin /bin/tar xfz ${download_dir}/apache-tomcat-${tomcat_version}.tar.gz
+             -C ${tomcat_parent}/${tomcat_instance}  --strip-components=1
+             
+- name: Configure Tomcat server
+  template: src=server.xml dest=${tomcat_parent}/${tomcat_instance}/conf/
+
+- name: Configure Tomcat users
+  template: src=tomcat-users.xml dest=${tomcat_parent}/${tomcat_instance}/conf/
+ 
+- name: cp setenv.sh to set jvm paramameters
+  copy: src=setenv.sh dest=${tomcat_parent}/${tomcat_instance}/bin
+
+- name: Install Tomcat init script
+  template: src=tomcat-initscript.sh dest=/etc/init.d/${tomcat_instance} mode=0755
+  
+- name: Change ownership of Tomcat installation
+  file: path=${tomcat_parent}/${tomcat_instance} owner=${tomcat_user} state=directory recurse=yes
+
+- name: sleep wait for service 
+  pause: seconds=10
+  
+- name: Start Tomcat
+  service: name=${tomcat_instance} state=restarted enabled=yes
+
+- name: wait for tomcat to start
+  wait_for: port={{tomcat_http_port}} delay=10

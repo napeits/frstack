@@ -1,0 +1,22 @@
+---
+# This role installs openam dist to the fr home directory. 
+# Assumes the software has been downloaded and is available at ${download_dir}/openam
+# Pass in ${tomcat_dir} to this role. This should be the path the the openam tomcat instance
+  
+- name: unpack config tools
+  command: creates=/home/fr/ssoconfigtool unzip ${download_dir}/openam/openam-distribution-ssoconfiguratortools-${openam_version}.zip -d /home/fr/ssoconfigtool
+
+- name: copy config file
+  copy: src=openam.config dest=/home/fr/ssoconfigtool/openam.config
+ 
+#  for some reason the copy task does not work... We use cp instead. Todo fix
+- name: Deploy war to tomcat
+  command: creates=${tomcat_dir}/webapps/openam cp ${download_dir}/openam/openam-server-${openam_version}.war ${tomcat_dir}/webapps/openam.war
+   
+- name: Wait for openam war to be fully deployed before running configurator
+  pause: seconds=30 
+  
+# The war has to be deployed first...  
+- name: Run openam configurator
+  command: java -jar /home/fr/ssoconfigtool/openam-configurator-tool-${openam_version}.jar -f /home/fr/ssoconfigtool/openam.config
+  

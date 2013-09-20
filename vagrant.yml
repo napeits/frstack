@@ -1,0 +1,18 @@
+---
+# Sets up the initial vagrant environment
+# This is usually called by "vagrant provision"
+# If you call this directly you will have to provdide the path to the ssh private key used by vagrant
+# This sets up the forgerock user that the remaining plays can be run from
+- hosts: vagrant
+  sudo: yes
+  roles: 
+   - create-fr-user
+   - iptables
+
+
+# Downloads the s/w. This runs as a local_action   
+- hosts: vagrant
+  sudo: no
+  remote_user: vagrant
+  roles:
+   - download-local
