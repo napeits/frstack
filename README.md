@@ -19,12 +19,9 @@ will have the following installed:
 
 
 
-
-
 ## Sounds Great. How do I get this running?
-* Install Ansible and Vagrant
+* Install Ansible and Vagrant and make sure they are both in your PATH
 * Add your public ssh key to roles/create-fr-user/files. This will enable you to login as the fr user
-
 * Execute the following:
 `cd vagrant;
 vagrant up;
