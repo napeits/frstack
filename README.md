@@ -25,15 +25,15 @@ will have the following installed:
 * Install Ansible and Vagrant
 * Add your public ssh key to roles/create-fr-user/files. This will enable you to login as the fr user
 
-Execute the following:
-`cd vagrant
-vagrant up
-cd ..
+* Execute the following:
+`cd vagrant;
+vagrant up;
+cd ..;
 bin/frstack
 `
+* Put the IP address of the guest in your /etc/hosts file:
 
-Put the IP address of the guest in your /etc/hosts file:
-xx.xx.xx.xx openam.example.com
+`xx.xx.xx.xx openam.example.com`
 
 * Login to OpenAM at http://openam.example.com/openam  (amadmin/password)
 * Login to OpenIDM at http://openam.example.com/openidmgui  (openidm-admin/openidm-admin)
