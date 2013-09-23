@@ -22,6 +22,7 @@
    - { role: tomcat, tomcat_instance: 'tomcat-apps', tomcat_http_port: 18080,
         tomcat_https_port: 18443, tomcat_server_port: 18005, tags: ["tomcat"]}
    - { role: opendj, tags: ["opendj","ois"]}
+   - { role: agent-apache, tags: ["agent"] }
  
 # Plays to run as normal fr user    
 - remote_user: fr
@@ -29,3 +30,4 @@
   roles: 
    - { role: openidm, tags: ["openidm","ois"]}
    - { role: openam, tomcat_dir: '/home/fr/tomcat-openam', tags: ["openam","ois"]}
+ 

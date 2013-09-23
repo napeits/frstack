@@ -1,4 +1,4 @@
 #!/bin/sh 
-ansible-playbook -v -i hosts frstack.yml 
+#ansible-playbook -v -i hosts frstack.yml 
 # use tags to run just selected roles
-#ansible-playbook -v -i hosts frstack.yml --tags "tomcat"
+ansible-playbook -v -i hosts frstack.yml --tags "agent"
