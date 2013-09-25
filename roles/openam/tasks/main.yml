@@ -2,6 +2,9 @@
 # This role installs openam dist to the fr home directory. 
 # Assumes the software has been downloaded and is available at ${download_dir}/openam
 # Pass in ${tomcat_dir} to this role. This should be the path the the openam tomcat instance
+
+- name: unpack ssoadm tools
+  command: creates=/home/fr/ssoadmin unzip ${download_dir}/openam/openam-distribution-ssoadmintools-${openam_version}.zip -d /home/fr/ssoadmin
   
 - name: unpack config tools
   command: creates=/home/fr/ssoconfigtool unzip ${download_dir}/openam/openam-distribution-ssoconfiguratortools-${openam_version}.zip -d /home/fr/ssoconfigtool
@@ -20,3 +23,7 @@
 - name: Run openam configurator
   command: java -jar /home/fr/ssoconfigtool/openam-configurator-tool-${openam_version}.jar -f /home/fr/ssoconfigtool/openam.config
   
+  
+# Create ssoadm tools - set JAVA_HOME=/usr/lib/jvm/java
+- name: setup ssoadm 
+  command: /home/fr/ssoadmin/setup -p /home/fr/openam
