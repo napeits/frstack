@@ -1,10 +1,12 @@
 # location of downloaded software zip files relative to the guest image
 # We try to keep this consistent across environments
 # For vagrant this will be a shared directory mounted from the host
-# For GWS, etc. this will be local to the machine
+# For AWS, GCE, etc. this will be local to the machine
 download_dir: "/var/tmp/software"
 
 
+# Java home. We use openjdk by default. This is the default location. 
+java_home: /usr/lib/jvm/java
 
 # Locations for downloading software bits
 tomcat_version: 7.0.42
@@ -31,8 +33,25 @@ openidm_version: 2.1.0-SNAPSHOT
 openidm_download_url: "http://download.forgerock.org/downloads/openidm/snapshot/openidm-${openidm_version}.zip"
 
 # Config defaults
+
+### OpenAM ####
+openam_cookiedomain: ".example.com"
+openam_site_url: "http://openam.example.com:80/openam"
+openam_amadmin_password: password
+openam_amldapuser_password: Passw0rd 
+
+# OpenAM config location within embedded OpenDJ 
+# TODO: Not used right now
 openam_config_root: "dc=openam,dc=forgerock,dc=org"
 
+#### OpenDJ #######
+
+# OpenDJ base DN for user data store
+opendj_basedn: "dc=example,dc=com"
+# Datastore password. TODO: use secret file
+opendj_password: password
+
+#### Tomcat 
 
 # userid to run tomcat as. We use the "fr" user
 tomcat_user: "fr"

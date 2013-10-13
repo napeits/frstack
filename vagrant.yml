@@ -10,7 +10,8 @@
    - iptables
 
 
-# Downloads the s/w. This runs as a local_action   
+# Downloads the s/w. This runs as a local_action so that s/w is downloaded to
+# the VBox host 
 - hosts: vagrant
   sudo: no
   remote_user: vagrant

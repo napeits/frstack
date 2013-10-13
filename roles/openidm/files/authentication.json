@@ -1,0 +1,49 @@
+{
+    "passThroughAuth" : "system/ldap/account",
+    "queryId" : "credential-query",
+    "queryOnResource" : "managed/user",
+    "propertyMapping" : {
+        "userId" : "_id",
+        "userCredential" : "password",
+        "userRoles" : "ldapGroups"
+    },
+    "defaultUserRoles" : [
+        "openidm-reg"
+    ],
+    "allowedGroups" : [
+        "cn=openidm-admins,ou=Groups,dc=example,dc=com"
+    ],
+    "serverAuthConfig" : {
+        "authnPopulateContextScript" : "script/authnPopulateContext.js",
+        "idmAuth" : {
+            "sessionModule" : {
+                "name" : "JWT_SESSION",
+                "keyAlias" : "openidm-localhost",
+                "privateKeyPassword" : "changeit",
+                "keystoreType" : "JCEKS",
+                "keystoreFile" : "security/keystore.jceks",
+                "keystorePassword" : "changeit",
+                "maxTokenLifeMinutes" : "120",
+                "tokenIdleTimeMinutes" : "30"
+            },
+            "authModules" : [
+                {
+                    "name" : "PASSTHROUGH",
+                    "passThroughAuth" : "system/ldap/account",
+                    "enabled" : true
+                },
+                {
+                    "name" : "INTERNAL_USER",
+                    "propertyMapping" : {
+                        "userId" : "_id",
+                        "userCredential" : "password",
+                        "userRoles" : "memberOf"
+                    },
+                    "defaultUserRoles" : [
+                        "openidm-reg"
+                    ]
+                }
+            ]
+        }
+    }
+}

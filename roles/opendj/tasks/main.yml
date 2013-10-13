@@ -5,7 +5,8 @@
   yum: name=${download_dir}/${opendj_rpm} state=installed
 
 - name: copy opendj props file
-  copy: src=opendj.properties dest=/tmp/opendj.properties 
+  template: src=opendj.properties dest=/tmp/opendj.properties 
+  
 
 # todo: How to detect if opendj is already installed so we skip this
 - name: setup opendj
@@ -21,3 +22,6 @@
   command: /opt/opendj/bin/dsconfig set-backend-prop --backend-name userRoot --add base-dn:dc=openam,dc=forgerock,dc=org
     --hostname localhost --port 4444 --bindDN cn=Directory\ Manager --bindPassword password
     --trustAll --noPropertiesFile --no-prompt
+    
+- name: Change the ownership on the files so the fr user can execute ldap commands
+  file: path=/opt/opendj state=directory owner=fr recurse=yes
