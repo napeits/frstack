@@ -13,21 +13,24 @@ will have the following installed:
 
 * haproxy to route ports 80/443 to various backend services
 * apache instance running on port 1080 (as yet unused)
-* openidm running on port 9090 (available at  http://openam.example.com/openidm)
+* openidm running on port 9090 (proxied at  http://openam.example.com/openidm)
 * opendj running on port 389. This is the user store. 
-* openam running on port 8080 (available at https://openam.example.com/openam)
+* openam running on port 8080 (proxied at https://openam.example.com/openam)
 
 
 
 ## Sounds Great. How do I get this running?
+
 * Install Ansible and Vagrant and make sure they are both in your PATH
+* Update group_vars/all with the URL locations of the ForgeRock products. These will change over time
+ so you might have to tweak the locations. The current process uses nightly builds.
 * Add your public ssh key to roles/create-fr-user/files. This will enable you to login as the fr user
 * Execute the following:
 `cd vagrant;
 vagrant up;
 cd ..;
 bin/frstack
-`
+
 * Put the IP address of the guest in your /etc/hosts file:
 
 `xx.xx.xx.xx openam.example.com`
@@ -43,11 +46,13 @@ bin/frstack
 
 * Assumes a RH/Centos like guest image (uses yum)
 * For consistency between environments we create a forgerock user ("fr" - because no one likes to type 
-long names). Most things run under this users account. 
+long names). Most things run under this users account. You can ssh fr@opename.example.com
 * OpenDJ is installed using the rpm - and runs as root (so we can run on port 389)
 
 
 ### TODO
 
-* Start script for OpenIDM
+* Start script for OpenIDM - in progress 
+* More dynamic configuration (cookie domains, base DN, etc)
+
 
