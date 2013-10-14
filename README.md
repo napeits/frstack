@@ -26,15 +26,16 @@ will have the following installed:
  so you might have to tweak the locations. The current process uses nightly builds.
 * Add your public ssh key to roles/create-fr-user/files. This will enable you to login as the fr user
 * Execute the following:
-`cd vagrant;
-vagrant up;
-cd ..;
+
+```sh
+cd vagrant
+vagrant up
+cd ..
 bin/frstack
+```
 
 * Put the IP address of the guest in your /etc/hosts file:
-
 `xx.xx.xx.xx openam.example.com`
-
 * Login to OpenAM at http://openam.example.com/openam  (amadmin/password)
 * Login to OpenIDM at http://openam.example.com/openidmgui  (openidm-admin/openidm-admin)
 * You can ssh into the guest using `ssh fr@openam.example.com`
@@ -49,10 +50,21 @@ bin/frstack
 long names). Most things run under this users account. You can ssh fr@opename.example.com
 * OpenDJ is installed using the rpm - and runs as root (so we can run on port 389)
 
+## Ansible Notes
+
+The install is split into two top level playbooks. The first playbook (vagrant.xml) primes the environment required 
+for the main ForgeRock playbook (frstack.yml). Over time there will be an amazon.yml playbook, a gce.yml, and so on.
+
+The first playbook is responsible for installing a few base O/S packages and for create the "fr" forgerock user under
+which the products will be installed. 
+
+The frstack.yml should be generic enough to run on any environment.  
+
 
 ### TODO
 
-* Start script for OpenIDM - in progress 
-* More dynamic configuration (cookie domains, base DN, etc)
+** Start script for OpenIDM - in progress 
+** More dynamic configuration (cookie domains, base DN, etc)
+* Add HA, multi-master replication, etc
 
 
