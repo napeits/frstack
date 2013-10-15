@@ -36,6 +36,8 @@ bin/rock
 `xx.xx.xx.xx openam.example.com`
 * Login to OpenAM at http://openam.example.com/openam  (amadmin/password)
 * Login to OpenIDM at http://openam.example.com/openidmgui  (openidm-admin/openidm-admin)
+* View the haproxy status page at https://openam.example.com/haproxy?stats
+* View the default Apache landing page at https://openam.example.com/
 * You can ssh into the guest using `ssh fr@openam.example.com`
 * Using an ldap browser (Apache Directory Studio, for example) you can browse the user store at openam.example.com:389,   
   cn=Directory Manager / password

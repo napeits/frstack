@@ -1,15 +1,17 @@
 ---
 # Download software locally to the ansible *host* (not the guest)
 
+# The versions are defined in group_vars/all
 - name: download tomcat 
-  local_action: get_url url={{item}} dest=tmp/
+  local_action: get_url url={{item }} dest=tmp/
   with_items:
-    - ${tomcat_download_url}
-    - ${openam_download_url}
-    - ${opendj_download_url}
-    - ${tomcat_agent_download_url}
-    - ${apache_agent_download_url}
-    - ${openidm_download_url}
+    - "{{ tomcat_download_url }}"
+    - "{{ openam_download_url }}"
+    - "{{ opendj_download_url }}"
+    - "{{ tomcat_agent_download_url }}"
+    - "{{ apache_agent_download_url }}"
+    - "{{ openidm_download_url }}"
+    - "{{ haproxy_download  }}"
    
 
 - name: unpack openam for later install
