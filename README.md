@@ -24,14 +24,12 @@ will have the following installed:
 * Install Ansible and Vagrant and make sure they are both in your PATH
 * Update group_vars/all with the URL locations of the ForgeRock products. These will change over time
  so you might have to tweak the locations. The current process uses nightly builds.
-* Add your public ssh key to roles/create-fr-user/files. This will enable you to login as the fr user
+* Add your public ssh key to roles/create-fr-user/files. This will enable you to login as the fr user. You may also have 
+ to edit roles/create-fr-user/tasks/main.yml to reflect the name of your pub key file
 * Execute the following:
 
-```sh
-cd vagrant
-vagrant up
-cd ..
-bin/frstack
+```/bin/sh
+bin/rock
 ```
 
 * Put the IP address of the guest in your /etc/hosts file:
@@ -64,7 +62,9 @@ The frstack.yml should be generic enough to run on any environment.
 ### TODO
 
 * Create fr/.bashrc file with path to common commands
-* More dynamic configuration (cookie domains, base DN, etc)
+* More dynamic configuration (cookie domains, base DN, etc). 
+* Configure agents (right now apache is installed but not configured)
+* Configure some sample policies
 * Add HA, multi-master replication, etc
 
 

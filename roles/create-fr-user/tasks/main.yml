@@ -9,7 +9,7 @@
 - name: Append our .ssh key to the fr demo user 
   authorized_key: user=fr key="{{item}}"
   with_file:
-    - warren_id_rsa.pub 
+    - id_rsa.pub 
 
 # Escaping is needed here to handle the colon in the NOPASSWD line
 - name: Add fr user to sudoers

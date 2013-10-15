@@ -17,7 +17,7 @@
   command: creates={{ tomcat_dir }}/webapps/openam cp {{ download_dir }}/openam/openam-server-{{ openam_version }}.war {{ tomcat_dir }}/webapps/openam.war
    
 - name: Wait for openam war to be fully deployed before running configurator
-  pause: seconds=1
+  pause: seconds=30
   
 # The war has to be deployed first...  
 - name: Run openam configurator

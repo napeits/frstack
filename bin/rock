@@ -1,0 +1,7 @@
+#!/bin/bash
+# Run the complete process to stand up the FR stack 
+cd vagrant
+vagrant up 
+cd ..
+ansible-playbook -v -i hosts frstack.yml 
+echo DONE

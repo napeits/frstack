@@ -35,4 +35,4 @@
   service: name={{ tomcat_instance }} state=restarted enabled=yes
 
 - name: wait for tomcat to start
-  wait_for: port={{tomcat_http_port }} }} delay=10
+  wait_for: port={{tomcat_http_port }} delay=10

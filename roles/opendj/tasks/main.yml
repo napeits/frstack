@@ -2,7 +2,7 @@
 # This role installs opendj from a nightly build that is downloaded 
 
 - name: install opendj rpm
-  yum: name=${download_dir}/${opendj_rpm} state=installed
+  yum: name={{ download_dir }}/{{ opendj_rpm }} state=installed
 
 - name: copy opendj props file
   template: src=opendj.properties dest=/tmp/opendj.properties 
