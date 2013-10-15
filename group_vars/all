@@ -35,7 +35,7 @@ openidm_download_url: "http://download.forgerock.org/downloads/openidm/snapshot/
 # Config defaults
 
 ### OpenAM ####
-openam_cookiedomain: ".example.com"
+openam_cookie_domain: ".example.com"
 openam_site_url: "http://openam.example.com:80/openam"
 openam_amadmin_password: password
 openam_amldapuser_password: Passw0rd 

@@ -3,7 +3,16 @@
 
   
 - name: unpack openidm
-  command: creates=/home/fr/openidm unzip "${download_dir}/openidm*.zip" -d /home/fr
+  command: creates=/home/fr/openidm unzip {{download_dir}}/openidm-{{ openidm_version }}.zip -d /home/fr
 
-- name: copy boot.properties
+- name: copy boot.properties - sets our port number so we dont collide with tomcat
   copy: src=boot.properties dest=/home/fr/openidm/conf/boot
+  
+- name: create service start up script
+  copy: src=openidm dest=/etc/init.d/openidm  mode=0755
+  
+- name: Change ownership of openidm to fr user
+  file: path=/home/fr/openidm owner=fr state=directory recurse=yes
+  
+- name: Enable openidm service
+  service: name=openidm state=restarted enabled=yes

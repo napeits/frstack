@@ -63,8 +63,8 @@ The frstack.yml should be generic enough to run on any environment.
 
 ### TODO
 
-** Start script for OpenIDM - in progress 
-** More dynamic configuration (cookie domains, base DN, etc)
+* Create fr/.bashrc file with path to common commands
+* More dynamic configuration (cookie domains, base DN, etc)
 * Add HA, multi-master replication, etc
 
 

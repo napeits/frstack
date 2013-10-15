@@ -20,4 +20,4 @@
 
 # Some forgerock tools need JAVA_HOME set. TODO: Should we just template our .bash scripts?
 - name: Set JAVA_HOME in our profile. 
-  lineinfile: dest=/home/fr/.bash_profile regexp=^JAVA_HOME  line='export JAVA_HOME=${java_home}'
+  lineinfile: dest=/home/fr/.bashrc regexp=^JAVA_HOME  line='export JAVA_HOME=${java_home}'
