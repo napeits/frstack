@@ -23,10 +23,17 @@
   lineinfile: dest={{home_dir}}/.bashrc regexp=^JAVA_HOME  line='export JAVA_HOME={{java_home}}'
   
 - name: create dirs
-  file: path={{home_dir}}/{{item}} state=directory 
+  file: path={{home_dir}}/{{item}} state=directory owner=fr
   with_items:
    - etc
    - bin
   
 - name: create password file for ssoadm command
   template: src=amadmin_pw dest={{home_dir}}/etc/amadmin_pw mode=0400 owner=fr
+  
+- name: copy list-policies
+  copy: src=list-policies dest={{home_dir}}/bin/list-policies mode=0755 owner=fr
+   
+- name: copy import-policies
+  copy: src=import-policies dest={{home_dir}}/bin/import-policies mode=0755 owner=fr
+  

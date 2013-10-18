@@ -21,7 +21,7 @@
   copy: src=agentresponse.txt dest={{agent_home}}
   
 - name: Run agentadmin 
-  command: chdir={{agent_path}} "./bin/agentadmin --install --useResponse agentresponse.txt"
+  command: "{{agent_home}}/bin/agentadmin --custom-install --useResponse {{agent_home}}/agentresponse.txt"
   
 - name: Start tomcat
   service: name=tomcat-apps state=started

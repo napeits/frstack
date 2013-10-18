@@ -5,7 +5,6 @@
 # This sets up the forgerock user that the remaining plays can be run from
 - hosts: vagrant
   sudo: yes
-  remote_user: fr
   roles: 
    - create-fr-user
    - iptables

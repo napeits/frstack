@@ -1,8 +1,0 @@
-#!/bin/bash
-# Imports policies for / realm
-# specify path the policy.xml file to import
-ssoadm create-policies
- --realm "/"  \
- --adminid amadmin \ 
- --password-file ~/etc/amdmin_pw \
- --xmlfile  $1
