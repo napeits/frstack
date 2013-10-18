@@ -5,10 +5,14 @@
 download_dir: "/var/tmp/software"
 
 
-# Java home. We use openjdk by default. This is the default location. 
+# Java home on the guest. We use openjdk by default. This is the default location. 
 java_home: /usr/lib/jvm/java
 
-# Locations for downloading software bits
+# JDK download 
+openjdk_rpm: "java-1.7.0-openjdk-devel-1.7.0.25-2.3.10.4.el6_4.x86_64.rpm"
+openjdk_download_url: "ftp://rpmfind.net/linux/centos/6.4/updates/x86_64/Packages/{{ openjdk_rpm }}"
+
+####### Locations for downloading software bits
 tomcat_version: 7.0.42
 tomcat_download_url: "http://apache.cs.utah.edu/tomcat/tomcat-7/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
 
@@ -16,12 +20,13 @@ tomcat_download_url: "http://apache.cs.utah.edu/tomcat/tomcat-7/v{{ tomcat_versi
 opendj_rpm: "opendj-2.7.0-1.20130917.noarch.rpm"
 opendj_download_url: "http://download.forgerock.org/downloads/opendj/20130917020001/{{ opendj_rpm }}"
 
-# openam
-openam_version: "11.0.0-SNAPSHOT"
-openam_download_url: "http://download.forgerock.org/downloads/openam/openam-distribution-kit-{{ openam_version }}_nightly_20130917.zip"
+# openam Nightly Build
+openam_version: "12.0.0-SNAPSHOT"
+openam_download_url: "http://download.forgerock.org/downloads/openam/OpenAM-{{ openam_version }}_nightly_20131016.zip"
 
 # Agents
-tomcat_agent_download_url: "http://download.forgerock.org/downloads/openam/j2eeagents/nightly/tomcat_v6_agent_3.2.0-SNAPSHOT.zip"
+tomcat_agent_version: tomcat_v6_agent_3.2.0-SNAPSHOT
+tomcat_agent_download_url: "http://download.forgerock.org/downloads/openam/j2eeagents/nightly/{{ tomcat_agent_version }}.zip"
 apache_agent_version: "apache_v22_Linux_64_agent_4.0.0-SNAPSHOT"
 # CentOS comes bundled with 2.2 - not 2.4
 #apache_agent_version: "apache_v22_Linux_64_agent_4.0.0-SNAPSHOT"
@@ -35,15 +40,16 @@ openidm_download_url: "http://download.forgerock.org/downloads/openidm/snapshot/
 # HA Proxy
 # The rpm repos dont have the latest version needed to support SSL - so use a custom version
 haproxy_rpm: "haproxy-1.5-dev19.el6.x86_64.rpm"
-haproxy_download: "http://silverdire.com/files/repo/el6/x86_64/{{ haproxy_rpm }}"
+haproxy_download_url: "http://silverdire.com/files/repo/el6/x86_64/{{ haproxy_rpm }}"
 
 # Config defaults
 
 ### OpenAM ####
 openam_cookie_domain: ".example.com"
-openam_site_url: "http://openam.example.com:80/openam"
-openam_amadmin_password: password
-openam_amldapuser_password: Passw0rd 
+openam_fqdn: openam.example.com
+openam_site_url: "http://{{ openam_fqdn }}:80/openam"
+amadmin_password: password
+amldapuser_password: Passw0rd 
 
 # OpenAM config location within embedded OpenDJ 
 # TODO: Not used right now
@@ -57,8 +63,12 @@ opendj_basedn: "dc=example,dc=com"
 opendj_password: password
 
 #### Tomcat 
-
+# Todo: are we using this??
 # userid to run tomcat as. We use the "fr" user
 tomcat_user: "fr"
 # Where to put tomcat installs
 tomcat_parent: /home/fr
+
+
+## home dir for fr user
+home_dir: /home/fr

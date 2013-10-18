@@ -1,14 +1,17 @@
 ---
 # Installs the Apache OpenAM agent
 
-- name: Install Apache
-  command: chdir=/home/fr creates=${webagents_home}/apache22_agent /usr/bin/unzip ${download_dir}/${apache_agent_version}.zip
+- name: Install OpenAM Apache Agent
+  command: chdir=/home/fr creates={{ webagents_home }}/apache22_agent /usr/bin/unzip {{ download_dir }}/{{ apache_agent_version }}.zip
   
 - name: create password file
-  copy: src=agentpw dest=${webagents_home}
+  copy: src=agentpw dest={{ webagents_home }}
   
 - name: Copy license agreement so we don't get prompted
-  copy: src=license.log dest=${webagents_home}/apache22_agent/data
+  copy: src=license.log dest={{ webagents_home }}/apache22_agent/data
   
 - name: Change ownership of agent files 
-  file: path=${webagents_home} owner=fr group=apache recurse=yes state=directory
+  file: path={{ webagents_home }} owner=fr group=apache recurse=yes state=directory
+  
+## TODO - complete agent install 
+## Must import agent into openam, then run agentadmin

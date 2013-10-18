@@ -30,4 +30,6 @@
   hosts: ois
   roles: 
    - { role: openam, tomcat_dir: '/home/fr/tomcat-openam', tags: ["openam","ois"]}
+   - { role: agent-tomcat, tags: ["agent"] }
+   
  

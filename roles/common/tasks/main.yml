@@ -5,9 +5,17 @@
 #- name: Install JDK from downloaded rpm 
 #  command: rpm -i ${download_dir}/jdk-7u40-linux-x64.rpm
   
-- name: Install java and other required packages
+- name: Install required packages
   yum: name={{item}} state=latest
   with_items:
    - unzip
-   - java-1.7.0-openjdk-devel
    - git
+#   - java-1.7.0-openjdk-devel
+
+# Comment this out and use the standard pacakge provider if you have lots of bandwidth.
+# This uses a pre-downloaded JDK - which helps if you are doing repeated installs
+- name: Install java from pre-downloaded jdk
+  yum: name={{download_dir}}/{{openjdk_rpm}} state=present
+  
+- name: Put our fqdn in /etc/hosts
+  lineinfile: dest=/etc/hosts line="127.0.0.1 {{openam_fqdn}}" regexp="{{openam_fqdn}}"  state=present

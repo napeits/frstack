@@ -1,0 +1,6 @@
+#!/bin/bash
+# Imports policies for / realm
+ssoadm list-policies
+ --realm "/"  \
+ --adminid amadmin \ 
+ --password-file ~/etc/amdmin_pw 

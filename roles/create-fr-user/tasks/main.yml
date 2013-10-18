@@ -20,4 +20,13 @@
 
 # Some forgerock tools need JAVA_HOME set. TODO: Should we just template our .bash scripts?
 - name: Set JAVA_HOME in our profile. 
-  lineinfile: dest=/home/fr/.bashrc regexp=^JAVA_HOME  line='export JAVA_HOME=${java_home}'
+  lineinfile: dest={{home_dir}}/.bashrc regexp=^JAVA_HOME  line='export JAVA_HOME={{java_home}}'
+  
+- name: create dirs
+  file: path={{home_dir}}/{{item}} state=directory 
+  with_items:
+   - etc
+   - bin
+  
+- name: create password file for ssoadm command
+  template: src=amadmin_pw dest={{home_dir}}/etc/amadmin_pw mode=0400 owner=fr

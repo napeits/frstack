@@ -1,0 +1,6 @@
+# Agent User Response File
+CONFIG_DIR= /etc/httpd/conf
+AM_SERVER_URL= http://localhost:8080/openam
+AGENT_URL= http://localhost:1080
+AGENT_PROFILE_NAME= apache1080
+AGENT_PASSWORD_FILE= /home/fr/web_agents/agentpw
