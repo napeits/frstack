@@ -1,15 +1,21 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE Policies 
-PUBLIC "-//OpenSSO Policy Administration DTD//EN"
-"jar://com/sun/identity/policy/policyAdmin.dtd">
-
 <!-- extracted from realm, / -->
 <Policies>
-<Policy name="examples" createdby="id=amadmin,ou=user,o=openam" lastmodifiedby="id=amadmin,ou=user,o=openam" creationdate
-="1381946224721" lastmodifieddate="1381956831154" referralPolicy="false" active="true" >
+<Policy name="examples" createdby="id=amadmin,ou=user,o=openam" lastmodifiedby="id=amadmin,ou=user,o=openam" creationdate="1381946224721" lastmodifieddate="1382195557323" referralPolicy="false" active="true" >
+<Rule name="examples2">
+<ServiceName name="iPlanetAMWebAgentService" />
+<ResourceName name="http://openam.example.com/examples/*?*" />
+<AttributeValuePair>
+<Attribute name="POST" />
+<Value>allow</Value>
+</AttributeValuePair>
+<AttributeValuePair>
+<Attribute name="GET" />
+<Value>allow</Value>
+</AttributeValuePair>
+</Rule>
 <Rule name="examples">
 <ServiceName name="iPlanetAMWebAgentService" />
-<ResourceName name="http://openam.example.com/examples*" />
+<ResourceName name="http://openam.example.com/examples/*" />
 <AttributeValuePair>
 <Attribute name="POST" />
 <Value>allow</Value>
