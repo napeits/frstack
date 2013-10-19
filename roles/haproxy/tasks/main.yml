@@ -22,5 +22,4 @@
   ignore_errors: yes
   
 - name: Start haproxy
-  service: name=haproxy state=started
-  
+  service: name=haproxy state=started enabled=yes

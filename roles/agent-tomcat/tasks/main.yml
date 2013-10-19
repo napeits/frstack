@@ -26,5 +26,3 @@
 - name: Start tomcat
   service: name=tomcat-apps state=started
   
-## TODO - complete agent install - create profile 
-## Must import agent into openam, then run agentadmin

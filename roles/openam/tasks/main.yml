@@ -17,7 +17,7 @@
   command: creates={{ tomcat_dir }}/webapps/openam cp {{ download_dir }}/openam/OpenAM-{{ openam_version }}.war {{ tomcat_dir }}/webapps/openam.war
    
 - name: Wait for openam war to be fully deployed before running configurator
-  pause: seconds=30
+  pause: seconds=60
   
 # The war has to be deployed first...  
 - name: Run openam configurator
@@ -29,8 +29,15 @@
   
 - name: copy policy.xml for import
   copy: src=policy.xml dest=etc/policy.xml  mode=0622
-  
-# Todo: Run policy import
 
+# This seems to be needed after a fresh install   
+- name: restart Openam
+  command: sudo /sbin/service tomcat-openam restart
+  
+# todo: replace with check on service up  
+- name: Wait for openam war to be fully deployed before running configurator
+  pause: seconds=60
+  
+  
 - name: Import policy.xml
   command: bin/import-policies etc/policy.xml
