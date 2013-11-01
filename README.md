@@ -8,7 +8,7 @@ tested using [Vagrant](http://www.vagrantup.com/), but it should also work on AW
 
 ## But what does it do?
 
-This will configure a Centos like image to run the ForgeRock OIS stack. After completion the guest image 
+This will configure a Centos image to run the ForgeRock OIS stack. After completion the guest image 
 will have the following installed:
 
 * haproxy to route ports 80/443 to various backend services
@@ -16,7 +16,7 @@ will have the following installed:
 * openidm running on port 9090 (proxied at  http://openam.example.com/openidm)
 * opendj running on port 389. This is the user store. 
 * openam running on port 8080 (proxied at https://openam.example.com/openam)
-
+* openig running on port 28080 
 
 
 ## Sounds Great. How do I get this running?
@@ -68,5 +68,3 @@ The frstack.yml should be generic enough to run on any environment.
 * Configure agents (right now apache is installed but not configured)
 * Configure some sample policies
 * Add HA, multi-master replication, etc
-
-
