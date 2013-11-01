@@ -11,6 +11,16 @@
   
 - name: Expand the gateway war file
   command:  /usr/bin/unzip {{download_dir}}/{{openig_version}}.war -d /home/fr/{{tomcat_instance}}/webapps/ROOT
+  
+- name: Copy web.xml to put in AM filter 
+  copy:  src=web.xml dest=/home/fr/{{tomcat_instance}}/webapps/ROOT/WEB-INF/web.xml
+  
+- name: copy sample config.json for gateway
+  file: path=/home/fr/.ForgeRock/OpenIG/ state=directory
+
+  
+- name: copy sample config.json for gateway
+  copy: src=config.json dest=/home/fr/.ForgeRock/OpenIG/config.json
 
 - name: Start tomcat
   service: name={{ tomcat_instance }} state=started
