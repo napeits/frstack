@@ -1,5 +1,4 @@
 ---
-
 # Set up Google Compute Engine node
 # TODO: This needs to be retested
 # Need commands to open firewall ports
@@ -7,8 +6,26 @@
 # The first play needs to be run as your own userid here - since that is what 
 # GCE creates the new instance account.
 # This will create the demo fr user account that is used to complete the rest of the install
-- hosts: gce
-  user: warren
-  sudo: yes  
-  roles: 
-   - create-fr-user
+- name: Create a sandbox instance
+  hosts: localhost
+  connection: local
+  vars:
+    names: foo,bar
+    machine_type: g1-small
+    image: centos-6-v20130926
+    zone: us-central1-a
+  tasks:
+    - name: Launch instances
+      local_action: gce instance_names={{names}} machine_type={{machine_type}}
+                    image={{image}} zone={{zone}}
+      register: gce
+    - name: Wait for SSH to come up
+      local_action: wait_for host={{item.public_ip}} port=22 delay=10
+                    timeout=60 state=started
+      with_items: ${ gce.instance_data }
+   
+- name: Configure instance(s)
+  hosts: launched
+  sudo: True
+  roles:
+    - create-fr-user

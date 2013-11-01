@@ -1,3 +1,4 @@
 j2ee_agents_home: /home/fr/j2ee_agents
 agent_dirname: tomcat_v6_agent
 agent_home: "{{ j2ee_agents_home }}/{{ agent_dirname }}"
+agent_instance_dir: "{{ j2ee_agents_home }}/{{tomcat_instance}}"

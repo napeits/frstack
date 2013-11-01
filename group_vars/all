@@ -8,11 +8,14 @@ download_dir: "/var/tmp/software"
 # Java home on the guest. We use openjdk by default. This is the default location. 
 java_home: /usr/lib/jvm/java
 
+####### Locations for downloading software bits
+
+
 # JDK download 
 openjdk_rpm: "java-1.7.0-openjdk-devel-1.7.0.25-2.3.10.4.el6_4.x86_64.rpm"
 openjdk_download_url: "ftp://rpmfind.net/linux/centos/6.4/updates/x86_64/Packages/{{ openjdk_rpm }}"
 
-####### Locations for downloading software bits
+
 tomcat_version: 7.0.42
 tomcat_download_url: "http://apache.cs.utah.edu/tomcat/tomcat-7/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
 
@@ -27,11 +30,14 @@ openam_download_url: "http://download.forgerock.org/downloads/openam/OpenAM-{{ o
 # Agents
 tomcat_agent_version: tomcat_v6_agent_3.2.0-SNAPSHOT
 tomcat_agent_download_url: "http://download.forgerock.org/downloads/openam/j2eeagents/nightly/{{ tomcat_agent_version }}.zip"
-apache_agent_version: "apache_v22_Linux_64_agent_4.0.0-SNAPSHOT"
 # CentOS comes bundled with 2.2 - not 2.4
+apache_agent_version: "apache_v22_Linux_64_agent_4.0.0-SNAPSHOT"
 #apache_agent_version: "apache_v22_Linux_64_agent_4.0.0-SNAPSHOT"
-
 apache_agent_download_url: "http://download.forgerock.org/downloads/openam/webagents/nightly/Linux/{{ apache_agent_version }}.zip"
+
+# OpenIG
+openig_version: gateway-2.2.0-SNAPSHOT
+openig_download_url: http://download.forgerock.org/downloads/openig/nightly/{{openig_version}}.war
 
 # openidm
 openidm_version: 2.1.0-SNAPSHOT

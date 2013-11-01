@@ -21,6 +21,8 @@
         tomcat_https_port: 8443, tomcat_server_port: 8005, tags: ["tomcat"]}
    - { role: tomcat, tomcat_instance: 'tomcat-apps', tomcat_http_port: 18080,
         tomcat_https_port: 18443, tomcat_server_port: 18005, tags: ["tomcat"]}
+   - { role: tomcat, tomcat_instance: 'tomcat-openig', tomcat_http_port: 28080,
+        tomcat_https_port: 28443, tomcat_server_port: 28005, tags: ["tomcat", "openigX"]}
    - { role: opendj, tags: ["opendj","ois"]}
    - { role: agent-apache, tags: ["agent"] }
    - { role: openidm, tags: ["openidm","ois"]}
@@ -30,6 +32,7 @@
   hosts: ois
   roles: 
    - { role: openam, tomcat_dir: '/home/fr/tomcat-openam', tags: ["openam","ois"]}
-   - { role: agent-tomcat, tags: ["agent"] }
+   - { role: agent-tomcat,  tomcat_instance: 'tomcat-openig', tomcat_http_port: 28080, tags: ["agent","openigX"] }
+   - { role: agent-tomcat,  tomcat_instance: 'tomcat-apps', tomcat_http_port: 18080, tags: ["agent"] }
+   - { role: openig,  tomcat_instance: 'tomcat-openig', tags: ["openig"] }
    
- 

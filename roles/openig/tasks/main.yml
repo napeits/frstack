@@ -1,0 +1,16 @@
+---
+# Install OpenIG 
+# Assumes tomcat-openig instance has been previously deployed
+# Pass tomcat_instance as a role param
+
+- name: Stop tomcat 
+  service: name={{ tomcat_instance }} state=stopped
+  
+- name: Remove the ROOT dir so we can install the gateway at the root 
+  file: path=/home/fr/{{tomcat_instance}}/webapps/ROOT state=absent
+  
+- name: Expand the gateway war file
+  command:  /usr/bin/unzip {{download_dir}}/{{openig_version}}.war -d /home/fr/{{tomcat_instance}}/webapps/ROOT
+
+- name: Start tomcat
+  service: name={{ tomcat_instance }} state=started
