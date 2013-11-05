@@ -1,59 +1,109 @@
 {
-    "heap": {
-        "objects": [
+    "_comment" : "Sample OpenIG config for tomcat form login. Assumes tomcat samples are deployed to instance localhost:48080",
+    "heap":{
+        "objects":[
             {
-                "name": "HandlerServlet",
-                "type": "HandlerServlet",
-                "config": {
-                    "handler": "DispatchHandler",
-                    "baseURI":"http://109.73.67.52:8080"
+                "name":"HandlerServlet",
+                "type":"HandlerServlet",
+                "config":{
+                    "handler":"DispatchHandler",
+                    "baseURI":"http://openam.example.com:48080/"
                 }
             },
             {
-                "name": "DispatchHandler",
-                "type": "DispatchHandler",
-                "config": {
-                    "bindings": [
+                "name":"DispatchHandler",
+                "type":"DispatchHandler",
+                "config":{
+                    "bindings":[
                         {
-                            "condition": "${exchange.request.uri.path == '/wordpress/wp-login.php'}",
-                            "handler": "LoginChain",
+                            "condition":"${exchange.request.uri.path == '/examples/jsp/security/protected/login.jsp'}",
+                            "handler":"LoginChain",
+                            
                         },
                         {
-                            "handler": "ClientHandler",
+                            "handler":"OutgoingChain",
+                            
                         }
                     ]
                 }
             },
             {
-                "name": "LoginChain",
-                "type": "Chain",
-                "config": {
-                    "filters": ["LoginRequestFilter"],
-                    "handler": "ClientHandler"
+                "name":"LoginChain",
+                "type":"Chain",
+                "config":{
+                    "filters":[
+                        "CryptoHeaderFilter",                       
+                    ],
+                    "handler":"LoginRedirectHandler"
                 }
             },
             {
-                "name": "LoginRequestFilter",
-                "type": "StaticRequestFilter",
-                "config": {
-                    "method": "POST",
-                    "uri": "http://109.73.67.52:8080/wordpress/wp-login.php",
-                    "form": {
-                        "log": ["george"],
-                        "pwd": ["costanza"],
-                        "rememberme": ["forever"],
-                        "redirect_to" : ["http://demo.forgerock.com:8080/wordpress/wp-admin/"],
-                        "testcookie": ["1"]
+                "name":"CryptoHeaderFilter",
+                "type":"CryptoHeaderFilter",
+                "config":{
+                    "messageType":"REQUEST",
+                    "operation":"DECRYPT",
+                    "algorithm":"DES/ECB/NoPadding",
+                    "key":"9/uh07wvQ9Y=",
+                    "keyType":"DES",
+                    "charSet":"utf-8",
+                    "headers":[
+                        "password"
+                    ],
+                    
+                },
+                
+            },
+           
+            {
+                "name":"LoginRedirectHandler",
+                "type":"StaticResponseHandler",
+                "config":{
+                    "status":302,
+                    "reason":"Found",
+                    "headers":{
+                        "Location":[
+                            "http://openam.example.com:28080/examples/jsp/security/protected/j_security_check?j_username=${exchange.request.headers['username'][0]}&j_password=${exchange.request.headers['password'][0]}"
+                        ]
                     }
                 }
-            }, 
+            },
             {
-                "name": "ClientHandler",
-                "type": "ClientHandler",
-                "config": {
+                "name":"OutgoingChain",
+                "type":"Chain",
+                "config":{
+                    "filters":[
+                        "CaptureFilter",
+                    ],
+                    "handler":"ClientHandler"
                 }
             },
+            {
+                "name":"CaptureFilter",
+                "type":"CaptureFilter",
+                "config":{
+                    "captureEntity":true,
+                    "file":"/tmp/gateway.log",
+                    
+                }
+            },
+            {
+                "name":"ClientHandler",
+                "type":"ClientHandler",
+                "config":{
+                    
+                }
+            },
+            {
+                "name":"LogSink",
+                "comment":"Default sink for logging information.",
+                "type":"ConsoleLogSink",
+                "config":{
+                    "level":"DEBUG"
+                }
+            },
+            
         ]
     },
-    "servletObject": "HandlerServlet",
+    "servletObject":"HandlerServlet",
 }
