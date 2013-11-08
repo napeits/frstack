@@ -1,6 +1,6 @@
-# Agent User Response File
+# Agent User Response File - simple. Use custom to create the agent in amadmin
 CONFIG_DIR= /etc/httpd/conf
-AM_SERVER_URL= http://localhost:8080/openam
+AM_SERVER_URL= http://{{ openam_fqdn }}:8080/openam
 AGENT_URL= http://localhost:1080
 AGENT_PROFILE_NAME= apache1080
 AGENT_PASSWORD_FILE= /home/fr/web_agents/agentpw
