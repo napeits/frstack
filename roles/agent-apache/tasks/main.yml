@@ -1,5 +1,6 @@
 ---
 # Installs the Apache OpenAM agent
+# Needs to be run as root - as the Apache httpd conf dir is owned by non fr user
 
 - name: Install OpenAM Apache Agent
   command: chdir=/home/fr creates={{ webagents_home }}/apache22_agent /usr/bin/unzip {{ download_dir }}/{{ apache_agent_version }}.zip
@@ -16,5 +17,13 @@
 - name: Stop apache
   service: name=httpd state=stopped
   
-## TODO - complete agent install 
-## Must import agent into openam, then run agentadmin
+- name: Copy agent response template 
+  template: src=agentresponse-custom.txt dest={{ webagents_home }}/apache22_agent 
+
+- name: Run agentadmin 
+  command: "{{ webagents_home }}/apache22_agent/bin/agentadmin --custom-install --useResponse {{ webagents_home }}/apache22_agent/agentresponse-custom.txt"
+  
+- name: start apache
+  service: name=httpd state=started
+  
+  

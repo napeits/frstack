@@ -13,6 +13,8 @@
 - remote_user: fr
   sudo: yes
   hosts: ois
+  vars_files: 
+    - "vars/{{release}}.yml"
   roles:
    - { role: common, tags: ["common"]}
    - { role: base-apache, tags: ["http"]}
@@ -22,17 +24,24 @@
    - { role: tomcat, tomcat_instance: 'tomcat-apps', tomcat_http_port: 18080,
         tomcat_https_port: 18443, tomcat_server_port: 18005, tags: ["tomcat"]}
    - { role: tomcat, tomcat_instance: 'tomcat-openig', tomcat_http_port: 28080,
-        tomcat_https_port: 28443, tomcat_server_port: 28005, tags: ["tomcat", "openigX"]}
+        tomcat_https_port: 28443, tomcat_server_port: 28005, tags: ["tomcat", "openig"]}
    - { role: opendj, tags: ["opendj","ois"]}
-   - { role: agent-apache, tags: ["agent"] }
    - { role: openidm, tags: ["openidm","ois"]}
  
 # Plays to run as normal fr user    
 - remote_user: fr
   hosts: ois
+  vars_files: 
+    - "vars/{{release}}.yml"
   roles: 
-   - { role: openam, tomcat_dir: '/home/fr/tomcat-openam', tags: ["openam","ois"]}
-   - { role: agent-tomcat,  tomcat_instance: 'tomcat-openig', tomcat_http_port: 28080, tags: ["agent","openigX"] }
+   - { role: openam, tomcat_dir: '{{ install_root}}/tomcat-openam', tags: ["openam","ois"]}
+   - { role: agent-tomcat,  tomcat_instance: 'tomcat-openig', tomcat_http_port: 28080, tags: ["agent","openig"] }
    - { role: agent-tomcat,  tomcat_instance: 'tomcat-apps', tomcat_http_port: 18080, tags: ["agent"] }
    - { role: openig,  tomcat_instance: 'tomcat-openig', tags: ["openig"] }
    
+# Apache agent needs to sudo for
+- remote_user: fr
+  sudo: yes
+  hosts: ois
+  roles:
+   - { role: agent-apache, tags: ["agent","agent-apache"] }

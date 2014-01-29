@@ -16,4 +16,4 @@
     - "{{ openig_download_url }}" 
 
 - name: unpack openam for later install
-  local_action: command creates=tmp/openam unzip tmp/OpenAM*.zip -d tmp/openam
+  local_action: command creates=tmp/openam unzip tmp/{{openam_zip}} -d tmp/openam

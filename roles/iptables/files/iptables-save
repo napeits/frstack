@@ -12,8 +12,12 @@
 -A INPUT -p tcp -m state --state NEW -m tcp --dport 1389 -j ACCEPT
 -A INPUT -p tcp -m state --state NEW -m tcp --dport 389 -j ACCEPT
 -A INPUT -p tcp -m state --state NEW -m tcp --dport 636 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 1080 -j ACCEPT
 -A INPUT -p tcp -m state --state NEW -m tcp --dport 8080 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 9080 -j ACCEPT
 -A INPUT -p tcp -m state --state NEW -m tcp --dport 28080 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 38080 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 48080 -j ACCEPT
 -A INPUT -p tcp -m state --state NEW -m tcp --dport 4444 -j ACCEPT
 -A INPUT -j REJECT --reject-with icmp-host-prohibited
 -A FORWARD -j REJECT --reject-with icmp-host-prohibited

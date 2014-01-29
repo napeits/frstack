@@ -11,9 +11,10 @@ cleanupPidFile() {
   exit
 }
 
-#JAVA_BIN=/opt/java/bin/java
-JAVA_BIN=/usr/bin/java
-OPENIDM_HOME=/home/fr/openidm
+
+JAVA_BIN={{java_home}}/bin/java
+
+OPENIDM_HOME={{install_root}}/openidm
 OPENIDM_USER=fr
 OPENIDM_PID_FILE=$OPENIDM_HOME/.openidm.pid
 OPENIDM_OPTS="-Xmx1024m -Dfile.encoding=UTF-8"

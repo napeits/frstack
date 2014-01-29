@@ -1,8 +1,8 @@
 # Apache Agent User Response File - custom install
 # This will create the agent in openam as well
 CONFIG_DIR= /etc/httpd/conf
-AM_SERVER_URL= http://openam.example.com:8080/openam
-AGENT_URL= http://openam.example.com:1080
+AM_SERVER_URL= http://{{openam_fqdn}}:8080/openam
+AGENT_URL= http://{{openam_fqdn}}:1080
 AGENT_PROFILE_NAME= apache1080
 AGENT_PASSWORD_FILE= /home/fr/web_agents/agentpw
 CREATE_AGENT_PROFILE_NAME= true

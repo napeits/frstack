@@ -10,12 +10,15 @@
   with_items:
    - unzip
    - git
+   - wget
 #   - java-1.7.0-openjdk-devel
-
-# Comment this out and use the standard pacakge provider if you have lots of bandwidth.
-# This uses a pre-downloaded JDK - which helps if you are doing repeated installs
+#Use the above if you have lots of bandwidth.
+# Below uses a pre-downloaded JDK - which saves download bandwidth if you are doing repeated installs or testing
 - name: Install java from pre-downloaded jdk
-  yum: name={{download_dir}}/{{openjdk_rpm}} state=present
+  yum: name={{third_party_download_dir}}/{{jdk_rpm}} state=present
   
 - name: Put our fqdn in /etc/hosts
   lineinfile: dest=/etc/hosts line="127.0.0.1 {{openam_fqdn}}" regexp="{{openam_fqdn}}"  state=present
+  
+- name: create top level software dir
+  file: state=directory path={{install_root}} owner=fr mode=0755

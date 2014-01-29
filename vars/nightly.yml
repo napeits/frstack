@@ -1,0 +1,30 @@
+
+
+# opendj
+opendj_rpm: "opendj-2.7.0-1.20130917.noarch.rpm"
+opendj_download_url: "http://download.forgerock.org/downloads/opendj/20130917020001/{{ opendj_rpm }}"
+
+# openam Nightly Build
+openam_version: "12.0.0-SNAPSHOT"
+openam_download_url: "http://download.forgerock.org/downloads/openam/OpenAM-{{ openam_version }}_nightly_20131016.zip"
+
+# Agents
+tomcat_agent_version: tomcat_v6_agent_3.2.0-SNAPSHOT
+tomcat_agent_download_url: "http://download.forgerock.org/downloads/openam/j2eeagents/nightly/{{ tomcat_agent_version }}.zip"
+# CentOS comes bundled with 2.2 - not 2.4
+apache_agent_version: "apache_v22_Linux_64_agent_4.0.0-SNAPSHOT"
+#apache_agent_version: "apache_v22_Linux_64_agent_4.0.0-SNAPSHOT"
+apache_agent_download_url: "http://download.forgerock.org/downloads/openam/webagents/nightly/Linux/{{ apache_agent_version }}.zip"
+
+# OpenIG
+openig_version: gateway-2.2.0-SNAPSHOT
+openig_download_url: http://download.forgerock.org/downloads/openig/nightly/{{openig_version}}.war
+
+# openidm
+openidm_version: 2.1.0-SNAPSHOT
+openidm_download_url: "http://download.forgerock.org/downloads/openidm/snapshot/openidm-{{ openidm_version }}.zip"
+
+# HA Proxy
+# The rpm repos dont have the latest version needed to support SSL - so use a custom version
+haproxy_rpm: "haproxy-1.5-dev19.el6.x86_64.rpm"
+haproxy_download_url: "http://silverdire.com/files/repo/el6/x86_64/{{ haproxy_rpm }}"

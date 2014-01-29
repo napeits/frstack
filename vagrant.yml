@@ -14,5 +14,5 @@
 # the VBox host 
 - hosts: vagrant
   sudo: no
-  roles:
-   - download-local
+#  roles:
+#   - download-local

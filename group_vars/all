@@ -2,51 +2,40 @@
 # We try to keep this consistent across environments
 # For vagrant this will be a shared directory mounted from the host
 # For AWS, GCE, etc. this will be local to the machine
-download_dir: "/var/tmp/software"
+download_dir: "/var/tmp/staging"
+
+# ForgeRock released binaries vs. Nightly builds
+# release: nightly
+release: released
+
+third_party_download_dir: "{{download_dir}}/thirdparty"
+forgerock_download_dir: "{{download_dir}}/{{release}}"
+
+# JDK RPM - if we install from a downloaded rpm vs. via yum  
+jdk_rpm: "java-1.7.0-openjdk-devel-1.7.0.51-2.4.4.1.el6_5.x86_64.rpm"
+#openjdk_download_url: "ftp://rpmfind.net/linux/centos/6.4/updates/x86_64/Packages/{{ openjdk_rpm }}"
 
 
-# Java home on the guest. We use openjdk by default. This is the default location. 
-java_home: /usr/lib/jvm/java
-
-####### Locations for downloading software bits
-
-
-# JDK download 
-openjdk_rpm: "java-1.7.0-openjdk-devel-1.7.0.25-2.3.10.4.el6_4.x86_64.rpm"
-openjdk_download_url: "ftp://rpmfind.net/linux/centos/6.4/updates/x86_64/Packages/{{ openjdk_rpm }}"
-
-
+#### Tomcat 
+# userid to run tomcat as. We use the "fr" user
+tomcat_user: "fr"
+# Where to put tomcat installs
+tomcat_parent: /opt/fr
 tomcat_version: 7.0.42
 tomcat_download_url: "http://apache.cs.utah.edu/tomcat/tomcat-7/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
 
-# opendj
-opendj_rpm: "opendj-2.7.0-1.20130917.noarch.rpm"
-opendj_download_url: "http://download.forgerock.org/downloads/opendj/20130917020001/{{ opendj_rpm }}"
-
-# openam Nightly Build
-openam_version: "12.0.0-SNAPSHOT"
-openam_download_url: "http://download.forgerock.org/downloads/openam/OpenAM-{{ openam_version }}_nightly_20131016.zip"
-
-# Agents
-tomcat_agent_version: tomcat_v6_agent_3.2.0-SNAPSHOT
-tomcat_agent_download_url: "http://download.forgerock.org/downloads/openam/j2eeagents/nightly/{{ tomcat_agent_version }}.zip"
-# CentOS comes bundled with 2.2 - not 2.4
-apache_agent_version: "apache_v22_Linux_64_agent_4.0.0-SNAPSHOT"
-#apache_agent_version: "apache_v22_Linux_64_agent_4.0.0-SNAPSHOT"
-apache_agent_download_url: "http://download.forgerock.org/downloads/openam/webagents/nightly/Linux/{{ apache_agent_version }}.zip"
-
-# OpenIG
-openig_version: gateway-2.2.0-SNAPSHOT
-openig_download_url: http://download.forgerock.org/downloads/openig/nightly/{{openig_version}}.war
-
-# openidm
-openidm_version: 2.1.0-SNAPSHOT
-openidm_download_url: "http://download.forgerock.org/downloads/openidm/snapshot/openidm-{{ openidm_version }}.zip"
 
 # HA Proxy
 # The rpm repos dont have the latest version needed to support SSL - so use a custom version
 haproxy_rpm: "haproxy-1.5-dev19.el6.x86_64.rpm"
 haproxy_download_url: "http://silverdire.com/files/repo/el6/x86_64/{{ haproxy_rpm }}"
+
+
+install_root: /opt/fr
+
+# Java home on the guest. We use openjdk by default. This is the default location. 
+java_home: /usr/lib/jvm/java
+
 
 # Config defaults
 
@@ -68,12 +57,7 @@ opendj_basedn: "dc=example,dc=com"
 # Datastore password. TODO: use secret file
 opendj_password: password
 
-#### Tomcat 
-# Todo: are we using this??
-# userid to run tomcat as. We use the "fr" user
-tomcat_user: "fr"
-# Where to put tomcat installs
-tomcat_parent: /home/fr
+
 
 
 ## home dir for fr user

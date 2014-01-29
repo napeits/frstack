@@ -58,10 +58,21 @@ for the main ForgeRock playbook (frstack.yml). Over time there will be an amazon
 The first playbook is responsible for installing a few base O/S packages and for create the "fr" forgerock user under
 which the products will be installed. 
 
+The role "download-local" is responsible for downloading packages for installation. Note that for vagrant,
+this is downloaded to the host directory, and mounted as a folder (/var/tmp/software) on the guest. 
+
+You may find it easier to just download the software packages manually.
+
 The frstack.yml should be generic enough to run on any environment.  
 
 
 ### TODO
+
+
+Bug fixing needed:
+* looks like the HOSTNAME needs to be set to the fqdn on the machine /etc/sysconfig/network  or openam config bombs out
+  This is fixed for Vagrant by setting config.vm.hostname. Need a fix for other hosts
+* tomcat agent installer does not put filter in global web.xml. Need to fix up apps web.xml
 
 * Create fr/.bashrc file with path to common commands
 * More dynamic configuration (cookie domains, base DN, etc). 

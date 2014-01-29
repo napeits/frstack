@@ -1,0 +1,24 @@
+####### Locations for downloading software bits
+
+# opendj
+opendj_zip: OpenDJ-2.6.0.zip
+
+# openam Nightly Build
+openam_version: "11.0.0"
+
+
+# Agents
+tomcat_agent_version: tomcat_v6_agent_3.2.0-SNAPSHOT
+tomcat_agent_download_url: "http://download.forgerock.org/downloads/openam/j2eeagents/nightly/{{ tomcat_agent_version }}.zip"
+# CentOS comes bundled with 2.2 - not 2.4
+apache_agent_version: "apache_v22_Linux_64_agent_4.0.0-SNAPSHOT"
+#apache_agent_version: "apache_v22_Linux_64_agent_4.0.0-SNAPSHOT"
+apache_agent_download_url: "http://download.forgerock.org/downloads/openam/webagents/nightly/Linux/{{ apache_agent_version }}.zip"
+
+# OpenIG
+openig_version: gateway-2.2.0-SNAPSHOT
+openig_download_url: http://download.forgerock.org/downloads/openig/nightly/{{openig_version}}.war
+
+# openidm
+openidm_version: 2.1.1
+openidm_zip: "openidm-{{openidm_version}}.zip"

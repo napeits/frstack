@@ -1,19 +1,24 @@
 ---
-# This role installs opendj from a nightly build that is downloaded 
+# This role installs opendj in /opt
 
-- name: install opendj rpm
-  yum: name={{ download_dir }}/{{ opendj_rpm }} state=installed
+# Moved from using rpm to unzip - since it works across both Debian / Centos
+#- name: install opendj rpm
+#  yum: name={{ download_dir }}/{{ opendj_rpm }} state=installed
+  
+- name: unpack opendj
+  command: chdir=/opt creates=/opt/opendj unzip {{ forgerock_download_dir }}/{{ opendj_zip }}
 
 - name: copy opendj props file
   template: src=opendj.properties dest=/tmp/opendj.properties 
   
-
-# todo: How to detect if opendj is already installed so we skip this
 - name: setup opendj
   command: creates=/opt/opendj/config /opt/opendj/setup --cli --propertiesFilePath /tmp/opendj.properties --acceptLicense --no-prompt 
 
 - name: Create rc script
   command: /opt/opendj/bin/create-rc-script -f /etc/init.d/opendj -u root
+  
+- name: Change the ownership on the files so the fr user can execute ldap commands
+  file: path=/opt/opendj state=directory owner=fr recurse=yes
 
 - name: Start opendj
   service: name=opendj state=restarted enabled=yes
@@ -23,5 +28,3 @@
     --hostname localhost --port 4444 --bindDN cn=Directory\ Manager --bindPassword password
     --trustAll --noPropertiesFile --no-prompt
     
-- name: Change the ownership on the files so the fr user can execute ldap commands
-  file: path=/opt/opendj state=directory owner=fr recurse=yes
