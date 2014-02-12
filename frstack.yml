@@ -19,12 +19,12 @@
    - { role: common, tags: ["common"]}
    - { role: base-apache, tags: ["http"]}
    - { role: haproxy, tags: ["http"]}
-   - { role: tomcat, tomcat_instance: 'tomcat-openam', tomcat_http_port: 8080,
-        tomcat_https_port: 8443, tomcat_server_port: 8005, tags: ["tomcat"]}
-   - { role: tomcat, tomcat_instance: 'tomcat-apps', tomcat_http_port: 18080,
-        tomcat_https_port: 18443, tomcat_server_port: 18005, tags: ["tomcat"]}
-   - { role: tomcat, tomcat_instance: 'tomcat-openig', tomcat_http_port: 28080,
-        tomcat_https_port: 28443, tomcat_server_port: 28005, tags: ["tomcat", "openig"]}
+   - { role: tomcat, tomcat_instance: 'tomcat-openam', tomcat_base_port: 8000,
+       tags: ["tomcat", "openamX"]}
+   - { role: tomcat, tomcat_instance: 'tomcat-apps',  tomcat_base_port: 18000,
+       tags: ["tomcat"]}
+   - { role: tomcat, tomcat_instance: 'tomcat-openig',  tomcat_base_port: 28000,
+        tags: ["tomcat", "openig"]}
    - { role: opendj, tags: ["opendj","ois"]}
    - { role: openidm, tags: ["openidm","ois"]}
  
@@ -34,7 +34,7 @@
   vars_files: 
     - "vars/{{release}}.yml"
   roles: 
-   - { role: openam, tomcat_dir: '{{ install_root}}/tomcat-openam', tags: ["openam","ois"]}
+   - { role: openam, tomcat_dir: '{{install_root}}/tomcat-openam', tags: ["openam","ois"]}
    - { role: agent-tomcat,  tomcat_instance: 'tomcat-openig', tomcat_http_port: 28080, tags: ["agent","openig"] }
    - { role: agent-tomcat,  tomcat_instance: 'tomcat-apps', tomcat_http_port: 18080, tags: ["agent"] }
    - { role: openig,  tomcat_instance: 'tomcat-openig', tags: ["openig"] }

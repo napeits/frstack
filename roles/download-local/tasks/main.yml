@@ -2,7 +2,7 @@
 # Download software locally to the ansible *host* (not the guest)
 
 # The versions are defined in group_vars/all
-- name: download tomcat 
+- name: download software
   local_action: get_url url={{item }} dest=tmp/
   with_items:
     - "{{ tomcat_download_url }}"

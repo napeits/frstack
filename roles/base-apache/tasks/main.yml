@@ -13,9 +13,9 @@
   copy: src=index.html dest=/var/www/html owner=apache group=root mode=0644
 
 - name: create self-signed SSL cert for apache
-  command: openssl req -new -nodes -x509 -subj "/C=CA/ST=AB/L=Calgary/O=ForgeRock/CN=openam.example.com" -days 3650 
+  command: creates=/etc/pki/tls/cert/apacheserver.crt openssl req -new -nodes -x509 -subj "/C=CA/ST=AB/L=Calgary/O=ForgeRock/CN=openam.example.com" -days 3650 
     -keyout /etc/pki/tls/private/apacheserver.key -out /etc/pki/tls/certs/apacheserver.crt 
-    -extensions v3_ca creates=/etc/pki/tls/cert/apacheserver.crt
+    -extensions v3_ca 
 
 # We ignore errors here because this is not idempotent  
 - name: Import the cert into java keystore for openam use

@@ -8,36 +8,32 @@ download_dir: "/var/tmp/staging"
 # release: nightly
 release: released
 
-third_party_download_dir: "{{download_dir}}/thirdparty"
+# Directory where ForgeRock binaries are located (e.g. for OpenAM, DJ, etc.)
 forgerock_download_dir: "{{download_dir}}/{{release}}"
 
 # JDK RPM - if we install from a downloaded rpm vs. via yum  
 jdk_rpm: "java-1.7.0-openjdk-devel-1.7.0.51-2.4.4.1.el6_5.x86_64.rpm"
 #openjdk_download_url: "ftp://rpmfind.net/linux/centos/6.4/updates/x86_64/Packages/{{ openjdk_rpm }}"
 
+# Top level where all s/w is installed
+install_root: /opt/ois
 
-#### Tomcat 
+
+#### Tomcat role overrides
 # userid to run tomcat as. We use the "fr" user
 tomcat_user: "fr"
 # Where to put tomcat installs
-tomcat_parent: /opt/fr
-tomcat_version: 7.0.42
-tomcat_download_url: "http://apache.cs.utah.edu/tomcat/tomcat-7/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
-
-
-# HA Proxy
-# The rpm repos dont have the latest version needed to support SSL - so use a custom version
-haproxy_rpm: "haproxy-1.5-dev19.el6.x86_64.rpm"
-haproxy_download_url: "http://silverdire.com/files/repo/el6/x86_64/{{ haproxy_rpm }}"
-
-
-install_root: /opt/fr
+tomcat_parent: "{{install_root}}"
 
 # Java home on the guest. We use openjdk by default. This is the default location. 
 java_home: /usr/lib/jvm/java
 
-
 # Config defaults
+
+# This is the short hostname that should be returned by the "hostname" command
+# This will get put in /etc/hosts
+# TODO: Find a better start script that puts the hostname in /etc/hosts on boot
+openam_hostname: "openam"
 
 ### OpenAM ####
 openam_cookie_domain: ".example.com"
@@ -57,8 +53,8 @@ opendj_basedn: "dc=example,dc=com"
 # Datastore password. TODO: use secret file
 opendj_password: password
 
-
-
+# ForgeRock User
+fr_user: fr
 
 ## home dir for fr user
-home_dir: /home/fr
+home_dir: "/home/{{fr_user}}"

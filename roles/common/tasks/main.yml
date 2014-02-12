@@ -1,10 +1,6 @@
 ---
 # This role installs common base pre-reqs for the ForgeRock stack
 
-# todo: if you use this update tomcat setenv.sh to change JDK_HOME
-#- name: Install JDK from downloaded rpm 
-#  command: rpm -i ${download_dir}/jdk-7u40-linux-x64.rpm
-  
 - name: Install required packages
   yum: name={{item}} state=latest
   with_items:
@@ -14,11 +10,20 @@
 #   - java-1.7.0-openjdk-devel
 #Use the above if you have lots of bandwidth.
 # Below uses a pre-downloaded JDK - which saves download bandwidth if you are doing repeated installs or testing
+- name: Check for pre downloaded JDK
+  stat: path={{download_dir}}/{{jdk_rpm}}
+  register: jdkarchive
+  
 - name: Install java from pre-downloaded jdk
-  yum: name={{third_party_download_dir}}/{{jdk_rpm}} state=present
+  yum: name={{download_dir}}/{{jdk_rpm}} state=present
+  when: jdkarchive.stat.exists
+  
+- name: No pre-loaded JDK - Install JDK from yum
+  yum: name="java-1.7.0-openjdk-devel" state=present
+  when: jdkarchive.stat.exists == false
   
 - name: Put our fqdn in /etc/hosts
-  lineinfile: dest=/etc/hosts line="127.0.0.1 {{openam_fqdn}}" regexp="{{openam_fqdn}}"  state=present
+  lineinfile: dest=/etc/hosts line="127.0.0.1 {{openam_fqdn}} {{openam_hostname}}" regexp="{{openam_fqdn}}"  state=present
   
 - name: create top level software dir
   file: state=directory path={{install_root}} owner=fr mode=0755

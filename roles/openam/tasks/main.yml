@@ -17,7 +17,8 @@
   command: creates={{ tomcat_dir }}/webapps/openam cp {{ forgerock_download_dir }}/openam/OpenAM-{{ openam_version }}.war {{ tomcat_dir }}/webapps/openam.war
  
 - name: Wait for openam war to be fully deployed before running configurator
-  pause: seconds=60
+  pause: seconds=20
+  http://localhost:8080/openam
   
 # The war has to be deployed first...  
 - name: Run openam configurator

@@ -2,19 +2,19 @@
 # This role installs haproxy
 
 - name: Get haproxy. Use custom version that supports ssl
-  get_url: url={{haproxy_download_url }} dest={{ third_party_download_dir }}/{{ haproxy_rpm }}
+  get_url: url={{haproxy_download_url }} dest={{ download_dir }}/{{ haproxy_rpm }}
   
 # todo: change to repo when http proxy gets ssl 
 - name: Install downloaded haproxy. yum repos do not have the latest builds that support SSL so we get a custom one
-  yum: name={{ third_party_download_dir }}/{{ haproxy_rpm }} state=present
+  yum: name={{ download_dir }}/{{ haproxy_rpm }} state=present
   
 - name: copy haproxy.cfg
   copy: src=haproxy.cfg dest=/etc/haproxy/haproxy.cfg owner=root
   
 - name: create self-signed SSL cert for haproxy
-  command: openssl req -new -nodes -x509 -subj "/C=CA/ST=AB/L=Calgary/O=ForgeRock/CN=openam.example.com" -days 3650 
+  command: creates=/etc/pki/tls/certs/haproxy.crt openssl req -new -nodes -x509 -subj "/C=CA/ST=AB/L=Calgary/O=ForgeRock/CN=openam.example.com" -days 3650 
     -keyout /etc/pki/tls/private/haproxy.key -out /etc/pki/tls/certs/haproxy.crt 
-    -extensions v3_ca creates=/etc/pki/tls/certs/haproxy.crt
+    -extensions v3_ca  
     
 - name: Create haproxy.pem
   shell: chdir=/etc/pki/tls creates=/etc/pki/tls/haproxy.pem /bin/cat certs/haproxy.crt private/haproxy.key > /etc/pki/tls/haproxy.pem 
