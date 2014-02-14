@@ -1,8 +1,9 @@
 
 
 # opendj
-opendj_rpm: "opendj-2.7.0-1.20130917.noarch.rpm"
-opendj_download_url: "http://download.forgerock.org/downloads/opendj/20130917020001/{{ opendj_rpm }}"
+# This is moved to opendj role to make it more independent
+#opendj_rpm: "opendj-2.7.0-1.20130917.noarch.rpm"
+#opendj_download_url: "http://download.forgerock.org/downloads/opendj/20130917020001/{{ opendj_rpm }}"
 
 # openam Nightly Build
 openam_version: "12.0.0-SNAPSHOT"

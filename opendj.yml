@@ -1,0 +1,13 @@
+---
+
+# Example of installing two opendj instances on the same host (different ports)
+# and enabling replication between them
+# Most of the variables here are defaulted (see the role/vars/main.yml for defaults)
+- remote_user: fr
+  sudo: yes
+  hosts: ois
+  roles:
+#   - { role: opendj, install_root: "/opt/a" }
+#   - { role: opendj, install_root: "/opt/b", opendj_admin_port: 1444, opendj_ldap_port: 2389,
+#            opendj_ldaps_port: 2636 , opendj_jmx_port: 2689, opendj_service_name: "opendj2" }
+   - { role: opendj-replication, install_root: "/opt/a", opendj_host2: localhost, opendj_admin_port2: 1444 }

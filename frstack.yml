@@ -30,6 +30,7 @@
  
 # Plays to run as normal fr user    
 - remote_user: fr
+  sudo: yes
   hosts: ois
   vars_files: 
     - "vars/{{release}}.yml"
@@ -39,7 +40,7 @@
    - { role: agent-tomcat,  tomcat_instance: 'tomcat-apps', tomcat_http_port: 18080, tags: ["agent"] }
    - { role: openig,  tomcat_instance: 'tomcat-openig', tags: ["openig"] }
    
-# Apache agent needs to sudo for
+# Apache agent needs to sudo for root install
 - remote_user: fr
   sudo: yes
   hosts: ois

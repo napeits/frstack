@@ -12,32 +12,37 @@
 - name: copy config file
   template: src=openam.config dest={{ install_root }}/ssoconfigtool/openam.config
  
+- name: Ensure tomcat is running
+  service: name="tomcat-openam" state=started pattern="tomcat-openam" enabled=yes
 
 - name: Deploy war to tomcat
   command: creates={{ tomcat_dir }}/webapps/openam cp {{ forgerock_download_dir }}/openam/OpenAM-{{ openam_version }}.war {{ tomcat_dir }}/webapps/openam.war
  
 - name: Wait for openam war to be fully deployed before running configurator
-  pause: seconds=20
-  http://localhost:8080/openam
+  wait_for: port=8080 delay=10
+- uri: url=http://localhost:8080/openam status=302 timeout=120 async=120
   
-# The war has to be deployed first...  
 - name: Run openam configurator
-  command: java -jar {{ install_root }}/ssoconfigtool/openam-configurator-tool-{{ openam_version }}.jar -f {{ install_root }}/ssoconfigtool/openam.config
-  
-# Create ssoadm tools - set JAVA_HOME=/usr/lib/jvm/java
-- name: setup ssoadm 
-  command: chdir={{ install_root }}/ssoadmin {{ install_root }}/ssoadmin/setup -p {{ install_root }}/openam
-  
+  command: creates={{install_root}}/openam java -jar {{ install_root }}/ssoconfigtool/openam-configurator-tool-{{ openam_version }}.jar -f {{ install_root }}/ssoconfigtool/openam.config
+ 
 - name: copy policy.xml for import
   copy: src=policy.xml dest=etc/policy.xml  mode=0622
 
 # This seems to be needed after a fresh install   
 - name: restart Openam
-  command: sudo /sbin/service tomcat-openam restart
-  
-# todo: replace with check on service up  
+  service: name="tomcat-openam" state=restarted enabled=yes
+
+# 
 - name: Wait for openam war to be fully deployed before running configurator
-  pause: seconds=60
+  wait_for: port=8080 delay=10
+- uri: url=http://localhost:8080/openam status=302 timeout=120 async=120
+  
+  # Create ssoadm tools - set JAVA_HOME=/usr/lib/jvm/java
+- name: setup ssoadm 
+  command: chdir={{ install_root }}/ssoadmin {{ install_root }}/ssoadmin/setup -p {{ install_root }}/openam
+  environment:
+    JAVA_HOME: "{{java_home}}"
+  
   
 
 # This is failing on the when we are not using example.com domain- find out why later

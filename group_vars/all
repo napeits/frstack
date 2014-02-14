@@ -4,9 +4,13 @@
 # For AWS, GCE, etc. this will be local to the machine
 download_dir: "/var/tmp/staging"
 
+# ForgeRock User. This account will run all non root s/w (openam, openidm, etc.)
+fr_user: fr
+
+
 # ForgeRock released binaries vs. Nightly builds
-# release: nightly
-release: released
+release: nightly
+#release: released
 
 # Directory where ForgeRock binaries are located (e.g. for OpenAM, DJ, etc.)
 forgerock_download_dir: "{{download_dir}}/{{release}}"
@@ -21,7 +25,7 @@ install_root: /opt/ois
 
 #### Tomcat role overrides
 # userid to run tomcat as. We use the "fr" user
-tomcat_user: "fr"
+tomcat_user: "{{fr_user}}"
 # Where to put tomcat installs
 tomcat_parent: "{{install_root}}"
 
@@ -53,8 +57,7 @@ opendj_basedn: "dc=example,dc=com"
 # Datastore password. TODO: use secret file
 opendj_password: password
 
-# ForgeRock User
-fr_user: fr
+
 
 ## home dir for fr user
 home_dir: "/home/{{fr_user}}"

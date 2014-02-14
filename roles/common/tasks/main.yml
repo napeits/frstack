@@ -1,12 +1,23 @@
 ---
 # This role installs common base pre-reqs for the ForgeRock stack
 
+- name: get epel-repo rpm RHEL6
+  get_url: dest=/tmp/epel-release.rpm  url=http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
+
+- name: install epel-repo rpm
+  yum: pkg=/tmp/epel-release.rpm state=installed
+
 - name: Install required packages
   yum: name={{item}} state=latest
   with_items:
    - unzip
    - git
    - wget
+   - python-pip
+  
+- name: Install additional python packages
+  pip: name=httplib2
+    
 #   - java-1.7.0-openjdk-devel
 #Use the above if you have lots of bandwidth.
 # Below uses a pre-downloaded JDK - which saves download bandwidth if you are doing repeated installs or testing
@@ -22,7 +33,7 @@
   yum: name="java-1.7.0-openjdk-devel" state=present
   when: jdkarchive.stat.exists == false
   
-- name: Put our fqdn in /etc/hosts
+- name: Put our fqdn and short hostname in /etc/hosts
   lineinfile: dest=/etc/hosts line="127.0.0.1 {{openam_fqdn}} {{openam_hostname}}" regexp="{{openam_fqdn}}"  state=present
   
 - name: create top level software dir
