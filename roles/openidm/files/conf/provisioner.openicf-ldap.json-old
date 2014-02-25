@@ -33,17 +33,7 @@
         "removeLogEntryObjectClassFromFilter" : true,
         "modifiersNamesToFilterOut" : [ ],
         "passwordDecryptionKey" : null,
-        "credentials" : {
-            "$crypto" : {
-                "value" : {
-                    "iv" : "CqCn5xH4GGnZl4IAHqeVJw==",
-                    "data" : "EWCf+6uaQL0plgT90LvqMg==",
-                    "cipher" : "AES/CBC/PKCS5Padding",
-                    "key" : "openidm-sym-default"
-                },
-                "type" : "x-simple-encryption"
-            }
-        },
+        "credentials" : "password",
         "changeLogBlockSize" : 100,
         "baseContextsToSynchronize" : [ ],
         "attributesToSynchronize" : [ ],

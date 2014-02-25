@@ -25,7 +25,11 @@
        tags: ["tomcat"]}
    - { role: tomcat, tomcat_instance: 'tomcat-openig',  tomcat_base_port: 28000,
         tags: ["tomcat", "openig"]}
-   - { role: opendj, tags: ["opendj","ois"]}
+   - { role: warren.strange.opendj, tags: ["opendj","ois"]}
+   - { role: bennojoy.mysql, mysql_db: [{name: openidm}, {name: testdb}],
+        mysql_users: [{ name: openidm, pass: openidm, priv: "*.*:ALL", host: "%"},
+               { name: "test", pass: "test", priv: "testdb.*:ALL", host: "%"}],
+              tags: ["openidm"] } 
    - { role: openidm, tags: ["openidm","ois"]}
  
 # Plays to run as normal fr user    

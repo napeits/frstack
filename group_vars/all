@@ -42,7 +42,7 @@ openam_hostname: "openam"
 ### OpenAM ####
 openam_cookie_domain: ".example.com"
 openam_fqdn: openam.example.com
-openam_site_url: "http://{{ openam_fqdn }}:80/openam"
+openam_site_url: "https://{{ openam_fqdn }}:443/openam"
 amadmin_password: password
 amldapuser_password: Passw0rd 
 

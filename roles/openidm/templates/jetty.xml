@@ -2,6 +2,9 @@
 <!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//
 DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
 
+<!--  NOTE: SSL has been configured/commented out. We use haproxy to terminate
+    SSL instead of using jetty's SSL engine 
+ -->
 <Configure class="org.eclipse.jetty.server.Server">
 
     <!-- =========================================================== -->
@@ -27,6 +30,8 @@ DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
                     <Set name="lowResourcesMaxIdleTime">5000</Set>
                 </New>
             </Item>
+  <!--  use haproxy ssl
+  
             <Item>
                 <New class="org.eclipse.jetty.server.ssl.SslSelectChannelConnector">
                     <Set name="Port">{{openidm_ssl_port}}</Set>
@@ -41,7 +46,9 @@ DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
                     <Set name="needClientAuth">false</Set>
                 </New>
             </Item>
+   --> 
             <!-- Port set up to require SSL mutual authentication only -->
+   <!--  use haproxy auth
             <Item>
                 <New class="org.eclipse.jetty.server.ssl.SslSelectChannelConnector" id="MutualAuthPort">
                     <Set name="Port">1444</Set>
@@ -57,6 +64,7 @@ DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
                     <Call class="org.forgerock.openidm.jetty.DisableOpenIDMAuth" name="add"><Arg><Ref id="MutualAuthPort"/></Arg></Call>
                 </New>
             </Item>
+       -->
         </Array>
     </Set>
 
