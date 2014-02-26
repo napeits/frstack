@@ -48,6 +48,12 @@ if (!object.postalCode) {
     object.postalCode = "";
 }
 
+if (!object.displayName) {
+    object.displayName = "display name";
+}
+
+
+
 if (!object.stateProvince) {
     object.stateProvince = "";
 }

@@ -17,6 +17,7 @@
     - "vars/{{release}}.yml"
   roles:
    - { role: common, tags: ["common"]}
+   - { role: postfix, tags: ["postfix"]}
    - { role: base-apache, tags: ["http"]}
    - { role: haproxy, tags: ["http"]}
    - { role: tomcat, tomcat_instance: 'tomcat-openam', tomcat_base_port: 8000,

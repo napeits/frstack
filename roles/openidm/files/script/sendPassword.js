@@ -1,13 +1,15 @@
 //response object
-response = {}
+response = {};
 
 //read in parameters
 submittedUserName = request.params['userName'];
 submittedEmail = request.params['email'];
 
 //find user using get-by-field-value using email address
-userQuery = openidm.query("managed/user", { "_queryId" : "get-by-field-value", "field":"email", "value" : submittedEmail });
+userQuery = openidm.query("managed/user", { "_queryId" : "get-by-field-value", "field":"userName", "value" : submittedUserName });
 user = userQuery.result[0];
+logger.error("request user {} email {} User query {}", submittedUserName, submittedEmail, user);
+
 
 //only do this stuff is user actually exists..
 if (user) {
@@ -40,11 +42,8 @@ if (user) {
 
 	//if already entered phonenumber doesnt match
 	else {
-	
-	response.comment = "Invalid Details";
-		
+		response.comment = "Invalid Details";
 	}
-
 }
 
 //if user doesn't exist
