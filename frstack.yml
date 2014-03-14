@@ -27,6 +27,9 @@
    - { role: tomcat, tomcat_instance: 'tomcat-openig',  tomcat_base_port: 28000,
         tags: ["tomcat", "openig"]}
    - { role: warren.strange.opendj, tags: ["opendj","ois"]}
+# todo: how do we enable remote connect after mysql is installed.
+# as mysql - GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'foobar' WITH GRANT OPTION;
+# flush privileges;
    - { role: bennojoy.mysql, mysql_db: [{name: openidm}, {name: testdb}],
         mysql_users: [{ name: openidm, pass: openidm, priv: "*.*:ALL", host: "%"},
                { name: "test", pass: "test", priv: "testdb.*:ALL", host: "%"}],
