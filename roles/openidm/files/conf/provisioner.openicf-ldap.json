@@ -135,6 +135,15 @@
                "nativeType":"string",
                "required":true
             },
+            "userPassword":{
+               "type":"array",
+               "items":{
+                  "type":"string",
+                  "nativeType":"JAVA_TYPE_BYTE_ARRAY"
+               },
+               "nativeName":"userPassword",
+               "nativeType":"JAVA_TYPE_BYTE_ARRAY"
+            },
             "ldapGroups":{
                "type":"array",
                "items":{
