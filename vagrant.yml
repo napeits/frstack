@@ -3,16 +3,16 @@
 # This is usually called by "vagrant provision"
 # If you call this directly you will have to provdide the path to the ssh private key used by vagrant
 # This sets up the forgerock user that the remaining plays can be run from
-- hosts: vagrant
+- hosts: all
   sudo: yes
   roles: 
    - create-fr-user
-   - iptables
+#   - iptables
 
 
-# Downloads the s/w. This runs as a local_action so that s/w is downloaded to
+# Downloads the s/w to a staging area. This runs as a local_action so that s/w is downloaded to
 # the VBox host 
-- hosts: vagrant
-  sudo: no
+#- hosts: vagrant
+#  sudo: no
 #  roles:
 #   - download-local

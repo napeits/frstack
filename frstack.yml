@@ -16,7 +16,7 @@
   vars_files: 
     - "vars/{{release}}.yml"
   roles:
-   - { role: common, tags: ["common"]}
+   - { role: install-base-sw, tags: ["common"]}
    - { role: postfix, tags: ["postfix"]}
    - { role: base-apache, tags: ["http"]}
    - { role: haproxy, tags: ["http"]}

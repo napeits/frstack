@@ -7,7 +7,7 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "demo3"
+  config.vm.box = "debian-wheezy"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
@@ -40,7 +40,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
-  config.vm.synced_folder "../staging", "/var/tmp/staging"
+  #config.vm.synced_folder "../staging", "/var/tmp/staging"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -57,12 +57,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # View the documentation for the provider you're using for more
   # information on available options.
   config.vm.provider :virtualbox do |vb|
-  		vb.customize ["modifyvm", :id, "--memory", "4096"]
+  		vb.customize ["modifyvm", :id, "--memory", "2048"]
   end
    
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "../vagrant.yml"
-    ansible.inventory_path = "../hosts"
+    ansible.playbook = "vagrant.yml"
     ansible.verbose = true
     ansible.sudo = true
   end

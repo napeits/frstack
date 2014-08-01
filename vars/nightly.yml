@@ -1,5 +1,3 @@
-
-
 # opendj
 # This is moved to opendj role to make it more independent
 #opendj_rpm: "opendj-2.7.0-1.20130917.noarch.rpm"
@@ -7,8 +5,10 @@
 
 # openam Nightly Build
 openam_version: "12.0.0-SNAPSHOT"
-openam_download_url: "http://download.forgerock.org/downloads/openam/OpenAM-{{ openam_version }}_nightly_20131016.zip"
+openam_zip_file: "OpenAM-{{ openam_version }}_nightly_20140731.zip"
+openam_download_url: "http://download.forgerock.org/downloads/openam/{{ openam_zip_file }}"
 
+#openam nigh
 # Agents
 tomcat_agent_version: tomcat_v6_agent_3.2.0-SNAPSHOT
 tomcat_agent_download_url: "http://download.forgerock.org/downloads/openam/j2eeagents/nightly/{{ tomcat_agent_version }}.zip"

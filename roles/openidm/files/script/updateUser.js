@@ -7,7 +7,6 @@ patch = request.value['patch'];
 
 path = "managed/user/" + id;
 
-//find user using get-by-field-value using email address
 user = openidm.read(path);
 
 logger.info("Read user {}  request value {} patch {}", path, request.value,
@@ -43,7 +42,7 @@ if (user) {
 		if (shouldSendNotification(user, patch))
 			sendEmail(
 					user.email,
-					"Your account has been updated. If you did not make these changes please call TELUS ");
+					"Your account has been updated. If you did not make these changes please call TELCO ");
 	} catch (err) {
 		logger.error("Error on update {}. Rollback change to {}", err, path);
 		response.result = "error on update. Error =" + err;

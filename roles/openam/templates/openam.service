@@ -1,0 +1,14 @@
+[Unit]
+Description=OpenAM 
+After=remote-fs.target nss-lookup.target
+
+[Service]
+Type=forking
+ExecStart=/opt/ois/tomcat-openam/bin/startup.sh
+ExecStop=/opt/ois/tomcat-openam/bin/shutdown.sh
+User=fr
+Environment="JAVA_OPTS=-Djava.awt.headless=true -Xmx1024M -XX:MaxPermSize=256m"
+
+
+[Install]
+WantedBy=multi-user.target

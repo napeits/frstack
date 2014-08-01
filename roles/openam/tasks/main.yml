@@ -3,47 +3,71 @@
 # Assumes the software has been downloaded and is available at {{ forgerock_download_dir }}/openam
 # Pass in {{ tomcat_dir }} to this role. This should be the path the the openam tomcat instance
 
+#- name: download openam
+#  get_url: url={{openam_download_url}} dest={{download_dir}}
+#  environment: proxy_env
+
+# create install dir
+- file: path={{ install_root}} owner={{ fr_user }} state="directory" 
+- command: chdir={{download_dir}} creates={{download_dir}}/openam unzip {{openam_zip_file}} 
+
 - name: unpack ssoadm tools
-  command: creates={{ install_root }}/ssoadmin unzip {{ forgerock_download_dir }}/openam/SSOAdminTools-{{ openam_version }}.zip -d {{ install_root }}/ssoadmin
-  
+  command: creates={{ install_root }}/ssoadmin unzip {{ download_dir }}/openam/SSOAdminTools-{{ openam_version }}.zip -d {{ install_root }}/ssoadmin
+- command: chmod 0755 {{ install_root }}/ssoadmin/setup
+
 - name: unpack config tools
-  command: creates={{ install_root }}/ssoconfigtool unzip {{ forgerock_download_dir }}/openam/SSOConfiguratorTools-{{ openam_version }}.zip -d {{ install_root }}/ssoconfigtool
-
+  command: creates={{ install_root }}/ssoconfigtool unzip {{ download_dir }}/openam/SSOConfiguratorTools-{{ openam_version }}.zip -d {{ install_root }}/ssoconfigtool
+  
 - name: copy config file
-  template: src=openam.config dest={{ install_root }}/ssoconfigtool/openam.config
+  template: src=openam.config dest={{ install_root }}/ssoconfigtool/openam.config owner={{fr_user}} mode=0644
  
-- name: Ensure tomcat is running
-  service: name="tomcat-openam" state=started pattern="tomcat-openam" enabled=yes
-
+- name: Create a tomcat instance for OpenAM
+  command: creates={{tomcat_openam_dir}} tomcat8-instance-create -p {{openam_server_port}} -c {{openam_control_port}} 
+           {{tomcat_openam_dir}} 
+           
 - name: Deploy war to tomcat
-  command: creates={{ tomcat_dir }}/webapps/openam cp {{ forgerock_download_dir }}/openam/OpenAM-{{ openam_version }}.war {{ tomcat_dir }}/webapps/openam.war
+  command: creates={{ tomcat_openam_dir }}/webapps/openam cp {{ download_dir }}/openam/OpenAM-{{ openam_version }}.war {{ tomcat_dir }}/webapps/openam.war
  
+- name: Create systemd startup
+  template: src=openam.service dest=/etc/systemd/system 
+  
+- command: chown -R {{ fr_user }} {{ install_root}} 
+- command: systemctl --system daemon-reload 
+- command: systemctl enable openam.service
+- command: systemctl start openam.service
+
+
 - name: Wait for openam war to be fully deployed before running configurator
-  wait_for: port=8080 delay=10
-- uri: url=http://localhost:8080/openam status=302 timeout=120 async=120
+  wait_for: port={{openam_server_port}} delay=1
+
+# Bit of hack. The previous command waits for the port -but am could still be deploying
+# So this waits another 30 seconds
+- wait_for: port={{openam_server_port}} delay=3
+
+
+# This requires dependcies on client. Do we want it....
+#- uri: url=http://localhost:{{openam_server_port}}/openam status=302 timeout=120 async=120
   
 - name: Run openam configurator
-  command: creates={{install_root}}/openam java -jar {{ install_root }}/ssoconfigtool/openam-configurator-tool-{{ openam_version }}.jar -f {{ install_root }}/ssoconfigtool/openam.config
+  command: creates={{install_root}}/openam java -jar {{ install_root }}/ssoconfigtool/openam-configurator-tool-{{ openam_version }}.jar 
+         --file {{ install_root }}/ssoconfigtool/openam.config --acceptLicense
  
-- name: copy policy.xml for import
-  copy: src=policy.xml dest=etc/policy.xml  mode=0622
 
-# This seems to be needed after a fresh install   
-- name: restart Openam
-  service: name="tomcat-openam" state=restarted enabled=yes
 
-# 
-- name: Wait for openam war to be fully deployed before running configurator
-  wait_for: port=8080 delay=10
-- uri: url=http://localhost:8080/openam status=302 timeout=120 async=120
-  
-  # Create ssoadm tools - set JAVA_HOME=/usr/lib/jvm/java
-- name: setup ssoadm 
-  command: chdir={{ install_root }}/ssoadmin {{ install_root }}/ssoadmin/setup -p {{ install_root }}/openam
+# Create ssoadm tools - set JAVA_HOME=/usr/lib/jvm/java
+- name: setup ssoadm tools
+  command: chdir={{ install_root }}/ssoadmin {{ install_root }}/ssoadmin/setup -p {{ install_root }}/openam --acceptLicense
   environment:
     JAVA_HOME: "{{java_home}}"
-  
-  
+
+# Make sure everything is owned by fr user  
+- command: chown -R {{ fr_user }} {{ install_root}} 
+
+
+# Optional tasks.... this should probably be a separate role / playbook 
+
+#- name: copy policy.xml for import
+#  copy: src=policy.xml dest=etc/policy.xml  mode=0622
 
 # This is failing on the when we are not using example.com domain- find out why later
 # probably because root policy.xml needs to be fixed

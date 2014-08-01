@@ -4,6 +4,13 @@
 # For AWS, GCE, etc. this will be local to the machine
 download_dir: "/var/tmp/staging"
 
+
+# We use a caching proxy server if possible
+proxy_env:
+  http_proxy: http://192.168.56.1:2001
+  https_proxy: http://192.168.56.1:2001
+  
+  
 # ForgeRock User. This account will run all non root s/w (openam, openidm, etc.)
 fr_user: fr
 
@@ -12,11 +19,9 @@ fr_user: fr
 release: nightly
 #release: released
 
-# Directory where ForgeRock binaries are located (e.g. for OpenAM, DJ, etc.)
-forgerock_download_dir: "{{download_dir}}/{{release}}"
 
 # JDK RPM - if we install from a downloaded rpm vs. via yum  
-jdk_rpm: "java-1.7.0-openjdk-devel-1.7.0.51-2.4.4.1.el6_5.x86_64.rpm"
+#jdk_rpm: "java-1.7.0-openjdk-devel-1.7.0.51-2.4.4.1.el6_5.x86_64.rpm"
 #openjdk_download_url: "ftp://rpmfind.net/linux/centos/6.4/updates/x86_64/Packages/{{ openjdk_rpm }}"
 
 # Top level where all s/w is installed
@@ -28,9 +33,11 @@ install_root: /opt/ois
 tomcat_user: "{{fr_user}}"
 # Where to put tomcat installs
 tomcat_parent: "{{install_root}}"
+tomcat_openam_dir: "{{install_root}}/tomcat-openam"
+
 
 # Java home on the guest. We use openjdk by default. This is the default location. 
-java_home: /usr/lib/jvm/java
+java_home: /usr/lib/jvm/java-7-openjdk-amd64
 
 # Config defaults
 
@@ -42,7 +49,14 @@ openam_hostname: "openam"
 ### OpenAM ####
 openam_cookie_domain: ".example.com"
 openam_fqdn: openam.example.com
+# Site URL. This is the load balancer URL - not the URL of the openam instance
 openam_site_url: "https://{{ openam_fqdn }}:443/openam"
+# Port where internal am instance is running
+openam_server_port: 18080 
+# Tomcat control port
+openam_control_port: 18005 
+
+## todo: Put passwords in ansible vault
 amadmin_password: password
 amldapuser_password: Passw0rd 
 
