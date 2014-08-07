@@ -4,9 +4,9 @@ After=remote-fs.target nss-lookup.target
 
 [Service]
 Type=forking
-ExecStart=/opt/ois/tomcat-openam/bin/startup.sh
-ExecStop=/opt/ois/tomcat-openam/bin/shutdown.sh
-User=fr
+ExecStart={{install_root}}/tomcat-openam/bin/startup.sh
+ExecStop={{install_root}}/tomcat-openam/bin/shutdown.sh
+User={{fr_user}}
 Environment="JAVA_OPTS=-Djava.awt.headless=true -Xmx1024M -XX:MaxPermSize=256m"
 
 

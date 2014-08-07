@@ -1,0 +1,32 @@
+---
+# This role logstash and the configuration files
+
+- name: Download and install logstash 
+  get_url: src=...     dest={{download_dir}}/{{logstash_version}}
+  
+- name: unpack logsstash  
+  command: creates={{install_root}}/{{logstash_version}} unzip {{download_dir}}/{{logstash_zip}} -d {{install_root}}
+  
+- file: path={{install_root}}/logstash state=directory
+
+- name: copy logstash conf files
+  template: src=conf dest={{install_root}}/logstash 
+  
+- name: copy logstash additional conf files
+  template: src=conf.disabled dest={{install_root}}/logstash 
+  
+- name: create service start up script
+  template: src=logstash dest=/etc/init.d/logstash  mode=0755
+  
+- name: Change ownership of logstash to fr user
+  file: path={{install_root}}/logstash owner={{fr_user}} state=directory recurse=yes
+  
+- name: Create systemd startup
+  template: src=logstash.service dest=/etc/systemd/system 
+  
+- command: systemctl --system daemon-reload 
+- command: systemctl enable logstash.service
+- command: systemctl start logstash.service
+
+#- name: Enable logstash service
+#  service: name=logstash state=restarted enabled=yes

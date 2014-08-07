@@ -1,3 +1,6 @@
 tmp/
 staging/
 .vagrant/
+.settings/
+old/
+ldif/

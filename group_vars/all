@@ -27,7 +27,6 @@ release: nightly
 # Top level where all s/w is installed
 install_root: /opt/ois
 
-
 #### Tomcat role overrides
 # userid to run tomcat as. We use the "fr" user
 tomcat_user: "{{fr_user}}"
