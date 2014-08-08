@@ -16,10 +16,13 @@
   vars_files: 
     - "vars/{{release}}.yml"
   roles:
-   - { role: install-base-sw, tags: ["common"]}
+   - { role: install-base-apt, when: ansible_os_family == 'Debian', tags: ["common"]}
+   - { role: install-base-yum, when: ansible_os_family == 'RedHat', tags: ["common"]}
    - { role: postfix, tags: ["postfix"]}
-   - { role: base-apache, tags: ["http"]}
+   - { role: base-apache, when: ansible_os_family == 'RedHat', tags: ["http"]}
    - { role: haproxy, tags: ["http"]}
+   - { role: tomcat-centos, tomcat_instance: 'openam', tomcat_base_port: 8000,
+       tags: ["tomcat-centos", "openamX"]}
    - { role: tomcat, tomcat_instance: 'tomcat-openam', tomcat_base_port: 8000,
        tags: ["tomcat", "openamX"]}
    - { role: tomcat, tomcat_instance: 'tomcat-apps',  tomcat_base_port: 18000,

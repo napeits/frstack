@@ -1,8 +1,10 @@
 ---
-# This role installs Apache httpd
+# This role installs Apache httpd on Redhat type image
 
 - name: Install Apache
   yum: name={{ item }} state=latest
+  environment:
+    http_proxy
   with_items:
    - httpd
    

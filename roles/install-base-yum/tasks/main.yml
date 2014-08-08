@@ -1,0 +1,35 @@
+---
+# This role installs common base pre-reqs for the ForgeRock stack using yum 
+# For Fedora and Centos based images
+
+# TODO: With Fedora20 we may not need EPEL
+#- name: get epel-repo rpm RHEL6
+#  get_url: dest=/tmp/epel-release.rpm  url=http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
+#
+#- name: install epel-repo rpm
+#  yum: pkg=/tmp/epel-release.rpm state=installed
+
+- name: Install required packages
+  yum: name={{item}} state=latest
+  environment:
+    proxy_env
+  with_items:
+   - unzip
+   - git
+   - wget
+   - python-pip
+   - haproxy
+   - httpd
+   - tomcat
+   - java-1.7.0-openjdk-devel
+  
+- name: Install additional python packages
+  pip: name=httplib2
+    
+
+# Note: Vagrant does this for us 
+#- name: Put our fqdn and short hostname in /etc/hosts
+#  lineinfile: dest=/etc/hosts line="127.0.0.1 {{openam_fqdn}} {{openam_hostname}}" regexp="{{openam_fqdn}}"  state=present
+  
+- name: create top level software dir
+  file: state=directory path={{install_root}} owner={{fr_user}} mode=0755

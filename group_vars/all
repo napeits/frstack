@@ -29,10 +29,12 @@ install_root: /opt/ois
 
 #### Tomcat role overrides
 # userid to run tomcat as. We use the "fr" user
-tomcat_user: "{{fr_user}}"
+#tomcat_user: "{{fr_user}}"
 # Where to put tomcat installs
-tomcat_parent: "{{install_root}}"
-tomcat_openam_dir: "{{install_root}}/tomcat-openam"
+
+# Note: This is the default Fedora location
+tomcat_parent: "/var/lib/tomcats"
+tomcat_openam_dir: "{{install_root}}/openam"
 
 
 # Java home on the guest. We use openjdk by default. This is the default location. 
