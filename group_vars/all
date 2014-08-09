@@ -2,7 +2,7 @@
 # We try to keep this consistent across environments
 # For vagrant this will be a shared directory mounted from the host
 # For AWS, GCE, etc. this will be local to the machine
-download_dir: "/var/tmp/staging"
+download_dir: "/var/tmp"
 
 
 # We use a caching proxy server if possible
@@ -34,11 +34,12 @@ install_root: /opt/ois
 
 # Note: This is the default Fedora location
 tomcat_parent: "/var/lib/tomcats"
-tomcat_openam_dir: "{{install_root}}/openam"
+tomcat_openam_dir: "{{tomcat_parent}}/openam"
 
 
 # Java home on the guest. We use openjdk by default. This is the default location. 
-java_home: /usr/lib/jvm/java-7-openjdk-amd64
+#java_home: /usr/lib/jvm/java-7-openjdk-amd64
+java_home: /etc/alternatives/java_sdk
 
 # Config defaults
 
@@ -53,9 +54,9 @@ openam_fqdn: openam.example.com
 # Site URL. This is the load balancer URL - not the URL of the openam instance
 openam_site_url: "https://{{ openam_fqdn }}:443/openam"
 # Port where internal am instance is running
-openam_server_port: 18080 
+openam_server_port: 8080 
 # Tomcat control port
-openam_control_port: 18005 
+#openam_control_port: 8005 
 
 ## todo: Put passwords in ansible vault
 amadmin_password: password

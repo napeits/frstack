@@ -1,14 +1,20 @@
 ---
-# This role installs openam dist to the fr home directory. 
+# This role installs openam
+# This assumes tomcat has already been installed
 # Assumes the software has been downloaded and is available at {{ forgerock_download_dir }}/openam
 # Pass in {{ tomcat_dir }} to this role. This should be the path the the openam tomcat instance
 
-#- name: download openam
-#  get_url: url={{openam_download_url}} dest={{download_dir}}
-#  environment: proxy_env
+- name: download openam
+  get_url: url={{openam_download_url}} dest={{download_dir}}/{{openam_zip_file}}
+  environment: proxy_env
 
-# create install dir
+# create install dir, openam dir
 - file: path={{ install_root}} owner={{ fr_user }} state="directory" 
+
+# Note that the openam config dir has to be writable by the user who runs the web container
+# In our case that is tomcat. TODO: Use group permissions here
+- file: path={{ install_root}}/openam owner=tomcat state="directory" 
+# Unpack openam dist bits
 - command: chdir={{download_dir}} creates={{download_dir}}/openam unzip {{openam_zip_file}} 
 
 - name: unpack ssoadm tools
@@ -21,20 +27,22 @@
 - name: copy config file
   template: src=openam.config dest={{ install_root }}/ssoconfigtool/openam.config owner={{fr_user}} mode=0644
  
-- name: Create a tomcat instance for OpenAM
-  command: creates={{tomcat_openam_dir}} tomcat8-instance-create -p {{openam_server_port}} -c {{openam_control_port}} 
-           {{tomcat_openam_dir}} 
+# Assume we already have a tomcat instance
+#- name: Create a tomcat instance for OpenAM
+#  command: creates={{tomcat_openam_dir}} tomcat8-instance-create -p {{openam_server_port}} -c {{openam_control_port}} 
+#           {{tomcat_openam_dir}} 
            
 - name: Deploy war to tomcat
-  command: creates={{ tomcat_openam_dir }}/webapps/openam cp {{ download_dir }}/openam/OpenAM-{{ openam_version }}.war {{ tomcat_dir }}/webapps/openam.war
+  command: creates={{ tomcat_openam_dir }}/webapps/openam cp {{ download_dir }}/openam/OpenAM-{{ openam_version }}.war {{ tomcat_openam_dir}}/webapps/openam.war
  
-- name: Create systemd startup
-  template: src=openam.service dest=/etc/systemd/system 
-  
-- command: chown -R {{ fr_user }} {{ install_root}} 
-- command: systemctl --system daemon-reload 
-- command: systemctl enable openam.service
-- command: systemctl start openam.service
+# Note: tomcat install already creates start files
+#- name: Create systemd startup
+#  template: src=openam.service dest=/etc/systemd/system 
+#  
+#- command: chown -R {{ fr_user }} {{ install_root}} 
+#- command: systemctl --system daemon-reload 
+#- command: systemctl enable openam.service
+#- command: systemctl start openam.service
 
 
 - name: Wait for openam war to be fully deployed before running configurator
@@ -49,10 +57,9 @@
 #- uri: url=http://localhost:{{openam_server_port}}/openam status=302 timeout=120 async=120
   
 - name: Run openam configurator
-  command: creates={{install_root}}/openam java -jar {{ install_root }}/ssoconfigtool/openam-configurator-tool-{{ openam_version }}.jar 
+  command: creates={{install_root}}/openam/bootstrap java -jar {{ install_root }}/ssoconfigtool/openam-configurator-tool-{{ openam_version }}.jar 
          --file {{ install_root }}/ssoconfigtool/openam.config --acceptLicense
  
-
 
 # Create ssoadm tools - set JAVA_HOME=/usr/lib/jvm/java
 - name: setup ssoadm tools
