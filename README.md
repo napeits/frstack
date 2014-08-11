@@ -11,7 +11,7 @@ This uses [Ansible](https://github.com/ansible/ansible) to automate the installa
 tested using [Vagrant](http://www.vagrantup.com/), but it should also work on AWS or GCE. 
 
 
-## But what does it do?
+## Installed products
 
 This will configure a Fedora image to run the ForgeRock OIS stack. After completion the guest image 
 will have the following installed:
@@ -20,7 +20,7 @@ will have the following installed:
 * openidm running on port 9090 (proxied at  http://openam.example.com/openidm  and /openidmui )
 * opendj running on port 389. This is the user store. 
 * openam running on port 8080 (proxied at https://openam.example.com/openam)
-* openig running on port 28080 
+* openig running on port 28080  [NOT DONE YET]
 
 
 ## Quick Start
