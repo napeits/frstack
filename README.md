@@ -23,7 +23,7 @@ will have the following installed:
 * openig running on port 28080 
 
 
-## Quick Start: How do I get this running?
+## Quick Start
 
 * Install Ansible and Vagrant and make sure they are both in your PATH. If you are on a
   mac you can install ansible using 
@@ -33,7 +33,10 @@ will have the following installed:
    so you might have to tweak the locations. The current process uses nightly builds
 * Optional: Add your public ssh key to roles/create-fr-user/files. This will enable you to login as the ForgeRock user "fr". You may also have 
  to edit roles/create-fr-user/tasks/main.yml to reflect the name of your pub key file
-  Note that if you do not do this you can ssh to the image using   ```vagrant ssh```
+  Note that if you do not do this you can ssh to the image using
+
+```vagrant ssh```
+
 * Execute the following:
 
 ```/bin/sh
@@ -42,7 +45,9 @@ vagrant up
 
 * Put the IP address of the guest in your local /etc/hosts file. The Vagrant image is 
   configured to use a host only IP:
+
 `192.168.56.11 openam.example.com`
+
 * Login to OpenAM at http://openam.example.com/openam  (amadmin/password)
 * Login to OpenIDM at http://openam.example.com/openidmgui  (openidm-admin/openidm-admin)
 * View the haproxy status page at https://openam.example.com/haproxy?stats
@@ -91,15 +96,10 @@ The frstack.yml should be generic enough to run on any environment. This playboo
 
 
 Bug fixing needed:
-* Make this work on both Debian / Fedora (anything that support systemd). Does CentOS 7 support systemd?
-* Vagrant - need a 
+* Make this work on both Debian / Fedora (anything that support systemd).
 * looks like the HOSTNAME needs to be set to the fqdn on the machine /etc/sysconfig/network  or openam config bombs out
-  This is fixed for Vagrant by setting config.vm.hostname. Need a fix for other hosts
+  This is fixed for Vagrant by setting config.vm.hostname. Need a fix for other environments
 * tomcat agent installer does not put filter in global web.xml. Need to fix up apps web.xml
-
-* Create fr/.bashrc file with path to common commands
-* More dynamic configuration (cookie domains, base DN, etc). 
 * Configure agents (right now apache is installed but not configured)
 * Configure some sample policies
 * Add HA, multi-master replication, etc
-
