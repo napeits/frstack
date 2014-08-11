@@ -1,7 +1,7 @@
 ---
 
 # Install additional / optional components of the ForgeRock stack 
-
+#  Put policy agents, web servers, etc. here
 # Before this is run it is assumed some basic pre-reqs have been completed:
 #
 # - The forgerock user has been created (default to fr). The software is installed using this account
@@ -19,8 +19,17 @@
   roles:
    - { role: install-base-apt, when: ansible_os_family == 'Debian', tags: ["common"]}
    - { role: install-base-yum, when: ansible_os_family == 'RedHat', tags: ["common"]}
+   # postfix for smtp server
    - { role: postfix, tags: ["postfix"]}
    - { role: base-apache, when: ansible_os_family == 'RedHat', tags: ["http"]}
+    # todo: how do we enable remote connect after mysql is installed.
+    # as mysql - GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'foobar' WITH GRANT OPTION;
+    # flush privileges;
+   - { role: bennojoy.mysql, mysql_db: [{name: openidm}, {name: testdb}],
+        mysql_users: [{ name: openidm, pass: openidm, priv: "*.*:ALL", host: "%"},
+               { name: "test", pass: "test", priv: "testdb.*:ALL", host: "%"}],
+              tags: ["openidm"] } 
+
 
  
 # Plays to run as normal fr user    

@@ -1,3 +1,5 @@
+# Note - We actually dont use this anymore - since Fedora comes with a tomcat systemd file
+# See tomcat@openam.service 
 [Unit]
 Description=OpenAM 
 After=remote-fs.target nss-lookup.target

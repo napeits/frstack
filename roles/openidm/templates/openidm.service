@@ -1,0 +1,17 @@
+# Systemd startup for openidm
+# Added SuccessExitStatus=143
+# Seems to needed for Java based programs
+[Unit]
+Description=OpenIDM
+After=remote-fs.target nss-lookup.target
+
+[Service]
+Type=simple
+ExecStart={{install_root}}/openidm/startup.sh
+ExecStop={{install_root}}/openidm/shutdown.sh
+User={{fr_user}}
+Environment="JAVA_OPTS=-Djava.awt.headless=true -Xmx1024M -XX:MaxPermSize=256m"
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

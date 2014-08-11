@@ -13,37 +13,27 @@
 # Right now this is very much dependent on Fedora/Centos packages, etc.  There is a start at making it 
 # Work on other platforms - but it needs work
 
-# Tasks to complete with sudo privs
-- remote_user: fr
-  sudo: yes
+- sudo: yes
   hosts: ois
+  remote_user: fr
   vars_files: 
     - "vars/{{release}}.yml"
   roles:
    - { role: install-base-apt, when: ansible_os_family == 'Debian', tags: ["common"]}
    - { role: install-base-yum, when: ansible_os_family == 'RedHat', tags: ["common"]}
    - { role: postfix, tags: ["postfix"]}
-   - { role: base-apache, when: ansible_os_family == 'RedHat', tags: ["http"]}
    - { role: haproxy, tags: ["http","haproxy"]}
    - { role: tomcat-centos, tomcat_instance: 'openam', tomcat_base_port: 8000,
        tags: ["tomcat-centos", "openam"]}
-   - { role: warren.strange.opendj, tags: ["opendj","ois"]}
-# todo: how do we enable remote connect after mysql is installed.
-# as mysql - GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'foobar' WITH GRANT OPTION;
-# flush privileges;
-   - { role: bennojoy.mysql, mysql_db: [{name: openidm}, {name: testdb}],
-        mysql_users: [{ name: openidm, pass: openidm, priv: "*.*:ALL", host: "%"},
-               { name: "test", pass: "test", priv: "testdb.*:ALL", host: "%"}],
-              tags: ["openidm"] } 
+   - { role: opendj, tags: ["opendj","ois"]}
    - { role: openidm, tags: ["openidm","ois"]}
+   - { role: openam,  tags: ["openam","ois"]}
  
 # Plays to run as normal fr user    
-- remote_user: fr
-  sudo: yes
-  hosts: ois
-  vars_files: 
-    - "vars/{{release}}.yml"
-  roles: 
-   - { role: openam,  tags: ["openam","ois"]}
-
-   
+#- remote_user: fr
+#  sudo: yes
+#  hosts: ois
+#  vars_files: 
+#    - "vars/{{release}}.yml"
+#  roles: 
+#  

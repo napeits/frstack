@@ -30,10 +30,13 @@ openig_version: gateway-2.2.0-SNAPSHOT
 openig_download_url: http://download.forgerock.org/downloads/openig/nightly/{{openig_version}}.war
 
 # openidm
-openidm_version: 2.1.0-SNAPSHOT
-openidm_download_url: "http://download.forgerock.org/downloads/openidm/snapshot/openidm-{{ openidm_version }}.zip"
+openidm_version: openidm-3.1.0-SNAPSHOT
+openidm_zip: "{{openidm_version}}.zip"
+openidm_download_url: "https://builds.forgerock.org/view/OpenIDM/job/OpenIDM/lastSuccessfulBuild/artifact/openidm-zip/target/{{openidm_zip}}"
+
 
 # HA Proxy
 # The rpm repos dont have the latest version needed to support SSL - so use a custom version
-haproxy_rpm: "haproxy-1.5-dev19.el6.x86_64.rpm"
-haproxy_download_url: "http://silverdire.com/files/repo/el6/x86_64/{{ haproxy_rpm }}"
+# Not needed anymore - as Fedora has 1.5 with SSL. Keep this for posterity
+#haproxy_rpm: "haproxy-1.5-dev19.el6.x86_64.rpm"
+#haproxy_download_url: "http://silverdire.com/files/repo/el6/x86_64/{{ haproxy_rpm }}"
