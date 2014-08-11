@@ -1,12 +1,18 @@
 ---
-# This role installs haproxy
+# This role installs haproxy 
 
-- name: Get haproxy. Use custom version that supports ssl
-  get_url: url={{haproxy_download_url }} dest={{ download_dir }}/{{ haproxy_rpm }}
-  
-# todo: change to repo when http proxy gets ssl 
-- name: Install downloaded haproxy. yum repos do not have the latest builds that support SSL so we get a custom one
-  yum: name={{ download_dir }}/{{ haproxy_rpm }} state=present
+# Fedora now has a recent 1.5 haproxy
+#- name: Get haproxy. Use custom version that supports ssl
+#  get_url: url={{haproxy_download_url }} dest={{ download_dir }}/{{ haproxy_rpm }}
+#  
+## todo: change to repo when http proxy gets ssl 
+#- name: Install downloaded haproxy. yum repos do not have the latest builds that support SSL so we get a custom one
+#  yum: name={{ download_dir }}/{{ haproxy_rpm }} state=present
+
+- name: Install haproxy
+  yum: name=haproxy state=latest 
+  environment:
+    proxy_env
   
 - name: copy haproxy.cfg
   copy: src=haproxy.cfg dest=/etc/haproxy/haproxy.cfg owner=root
@@ -25,4 +31,4 @@
   ignore_errors: yes
   
 - name: Start haproxy
-  service: name=haproxy state=started enabled=yes
+  service: name=haproxy state=restarted enabled=yes

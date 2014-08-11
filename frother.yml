@@ -1,10 +1,7 @@
 ---
 
-# Install the ForgeRock stack 
-# This is a work in progress
-# 
-# To run only a specific tag use the shellscript: bin/frstack tagname
-#
+# Install additional / optional components of the ForgeRock stack 
+
 # Before this is run it is assumed some basic pre-reqs have been completed:
 #
 # - The forgerock user has been created (default to fr). The software is installed using this account
@@ -24,18 +21,7 @@
    - { role: install-base-yum, when: ansible_os_family == 'RedHat', tags: ["common"]}
    - { role: postfix, tags: ["postfix"]}
    - { role: base-apache, when: ansible_os_family == 'RedHat', tags: ["http"]}
-   - { role: haproxy, tags: ["http","haproxy"]}
-   - { role: tomcat-centos, tomcat_instance: 'openam', tomcat_base_port: 8000,
-       tags: ["tomcat-centos", "openam"]}
-   - { role: warren.strange.opendj, tags: ["opendj","ois"]}
-# todo: how do we enable remote connect after mysql is installed.
-# as mysql - GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'foobar' WITH GRANT OPTION;
-# flush privileges;
-   - { role: bennojoy.mysql, mysql_db: [{name: openidm}, {name: testdb}],
-        mysql_users: [{ name: openidm, pass: openidm, priv: "*.*:ALL", host: "%"},
-               { name: "test", pass: "test", priv: "testdb.*:ALL", host: "%"}],
-              tags: ["openidm"] } 
-   - { role: openidm, tags: ["openidm","ois"]}
+
  
 # Plays to run as normal fr user    
 - remote_user: fr
@@ -44,6 +30,13 @@
   vars_files: 
     - "vars/{{release}}.yml"
   roles: 
-   - { role: openam,  tags: ["openam","ois"]}
-
+   - { role: agent-tomcat,  tomcat_instance: 'tomcat-openig', tomcat_http_port: 28080, tags: ["agent","openig"] }
+   - { role: agent-tomcat,  tomcat_instance: 'tomcat-apps', tomcat_http_port: 18080, tags: ["agent"] }
+   - { role: openig,  tomcat_instance: 'tomcat-openig', tags: ["openig"] }
    
+# Apache agent needs to sudo for root install
+- remote_user: fr
+  sudo: yes
+  hosts: ois
+  roles:
+   - { role: agent-apache, tags: ["agent","agent-apache"] }

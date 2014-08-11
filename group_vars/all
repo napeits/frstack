@@ -1,37 +1,35 @@
 # location of downloaded software zip files relative to the guest image
 # We try to keep this consistent across environments
-# For vagrant this will be a shared directory mounted from the host
-# For AWS, GCE, etc. this will be local to the machine
 download_dir: "/var/tmp"
 
 
-# We use a caching proxy server if possible
+# Use a caching proxy server if possible to speed up re-installs
+# Comment these lines out if you do not have a proxy. Note that 
+# You need at least one dummy key in the map or ansible will complain so leave foo: bar in the map
 proxy_env:
   http_proxy: http://192.168.56.1:2001
   https_proxy: http://192.168.56.1:2001
+  foo: bar
   
   
 # ForgeRock User. This account will run all non root s/w (openam, openidm, etc.)
 fr_user: fr
+## home dir for fr user
+home_dir: "/home/{{fr_user}}"
 
 
-# ForgeRock released binaries vs. Nightly builds
+# Set this to ForgeRock released binaries vs. Nightly builds. 
+# If you use released you will need to provide downloadable bits
+# Edit vars/released.yml with locations
 release: nightly
 #release: released
 
 
-# JDK RPM - if we install from a downloaded rpm vs. via yum  
-#jdk_rpm: "java-1.7.0-openjdk-devel-1.7.0.51-2.4.4.1.el6_5.x86_64.rpm"
-#openjdk_download_url: "ftp://rpmfind.net/linux/centos/6.4/updates/x86_64/Packages/{{ openjdk_rpm }}"
-
 # Top level where all s/w is installed
 install_root: /opt/ois
 
-#### Tomcat role overrides
-# userid to run tomcat as. We use the "fr" user
-#tomcat_user: "{{fr_user}}"
-# Where to put tomcat installs
 
+# Tomcat instance location
 # Note: This is the default Fedora location
 tomcat_parent: "/var/lib/tomcats"
 tomcat_openam_dir: "{{tomcat_parent}}/openam"
@@ -44,19 +42,18 @@ java_home: /etc/alternatives/java_sdk
 # Config defaults
 
 # This is the short hostname that should be returned by the "hostname" command
-# This will get put in /etc/hosts
+# This will get put in /etc/hosts by vagrant.
 # TODO: Find a better start script that puts the hostname in /etc/hosts on boot
 openam_hostname: "openam"
 
 ### OpenAM ####
 openam_cookie_domain: ".example.com"
 openam_fqdn: openam.example.com
-# Site URL. This is the load balancer URL - not the URL of the openam instance
+# Site URL. This is the load balancer URL (haproxy) - not the URL of the openam instance
 openam_site_url: "https://{{ openam_fqdn }}:443/openam"
 # Port where internal am instance is running
 openam_server_port: 8080 
-# Tomcat control port
-#openam_control_port: 8005 
+
 
 ## todo: Put passwords in ansible vault
 amadmin_password: password
@@ -64,16 +61,15 @@ amldapuser_password: Passw0rd
 
 # OpenAM config location within embedded OpenDJ 
 # TODO: Not used right now
-openam_config_root: "dc=openam,dc=forgerock,dc=org"
+#openam_config_root: "dc=openam,dc=forgerock,dc=org"
 
 #### OpenDJ #######
 
 # OpenDJ base DN for user data store
 opendj_basedn: "dc=example,dc=com"
-# Datastore password. TODO: use secret file
+# Datastore password. TODO: use ansible vault file
 opendj_password: password
 
 
 
-## home dir for fr user
-home_dir: "/home/{{fr_user}}"
+

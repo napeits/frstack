@@ -4,9 +4,22 @@
 # Assumes the software has been downloaded and is available at {{ forgerock_download_dir }}/openam
 # Pass in {{ tomcat_dir }} to this role. This should be the path the the openam tomcat instance
 
+- name: Check for staged OpenAM bits - so we can skip download
+  stat: path=/vagrant/staging/{{openam_zip_file}}
+  register: staged_openam
+  
+  # Copy staged openam dist bits
+- name: Copy staged OpenAM bits to image
+  command: cp /vagrant/staging/{{openam_zip_file}} {{download_dir}}
+  when: staged_openam.stat.exists
+  
 - name: download openam
   get_url: url={{openam_download_url}} dest={{download_dir}}/{{openam_zip_file}}
   environment: proxy_env
+  when: staged_openam.stat.exists == false
+  
+- name: Unpack downloaded OpenAM bits
+  command: chdir={{download_dir}} creates={{download_dir}}/openam unzip {{openam_zip_file}}
 
 # create install dir, openam dir
 - file: path={{ install_root}} owner={{ fr_user }} state="directory" 
@@ -14,8 +27,7 @@
 # Note that the openam config dir has to be writable by the user who runs the web container
 # In our case that is tomcat. TODO: Use group permissions here
 - file: path={{ install_root}}/openam owner=tomcat state="directory" 
-# Unpack openam dist bits
-- command: chdir={{download_dir}} creates={{download_dir}}/openam unzip {{openam_zip_file}} 
+
 
 - name: unpack ssoadm tools
   command: creates={{ install_root }}/ssoadmin unzip {{ download_dir }}/openam/SSOAdminTools-{{ openam_version }}.zip -d {{ install_root }}/ssoadmin
@@ -44,17 +56,16 @@
 #- command: systemctl enable openam.service
 #- command: systemctl start openam.service
 
+- name: Ensure openam tomcat instance is running
+  service: name="tomcat@openam.service" state=restarted enabled=yes
 
 - name: Wait for openam war to be fully deployed before running configurator
   wait_for: port={{openam_server_port}} delay=1
 
-# Bit of hack. The previous command waits for the port -but am could still be deploying
-# So this waits another 30 seconds
-- wait_for: port={{openam_server_port}} delay=3
+# Bit of hack. The previous command waits for the port -but AM could still be deploying
+# So this waits another 30 seconds to be safe
+- wait_for: port={{openam_server_port}} delay=30
 
-
-# This requires dependcies on client. Do we want it....
-#- uri: url=http://localhost:{{openam_server_port}}/openam status=302 timeout=120 async=120
   
 - name: Run openam configurator
   command: creates={{install_root}}/openam/bootstrap java -jar {{ install_root }}/ssoconfigtool/openam-configurator-tool-{{ openam_version }}.jar 
@@ -68,7 +79,8 @@
     JAVA_HOME: "{{java_home}}"
 
 # Make sure everything is owned by fr user  
-- command: chown -R {{ fr_user }} {{ install_root}} 
+- file: recurse=yes state=directory  owner="{{ fr_user }}" 
+     group="tomcat" path="{{ install_root}}" mode=0775
 
 
 # Optional tasks.... this should probably be a separate role / playbook 

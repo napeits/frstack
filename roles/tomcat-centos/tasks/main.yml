@@ -1,11 +1,12 @@
 --- 
-# Create tomcat instance on a CentOS like system using Systemd. 
+# Create tomcat instance on a CentOS/Fedora like system using Systemd. 
 # Variables to pass in to this role (these can also be global defaults)
-# tomcat_parent - Parent directory for installation (example: /home/fr)
-# tomcat_instance - Intance name (e.g. tomcat-openam). 
+# tomcat_parent - Parent directory for installation (example: /var/lib/tomcats/)
+# tomcat_instance - Intance name (e.g. openam). 
 # tomcat_user - user id to run as 
-# tomcat_http_port
-# tomcat_https_port
+# tomcat_base_port (8000) - If you set this all other ports will be calculated 
+# relative to this base IP. E.g. see defaults/main.yml
+
 
 - name: Install tomcat
   yum: name=tomcat state=latest  
@@ -32,7 +33,7 @@
     - catalina.policy
     - catalina.properties
              
-- name: Configure Tomcat server.xml
+- name: Configure Tomcat server.xml to set ports, etc.
   template: src=server.xml dest={{tomcat_conf}}
 
 - name: Configure Tomcat users
@@ -41,8 +42,6 @@
 - name: Change ownership of Tomcat installation
   file: path={{ tomcat_instance_home }} owner={{ tomcat_user }} state=directory recurse=yes
 
-- name: Enable Tomcat
-  command: systemctl enable tomcat@{{ tomcat_instance }}.service
+- name: Enable  and start Tomcat
+  service: name="tomcat@{{ tomcat_instance }}.service" state=restarted enabled=yes
 
-- name: Start Tomcat
-  command: systemctl start tomcat@{{ tomcat_instance }}.service
