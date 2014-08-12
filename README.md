@@ -1,7 +1,7 @@
 # Install the ForgeRock Open Identity Stack (OIS)
 
 
-NOTE: This is currently a work in progress. This should work for fedora / vagrant. Other 
+NOTE: This is currently a work in progress. This should work for Fedora / Vagrant. Other 
 combinations have not been tested. 
 
 
@@ -24,7 +24,7 @@ will have the following installed:
 ## Quick Start
 
 * Install Ansible and Vagrant and make sure they are both in your PATH. If you are on a
-  mac you can install ansible using 
+  mac you can install Ansible using 
   ```brew install ansible```
 * Update group_vars/all for any environment specific configuration. See the comments on using a proxy server
 * Optional: Add your public ssh key to roles/create-fr-user/files. This will enable you to login as the ForgeRock user "fr". You may also have 
@@ -93,11 +93,9 @@ The frstack.yml should be generic enough to run on any environment. This playboo
 
 The default build uses nightly build binaries. Edit vars/nightly.yml with the URL locations of the ForgeRock products. These will change over time so you might have to tweak the locations.
 
-If you want to use released products you will need to download these ane make them available for download. Edit released.yml with the product location.
+If you want to use released products you will need to download these from forgerock.com and make them available from an http server. Edit released.yml with the product location.
 
-A switch in group_vars/all controls whether to include the released vs. nightly builds. 
-
-
+Edit group_vars/all to switch between the released vs. nightly builds
 
 ### TODO
 
