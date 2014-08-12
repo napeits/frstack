@@ -27,8 +27,6 @@ will have the following installed:
   mac you can install ansible using 
   ```brew install ansible```
 * Update group_vars/all for any environment specific configuration. See the comments on using a proxy server
-* Update vars/nightly.ymlwith the URL locations of the ForgeRock products. These will change over time
-   so you might have to tweak the locations. The current process uses nightly builds
 * Optional: Add your public ssh key to roles/create-fr-user/files. This will enable you to login as the ForgeRock user "fr". You may also have 
  to edit roles/create-fr-user/tasks/main.yml to reflect the name of your pub key file
   Note that if you do not do this you can ssh to the image using
@@ -89,6 +87,16 @@ which the products will be installed.
 
 The second playbook "frstack.yml" does most of the heavy lifting and completes the install. 
 The frstack.yml should be generic enough to run on any environment. This playbook is included from vagrant.yml  
+
+
+## Released vs. Nightly builds
+
+The default build uses nightly build binaries. Edit vars/nightly.yml with the URL locations of the ForgeRock products. These will change over time so you might have to tweak the locations.
+
+If you want to use released products you will need to download these ane make them available for download. Edit released.yml with the product location.
+
+A switch in group_vars/all controls whether to include the released vs. nightly builds. 
+
 
 
 ### TODO
