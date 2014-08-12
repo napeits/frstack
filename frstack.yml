@@ -25,15 +25,9 @@
    - { role: haproxy, tags: ["http","haproxy"]}
    - { role: tomcat-centos, tomcat_instance: 'openam', tomcat_base_port: 8000,
        tags: ["tomcat-centos", "openam"]}
+   - { role: tomcat-centos, tomcat_instance: 'openig', tomcat_base_port: 2000,
+       tags: ["tomcat-centos", "openig"]}
    - { role: opendj, tags: ["opendj","ois"]}
    - { role: openidm, tags: ["openidm","ois"]}
    - { role: openam,  tags: ["openam","ois"]}
- 
-# Plays to run as normal fr user    
-#- remote_user: fr
-#  sudo: yes
-#  hosts: ois
-#  vars_files: 
-#    - "vars/{{release}}.yml"
-#  roles: 
-#  
+   - { role: openig,  tags: ["openig","ois"]}

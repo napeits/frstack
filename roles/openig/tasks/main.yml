@@ -1,26 +1,28 @@
 ---
 # Install OpenIG 
-# Assumes tomcat-openig instance has been previously deployed
+# Assumes tomcat openig instance has been previously deployed
 # Pass tomcat_instance as a role param
 
-- name: Stop tomcat 
-  service: name={{ tomcat_instance }} state=stopped
+- name: Download OpenIG
+  get_url: url={{openig_download_url}} dest="{{download_dir}}/{{openig_version}}.war"
+  environment:
+    proxy_env
   
 - name: Remove the ROOT dir so we can install the gateway at the root 
   file: path=/home/fr/{{tomcat_instance}}/webapps/ROOT state=absent
   
 - name: Expand the gateway war file
-  command:  /usr/bin/unzip {{download_dir}}/{{openig_version}}.war -d /home/fr/{{tomcat_instance}}/webapps/ROOT
+  command:  /usr/bin/unzip {{download_dir}}/{{openig_version}}.war -d {{tomcat_instance_dir}}/webapps/ROOT
   
-- name: Copy web.xml to put in AM filter 
-  copy:  src=web.xml dest=/home/fr/{{tomcat_instance}}/webapps/ROOT/WEB-INF/web.xml
-  
-- name: copy sample config.json for gateway
-  file: path=/home/fr/.ForgeRock/OpenIG/ state=directory
-
-  
-- name: copy sample config.json for gateway
-  copy: src=config.json dest=/home/fr/.ForgeRock/OpenIG/config.json
+#- name: Copy web.xml to put in AM filter 
+#  copy:  src=web.xml dest=/home/fr/{{tomcat_instance}}/webapps/ROOT/WEB-INF/web.xml
+#  
+#- name: copy sample config.json for gateway
+#  file: path=/home/fr/.ForgeRock/OpenIG/ state=directory
+#
+#  
+#- name: copy sample config.json for gateway
+#  copy: src=config.json dest=/home/fr/.ForgeRock/OpenIG/config.json
 
 - name: Start tomcat
-  service: name={{ tomcat_instance }} state=started
+  service: name={{ tomcat_service }} state=restarted

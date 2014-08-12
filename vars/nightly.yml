@@ -16,7 +16,7 @@ openam_version: "12.0.0-SNAPSHOT"
 openam_zip_file: "OpenAM-{{ openam_version }}_nightly_20140809.zip"
 openam_download_url: "http://download.forgerock.org/downloads/openam/{{ openam_zip_file }}"
 
-#openam nigh
+#openam nightly
 # Agents
 tomcat_agent_version: tomcat_v6_agent_3.2.0-SNAPSHOT
 tomcat_agent_download_url: "http://download.forgerock.org/downloads/openam/j2eeagents/nightly/{{ tomcat_agent_version }}.zip"
@@ -24,10 +24,11 @@ tomcat_agent_download_url: "http://download.forgerock.org/downloads/openam/j2eea
 apache_agent_version: "apache_v22_Linux_64_agent_4.0.0-SNAPSHOT"
 #apache_agent_version: "apache_v22_Linux_64_agent_4.0.0-SNAPSHOT"
 apache_agent_download_url: "http://download.forgerock.org/downloads/openam/webagents/nightly/Linux/{{ apache_agent_version }}.zip"
-
 # OpenIG
-openig_version: gateway-2.2.0-SNAPSHOT
-openig_download_url: http://download.forgerock.org/downloads/openig/nightly/{{openig_version}}.war
+
+openig_jenkins: "https://builds.forgerock.org/view/OpenIG/job/OpenIG%20-%203.0%20-%20nightly/lastSuccessfulBuild/artifact/openig-war/target"
+openig_version: OpenIG-3.0.1-SNAPSHOT
+openig_download_url: "{{openig_jenkins}}/{{openig_version}}.war"
 
 # openidm
 openidm_version: openidm-3.1.0-SNAPSHOT

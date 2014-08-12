@@ -1,7 +1,0 @@
-#!/bin/bash
-# Run the complete process to stand up the FR stack 
-ansible-galaxy install warren.strange.opendj
-ansible-galaxy install warren.strange.opendj-replication
-vagrant up 
-ansible-playbook -v -i hosts frstack.yml 
-echo DONE

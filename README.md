@@ -5,7 +5,6 @@ NOTE: This is currently a work in progress. This should work for fedora / vagran
 combinations have not been tested. 
 
 
-
 Installs the ForgeRock Open Identity Stack (OIS) onto a target environment.
 This uses [Ansible](https://github.com/ansible/ansible) to automate the installation. This has been
 tested using [Vagrant](http://www.vagrantup.com/), but it should also work on AWS or GCE. 
@@ -20,8 +19,7 @@ will have the following installed:
 * openidm running on port 9090 (proxied at  http://openam.example.com/openidm  and /openidmui )
 * opendj running on port 389. This is the user store. 
 * openam running on port 8080 (proxied at https://openam.example.com/openam)
-* openig running on port 28080  [NOT DONE YET]
-
+* openig running on port 2080  (proxied at https://openam.example.com/openig/  Note trailing /!)
 
 ## Quick Start
 
@@ -50,6 +48,7 @@ vagrant up
 
 * Login to OpenAM at http://openam.example.com/openam  (amadmin/password)
 * Login to OpenIDM at http://openam.example.com/openidmgui  (openidm-admin/openidm-admin)
+* View the OpenIG landing page at http://openam.example.com/openig/  
 * View the haproxy status page at https://openam.example.com/haproxy?stats
 * View the default Apache landing page at https://openam.example.com/  [NOT DONE YET]
 * You can ssh into the guest using `ssh fr@openam.example.com` 
@@ -96,6 +95,7 @@ The frstack.yml should be generic enough to run on any environment. This playboo
 
 
 Bug fixing needed:
+* Using squid proxy does not always work reliably with yum. Fedora dynamically picks a rpm server which messes with squid
 * Make this work on both Debian / Fedora (anything that support systemd).
 * looks like the HOSTNAME needs to be set to the fqdn on the machine /etc/sysconfig/network  or openam config bombs out
   This is fixed for Vagrant by setting config.vm.hostname. Need a fix for other environments
