@@ -80,7 +80,7 @@ by caching packages and zip files.  You may want to edit the squid configuration
 the mac (~/Libraries/Preferences/squid.conf) and increase the size of maximum_object_size 
 to 400GB (the OpenAM all-in distribution is approx. 350 GB)
 
-[NOTE: See TODOs below. Caching of yum packages is a more tricky than just using 
+[NOTE: See TODOs below. Caching of yum packages is more tricky than just using 
 a proxy server].
 
 ## Implementation Notes
