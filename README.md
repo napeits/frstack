@@ -1,9 +1,7 @@
 # Install the ForgeRock Open Identity Stack (OIS)
 
-
 NOTE: This is currently a work in progress. This should work for Fedora / Vagrant. Other 
 combinations have not been tested. 
-
 
 Installs the ForgeRock Open Identity Stack (OIS) onto a target environment.
 This uses [Ansible](https://github.com/ansible/ansible) to automate the installation. This has been
@@ -26,16 +24,10 @@ will have the following installed:
 * Install Ansible and Vagrant and make sure they are both in your PATH. If you are on a
   mac you can install Ansible using 
   ```brew install ansible```
-* Update group_vars/all for any environment specific configuration. See the comments on using a proxy server
-* Optional: Add your public ssh key to roles/create-fr-user/files. This will enable you to login as the ForgeRock user "fr". You may also have 
- to edit roles/create-fr-user/tasks/main.yml to reflect the name of your pub key file
-  Note that if you do not do this you can ssh to the image using
-
-```vagrant ssh```
-
+* Update group_vars/all for any environment specific configuration. See the comments on using a proxy server below
 * Execute the following:
 
-```/bin/sh
+```
 vagrant up
 ```
 
@@ -49,9 +41,27 @@ vagrant up
 * View the OpenIG landing page at http://openam.example.com/openig/  
 * View the haproxy status page at https://openam.example.com/haproxy?stats
 * View the default Apache landing page at https://openam.example.com/  [NOT DONE YET]
-* You can ssh into the guest using `ssh fr@openam.example.com` 
+* You can ssh into the guest using `vagrant ssh` 
 * Using an ldap browser (Apache Directory Studio, for example) you can browse the user store at openam.example.com:389,   
   cn=Directory Manager / password
+
+
+## VM Services
+
+The VM uses systemd to control all services. You can start / stop and get service status using 
+the command systemctl:
+
+```systemctl [start|stop|status|restart]  service```
+
+Where service is one of:
+
+* tomcat@openam.service
+* openidm.service
+* tomcat@openig.service
+* haproxy.service 
+
+
+Use ```journalctl``` to view the system log. You can type "G" to skip to the end of the log.
 
 ## Using a proxy server 
 
@@ -71,10 +81,14 @@ to 400GB (the OpenAM all-in distribution is approx. 350 GB)
 
 ## Notes
 
-* Assumes a Fedora guest image 
-* Uses systemd for init files. 
+* The guest is Fedora 20. The scripts assume the use of systemd - so this should work on 
+other distros that also support systemd. 
 * For consistency between environments we create a forgerock user ("fr" - because no one likes to type 
-long names). Most things run under this users account. You can ssh fr@opename.example.com
+long names). Most things run under this users account. 
+* Optional:  To set up ssh for the fr user (so you can You can ```ssh fr@opename.example.com```)
+ Add your public ssh key to roles/create-fr-user/files. Edit roles/create-fr-user/tasks/main.yml 
+ to reflect the name of your pub key file
+ 
 
 
 ## Ansible Notes
@@ -86,7 +100,22 @@ The first playbook is responsible for installing a few base O/S packages and for
 which the products will be installed. 
 
 The second playbook "frstack.yml" does most of the heavy lifting and completes the install. 
-The frstack.yml should be generic enough to run on any environment. This playbook is included from vagrant.yml  
+The frstack.yml should be generic enough to run on any environment. This playbook is included from vagrant.yml .
+
+There is a work-in-progress playbook called ```fr_optional.yml``` which is where optional software 
+and configuration will go. 
+
+If provisioning fails for some reason you can re-run vagrants provisioning using:
+
+```vagrant provision```
+
+If you want to run specific ansible roles, the frstack.yml playbook has a number of "tags" that can be used.
+Run the shell script:
+ ```bin/frstack  [tagname]```  
+ 
+to run a specific set of tags. For example, to provision just OpenAM:
+
+```bin/frstack openam``` 
 
 
 ## Released vs. Nightly builds
@@ -99,13 +128,12 @@ Edit group_vars/all to switch between the released vs. nightly builds
 
 ### TODO
 
-
-Bug fixing needed:
-* Using squid proxy does not always work reliably with yum. Fedora dynamically picks a rpm server which messes with squid
+* Using squid proxy does not work reliably with yum. Fedora dynamically picks a rpm server which messes with squid caching
 * Make this work on both Debian / Fedora (anything that support systemd).
 * looks like the HOSTNAME needs to be set to the fqdn on the machine /etc/sysconfig/network  or openam config bombs out
   This is fixed for Vagrant by setting config.vm.hostname. Need a fix for other environments
 * tomcat agent installer does not put filter in global web.xml. Need to fix up apps web.xml
-* Configure agents (right now apache is installed but not configured)
+* Configure agents 
 * Configure some sample policies
 * Add HA, multi-master replication, etc
+* Configure openig as an agent

@@ -1,4 +1,0 @@
-#!/bin/sh 
-# Run this task to download the ForgeRock s/w to the tmp/ dir
-# If you are using vagrant you don't need to do this - it calls out this task
-ansible-playbook -v -i hosts getlocalsw.yml 

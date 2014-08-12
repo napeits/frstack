@@ -1,6 +1,0 @@
-#!/bin/sh 
-# Run just the vagrant play. Note this is not needed when you do a vagrant up 
-# vagrant will run the vagrant.yml play for you. 
-#
-# This is used for my testing to re-run the play 
-ansible-playbook -v -i hosts vagrant.yml
