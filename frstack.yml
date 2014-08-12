@@ -21,6 +21,7 @@
   roles:
    - { role: install-base-apt, when: ansible_os_family == 'Debian', tags: ["common"]}
    - { role: install-base-yum, when: ansible_os_family == 'RedHat', tags: ["common"]}
+   - { role: apache-centos, when: ansible_os_family == 'RedHat', tags: ["http"]}
    - { role: postfix, tags: ["postfix"]}
    - { role: haproxy, tags: ["http","haproxy"]}
    - { role: tomcat-centos, tomcat_instance: 'openam', tomcat_base_port: 8000,

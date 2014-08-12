@@ -1,8 +1,9 @@
 ---
 
+#  WORK IN PROGRESS - NOT COMPLETE RIGHT NOW
 # Install additional / optional components of the ForgeRock stack 
 #  Put policy agents, web servers, etc. here
-# Before this is run it is assumed some basic pre-reqs have been completed:
+# Before this is run it is assumed some basic pre-reqs have been completed 
 #
 # - The forgerock user has been created (default to fr). The software is installed using this account
 #  The "fr" user must be created with sudo priv. The vagrant.yml does this for you
@@ -15,7 +16,7 @@
   sudo: yes
   hosts: ois
   vars_files: 
-    - "vars/{{release}}.yml"
+    - "vars/{{nightly}}.yml"
   roles:
    - { role: install-base-apt, when: ansible_os_family == 'Debian', tags: ["common"]}
    - { role: install-base-yum, when: ansible_os_family == 'RedHat', tags: ["common"]}
@@ -25,6 +26,7 @@
     # todo: how do we enable remote connect after mysql is installed.
     # as mysql - GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'foobar' WITH GRANT OPTION;
     # flush privileges;
+    # MySQL for openidm use - as a target or as an optional repo.
    - { role: bennojoy.mysql, mysql_db: [{name: openidm}, {name: testdb}],
         mysql_users: [{ name: openidm, pass: openidm, priv: "*.*:ALL", host: "%"},
                { name: "test", pass: "test", priv: "testdb.*:ALL", host: "%"}],
@@ -39,7 +41,6 @@
   vars_files: 
     - "vars/{{release}}.yml"
   roles: 
-   - { role: agent-tomcat,  tomcat_instance: 'tomcat-openig', tomcat_http_port: 28080, tags: ["agent","openig"] }
    - { role: agent-tomcat,  tomcat_instance: 'tomcat-apps', tomcat_http_port: 18080, tags: ["agent"] }
    - { role: openig,  tomcat_instance: 'tomcat-openig', tags: ["openig"] }
    

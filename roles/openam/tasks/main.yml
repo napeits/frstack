@@ -2,7 +2,8 @@
 # This role installs openam
 # This assumes tomcat has already been installed
 # Assumes the software has been downloaded and is available at {{ forgerock_download_dir }}/openam
-# Pass in {{ tomcat_dir }} to this role. This should be the path the the openam tomcat instance
+# Uses the variable {{ tomcat_openam_dir }} to know where to install the war file. 
+#  This should be the path to the openam tomcat instance (/var/lib/tomcats/openam on Fedora)
 
 - name: Check for staged OpenAM bits - so we can skip download
   stat: path=/vagrant/staging/{{openam_zip_file}}

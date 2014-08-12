@@ -4,10 +4,11 @@
 - name: Install Apache
   yum: name={{ item }} state=latest
   environment:
-    http_proxy
+    proxy_env
   with_items:
    - httpd
-   
+ 
+# TODO: This should be templated, not copied   
 - name: copy httpd.conf
   copy: src=httpd.conf dest=/etc/httpd/conf owner=apache group=root mode=0644
   
