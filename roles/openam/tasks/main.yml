@@ -19,7 +19,7 @@
   when: staged_openam.stat.exists == false
   
 - name: Unpack downloaded OpenAM bits
-  command: chdir={{download_dir}} creates={{download_dir}}/openam unzip {{openam_zip_file}}
+  command: chdir={{download_dir}} unzip {{openam_zip_file}}
 
 # create install dir, openam dir
 - file: path={{ install_root}} owner={{ fr_user }} state="directory" 

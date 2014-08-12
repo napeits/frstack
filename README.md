@@ -47,6 +47,13 @@ vagrant up
 * Using an ldap browser (Apache Directory Studio, for example) you can browse the user store at openam.example.com:389,   
   cn=Directory Manager / password
 
+## Troubleshooting the build
+
+If the build fails the most likely reason is that a nightly build can not be downloaded from forgerock.org - usually due 
+to a problem in determining the latest build products. Have a look at vars/nightly.yml. 
+This attempts to use the current date to get the latest build - but it may not always work. You can hard code the download url 
+in this file.
+
 
 ## VM Services
 
@@ -65,7 +72,7 @@ Where service is one of:
 
 Use ```journalctl``` to view the system log. You can type "G" to skip to the end of the log.
 
-## Using a proxy server 
+## Speeding up re-installs using a proxy server 
 
 Edit group_vars/all and uncomment the proxy server configuration.  Ansible will use 
 the proxy when installing packages and when downloading zip files. 
@@ -82,6 +89,17 @@ to 400GB (the OpenAM all-in distribution is approx. 350 GB)
 
 [NOTE: See TODOs below. Caching of yum packages is more tricky than just using 
 a proxy server].
+
+The OpenAM install bits can be pre-staged by placing them in a subdirectory called staging/.
+For example:
+```mkdir staging
+cp ~/Downloads OpenAM-12.0.0-SNAPSHOT_nightly_20140731.zip staging
+```
+The version must match what is defined in vars/nightly.yml!
+
+This directory is mounted on the guest in /vagrant/staging. If the openam role finds the zip file in that location
+it will use it rather than downloading it from forgerock.org.
+
 
 ## Implementation Notes
 
