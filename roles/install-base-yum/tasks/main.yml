@@ -21,6 +21,7 @@
    - haproxy
    - httpd
    - tomcat
+   - gpg
    - java-1.7.0-openjdk-devel
   
 - name: Install additional python packages

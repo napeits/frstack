@@ -7,8 +7,8 @@ download_dir: "/var/tmp"
 # Comment these lines out if you do not have a proxy. Note that 
 # You need at least one dummy key in the map or ansible will complain so leave foo: bar in the map
 proxy_env:
-#  http_proxy: http://192.168.56.1:2001
-#  https_proxy: http://192.168.56.1:2001
+  http_proxy: http://192.168.56.1:2001
+  https_proxy: http://192.168.56.1:2001
   foo: bar
   
   

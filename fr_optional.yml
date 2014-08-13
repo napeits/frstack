@@ -22,8 +22,9 @@
    - { role: install-base-yum, when: ansible_os_family == 'RedHat', tags: ["common"]}
    # postfix for smtp server
    - { role: postfix, tags: ["postfix"]}
+   - { role: logstash, tags: ["logstash"]}
    # Tomcat for adding extra apps to protect
-   - { tomcat-centos, tomcat_instance: 'apps', tomcat_base_port: 18000,
+   - { role: tomcat-centos, tomcat_instance: 'apps', tomcat_base_port: 18000,
        tags: ["tomcat", "apps"]}
     # To use this role install using ansible-galaxy install  bennojoy.mysql
     # todo: how do we enable remote connect after mysql is installed.
