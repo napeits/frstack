@@ -30,6 +30,7 @@ have the following configured:
 * Execute the following:
 
 ```
+vagrant box add box-cutter/fedora20
 vagrant up
 ```
 
