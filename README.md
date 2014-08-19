@@ -170,3 +170,4 @@ Edit group_vars/all to switch between the released vs. nightly builds
 * Configure sample policies
 * Add HA, multi-master replication, etc
 * Configure openig as an agent
+* Openig - gateway conf/ directory needs to be set to /opt/openig.

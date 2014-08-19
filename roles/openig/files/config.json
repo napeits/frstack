@@ -1,109 +1,109 @@
 {
-    "_comment" : "Sample OpenIG config for tomcat form login. Assumes tomcat samples are deployed to instance localhost:48080",
-    "heap":{
-        "objects":[
+    "heap": {
+        "objects": [
+  {
+    "name": "LogSink",
+    "type": "ConsoleLogSink",
+    "config": {
+        "level": "DEBUG"
+    }
+  },
             {
-                "name":"HandlerServlet",
-                "type":"HandlerServlet",
-                "config":{
-                    "handler":"DispatchHandler",
-                    "baseURI":"http://openam.example.com:48080/"
+                "name": "OpenIDConnectChain",
+                "type": "Chain",
+                "config": {
+                    "filters": [
+                        "CaptureFilter",
+                        "OpenIDConnectClient"
+                    ],
+                    "handler": "OutgoingChain"
                 }
             },
             {
-                "name":"DispatchHandler",
-                "type":"DispatchHandler",
-                "config":{
-                    "bindings":[
+                "name": "OpenIDConnectClient",
+                "type": "OAuth2ClientFilter",
+                "config": {
+                    "clientEndpoint": "/openid",
+                    "requireHttps": false,
+                    "requireLogin": true,
+                    "target": "${exchange.openid}",
+                    "scopes": [
+                        "openid",
+                        "profile"
+                    ],
+                    "failureHandler": "Dump",
+                    "providerHandler": "ClientHandler",
+                    "providers": [
                         {
-                            "condition":"${exchange.request.uri.path == '/examples/jsp/security/protected/login.jsp'}",
-                            "handler":"LoginChain",
-                            
-                        },
-                        {
-                            "handler":"OutgoingChain",
-                            
+                            "name": "openam",
+                            "wellKnownConfiguration":
+				"https://accounts.google.com/.well-known/openid-configuration",
+                            "clientId": "224470185996-5fgp0cm5nn9k6s0rn0va5f7gi9bolpo5.apps.googleusercontent.com",
+                            "clientSecret": "Te3sbJRkLLXwbT9kfWemZAy8"
                         }
                     ]
                 }
             },
             {
-                "name":"LoginChain",
-                "type":"Chain",
-                "config":{
-                    "filters":[
-                        "CryptoHeaderFilter",                       
+                "name": "Dump",
+                "type": "Chain",
+                "config": {
+                    "filters": [
+                        "CaptureFilter"
                     ],
-                    "handler":"LoginRedirectHandler"
+                    "handler": "DumpExchange"
                 }
             },
             {
-                "name":"CryptoHeaderFilter",
-                "type":"CryptoHeaderFilter",
-                "config":{
-                    "messageType":"REQUEST",
-                    "operation":"DECRYPT",
-                    "algorithm":"DES/ECB/NoPadding",
-                    "key":"9/uh07wvQ9Y=",
-                    "keyType":"DES",
-                    "charSet":"utf-8",
-                    "headers":[
-                        "password"
+                "name": "DumpExchange",
+                "type": "ScriptableHandler",
+                "config": {
+                    "type": "application/x-groovy",
+                    "file": "DumpExchange.groovy"
+                }
+            },
+            {
+                "name": "OutgoingChain",
+                "type": "Chain",
+                "config": {
+                    "filters": [
+                        "GetCredentials",
+                        "DefaultHander",
+                        "CaptureFilter"
                     ],
-                    
-                },
-                
-            },
-           
-            {
-                "name":"LoginRedirectHandler",
-                "type":"StaticResponseHandler",
-                "config":{
-                    "status":302,
-                    "reason":"Found",
-                    "headers":{
-                        "Location":[
-                            "http://openam.example.com:28080/examples/jsp/security/protected/j_security_check?j_username=${exchange.request.headers['username'][0]}&j_password=${exchange.request.headers['password'][0]}"
-                        ]
-                    }
+                    "handler": "ClientHandler"
                 }
             },
             {
-                "name":"OutgoingChain",
-                "type":"Chain",
-                "config":{
-                    "filters":[
-                        "CaptureFilter",
-                    ],
-                    "handler":"ClientHandler"
+                "name": "GetCredentials",
+                "type": "ScriptableFilter",
+                "config": {
+                    "type": "application/x-groovy",
+                    "source": "exchange.username = exchange.openid.user_info.family_name; exchange.password = exchange.openid.user_info.name; next.handle(exchange)"
                 }
             },
             {
-                "name":"CaptureFilter",
-                "type":"CaptureFilter",
-                "config":{
-                    "captureEntity":true,
-                    "file":"/tmp/gateway.log",
-                    
+                "name": "LoginRequestFilter",
+                "type": "StaticRequestFilter",
+                "config": {
+                    "method": "GET",
+                    "uri": "http://localhost:1080"
                 }
             },
             {
-                "name":"ClientHandler",
-                "type":"ClientHandler",
-                "config":{
-                    
+                "name": "CaptureFilter",
+                "type": "CaptureFilter",
+                "config": {
+                    "captureEntity": true,
+                    "file": "/tmp/gateway.log"
                 }
             },
             {
-                "name":"LogSink",
-                "comment":"Default sink for logging information.",
-                "type":"ConsoleLogSink",
-                "config":{
-                    "level":"DEBUG"
-                }
-            },
-            
+                "name": "ClientHandler",
+                "type": "ClientHandler",
+                "config": {}
+            }
         ]
     },
-    "servletObject":"HandlerServlet",
+    "handlerObject": "OpenIDConnectChain"
 }
