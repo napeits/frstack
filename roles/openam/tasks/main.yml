@@ -15,7 +15,7 @@
   when: staged_openam.stat.exists
   
 - name: download openam
-  get_url: url={{openam_download_url}} dest={{download_dir}}/{{openam_zip_file}}
+  get_url: url="{{openam_download_url}}" dest="{{download_dir}}/{{openam_zip_file}}"
   environment: proxy_env
   when: staged_openam.stat.exists == false
   
