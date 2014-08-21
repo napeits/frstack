@@ -159,6 +159,18 @@ If you want to use released products you will need to download these from forger
 
 Edit group_vars/all to switch between the released vs. nightly builds
 
+### Known issues
+
+* The guest VM host only IP is not set properly when it the VM is resumed from being suspended.  You can fix this
+this buy doing  a:
+
+```
+sudo systemctl restart network.service
+```
+
+The above command will report failure - but it does work
+
+
 ### TODO
 
 * Using squid proxy does not work reliably with yum. Fedora dynamically picks a rpm server which messes up squid caching
