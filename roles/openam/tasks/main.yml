@@ -5,6 +5,15 @@
 # Uses the variable {{ tomcat_openam_dir }} to know where to install the war file. 
 #  This should be the path to the openam tomcat instance (/var/lib/tomcats/openam on Fedora)
 
+- name: Clean up old install dirs in case this is a re-install
+  file: path="{{download_dir}}/openam" state=absent
+
+- file:  path="{{ install_root }}/ssoadmin" state=absent
+- file:  path="{{ install_root }}/ssoconfigtool" state=absent
+- service: name=tomcat@openam.service state=stopped
+- file: path="{{ tomcat_openam_dir }}/webapps/openam"  state=absent 
+
+  
 - name: Check for staged OpenAM bits - so we can skip download
   stat: path=/vagrant/staging/{{openam_zip_file}}
   register: staged_openam
@@ -35,7 +44,7 @@
 - command: chmod 0755 {{ install_root }}/ssoadmin/setup
 
 - name: unpack config tools
-  command: creates={{ install_root }}/ssoconfigtool unzip {{ download_dir }}/openam/SSOConfiguratorTools-{{ openam_version }}.zip -d {{ install_root }}/ssoconfigtool
+  command: creates="{{ install_root }}/ssoconfigtool" unzip {{ download_dir }}/openam/SSOConfiguratorTools-{{ openam_version }}.zip -d {{ install_root }}/ssoconfigtool
   
 - name: copy config file
   template: src=openam.config dest={{ install_root }}/ssoconfigtool/openam.config owner={{fr_user}} mode=0644
@@ -46,7 +55,7 @@
 #           {{tomcat_openam_dir}} 
            
 - name: Deploy war to tomcat
-  command: creates={{ tomcat_openam_dir }}/webapps/openam cp {{ download_dir }}/openam/OpenAM-{{ openam_version }}.war {{ tomcat_openam_dir}}/webapps/openam.war
+  command: creates="{{ tomcat_openam_dir }}/webapps/openam" cp {{ download_dir }}/openam/OpenAM-{{ openam_version }}.war {{ tomcat_openam_dir}}/webapps/openam.war
  
 # Note: tomcat install already creates start files
 #- name: Create systemd startup

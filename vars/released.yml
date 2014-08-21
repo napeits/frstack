@@ -4,8 +4,9 @@
 opendj_zip: OpenDJ-2.6.0.zip
 
 # openam Nightly Build
-openam_version: "11.0.0"
+openam_version: "11.0.1"
 
+openam_zip_file: "OpenAM-{{openam_version}}.zip"
 
 # Agents
 tomcat_agent_version: tomcat_v6_agent_3.2.0-SNAPSHOT

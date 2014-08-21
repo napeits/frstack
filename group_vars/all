@@ -1,7 +1,10 @@
-# location of downloaded software zip files relative to the guest image
-# We try to keep this consistent across environments
-download_dir: "/var/tmp"
 
+# Set this to build ForgeRock released binaries vs. Nightly builds. 
+# If you use released binaries you will need to provide the downloaded zip files in
+#  the frstack/staging/ directory, and 
+# Edit vars/released.yml with the version info
+release: nightly
+#release: released
 
 # Use a caching proxy server if possible to speed up re-installs
 # Comment these lines out if you do not have a proxy. Note that 
@@ -11,6 +14,15 @@ proxy_env:
 #  https_proxy: http://192.168.56.1:2001
   foo: bar
   
+
+
+# location of downloaded software zip files relative to the guest image
+# We try to keep this consistent across environments
+download_dir: "/var/tmp"
+
+
+
+  
   
 # ForgeRock User. This account will run all non root s/w (openam, openidm, etc.)
 fr_user: fr
@@ -18,11 +30,7 @@ fr_user: fr
 home_dir: "/home/{{fr_user}}"
 
 
-# Set this to ForgeRock released binaries vs. Nightly builds. 
-# If you use released you will need to provide downloadable bits
-# Edit vars/released.yml with locations
-release: nightly
-#release: released
+
 
 
 # Top level where all s/w is installed
