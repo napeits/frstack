@@ -1,7 +1,7 @@
 ####### Locations for downloading software bits
 
 # opendj
-opendj_zip: OpenDJ-2.6.0.zip
+opendj_zip: OpenDJ-2.6.1.zip
 
 # openam Nightly Build
 openam_version: "11.0.1"
