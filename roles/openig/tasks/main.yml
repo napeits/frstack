@@ -3,10 +3,20 @@
 # Assumes tomcat openig instance has been previously deployed
 # Pass tomcat_instance as a role param
 
+- name: Check for staged OpenIG bits - so we can skip download
+  stat: path=/vagrant/staging/{{openig_zip}}
+  register: staged_openig
+
+# Copy staged openig dist bits
+- name: Copy staged OpenIG bits to image
+  command: cp /vagrant/staging/{{openig_zip}} {{download_dir}}
+  when: staged_openig.stat.exists
+
 - name: Download OpenIG
   get_url: url="{{openig_download_url}}" dest="{{download_dir}}/{{openig_version}}.war"
   environment:
     proxy_env
+  when: staged_openig.stat.exists == false
     
 - service: name={{ tomcat_service }} state=stopped
   
