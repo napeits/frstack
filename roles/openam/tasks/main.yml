@@ -77,9 +77,13 @@
 - wait_for: port={{openam_server_port}} delay=30
 
   
-- name: Run openam configurator
+#- name: Run openam configurator
+#  command: creates={{install_root}}/openam/bootstrap java -jar {{ install_root }}/ssoconfigtool/openam-configurator-tool-{{ openam_version }}.jar 
+#         --file {{ install_root }}/ssoconfigtool/openam.config --acceptLicense
+         
+  - name: Run openam configurator
   command: creates={{install_root}}/openam/bootstrap java -jar {{ install_root }}/ssoconfigtool/openam-configurator-tool-{{ openam_version }}.jar 
-         --file {{ install_root }}/ssoconfigtool/openam.config --acceptLicense
+         --file {{ install_root }}/ssoconfigtool/openam.config
  
 
 # Create ssoadm tools - set JAVA_HOME=/usr/lib/jvm/java
