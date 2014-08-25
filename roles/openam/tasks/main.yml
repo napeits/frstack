@@ -83,7 +83,7 @@
          
 - name: Run openam configurator
   command: creates={{install_root}}/openam/bootstrap java -jar {{ install_root }}/ssoconfigtool/openam-configurator-tool-{{ openam_version }}.jar 
-         --file {{ install_root }}/ssoconfigtool/openam.config
+         --file {{ install_root }}/ssoconfigtool/openam.config {{ openam_license_switch }}
  
 
 # Create ssoadm tools - set JAVA_HOME=/usr/lib/jvm/java

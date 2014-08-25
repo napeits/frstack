@@ -3,6 +3,7 @@
 # to work if the build is broken - so you may have to edit this manually.
 
 
+
 jenkins: " https://builds.forgerock.org/view"
 
 # DJ
@@ -20,6 +21,7 @@ openam_jenkins: "{{jenkins}}/{{openam_last_build}}"
 openam_version: "12.0.0-SNAPSHOT"
 openam_zip_file: "openam-distribution-kit-{{openam_version}}.zip"
 openam_download_url: "{{openam_jenkins}}/{{openam_zip_file}}"
+oponam_license_switch: "--acceptLicense"
 
 # Older build page...
 #openam_download_url: "http://download.forgerock.org/downloads/openam/{{ openam_zip_file }}"

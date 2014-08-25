@@ -1,5 +1,8 @@
 ####### Locations for downloading software bits
 
+
+
+
 # opendj
 opendj_version: "2.6.1"
 opendj_zip: OpenDJ-{{opendj_version}}.zip
@@ -7,6 +10,7 @@ opendj_zip: OpenDJ-{{opendj_version}}.zip
 # openam 
 openam_version: "11.0.1"
 openam_zip_file: "OpenAM-{{openam_version}}.zip"
+openam_license_switch: ""
 
 # Agents
 
