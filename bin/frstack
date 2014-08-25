@@ -1,10 +1,10 @@
 #!/bin/sh 
 set -x
 
-DEBUG=-vvvvv
+DEBUG=-v
 if [ $# -eq 0 ]
 then 
-   ansible-playbook -vvvvv -i hosts frstack.yml 
+   ansible-playbook -v -i hosts frstack.yml 
 else
   # use tags to run just selected roles
   ansible-playbook $DEBUG -i hosts frstack.yml --tags $1
