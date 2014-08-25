@@ -26,7 +26,7 @@ apache_agent_zip_file: "Apache-v2.2-Linux-64-Agent-{{apache_agent_version}}.zip"
 # OpenIG
 openig_version: "3.0.0"
 openig_zip: "OpenIG-{{openig_version}}.war"
-#openig_download_url: http://download.forgerock.org/downloads/openig/nightly/{{openig_version}}.war
+#openig_download_url: http://download.forgerock.org/downloads/openig/nightly/OpenIG-{{openig_version}}.war
 
 # openidm
 openidm_version: "3.0.0"

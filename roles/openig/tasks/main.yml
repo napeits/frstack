@@ -13,7 +13,7 @@
   when: staged_openig.stat.exists
 
 - name: Download OpenIG
-  get_url: url="{{openig_download_url}}" dest="{{download_dir}}/{{openig_version}}.war"
+  get_url: url="{{openig_download_url}}" dest="{{download_dir}}/OpenIG-{{openig_zip}}"
   environment:
     proxy_env
   when: staged_openig.stat.exists == false
@@ -24,7 +24,7 @@
   file: path={{tomcat_instance_dir}}/webapps/ROOT state=absent
   
 - name: Expand the gateway war file
-  command:  /usr/bin/unzip {{download_dir}}/{{openig_version}}.war -d {{tomcat_instance_dir}}/webapps/ROOT
+  command:  /usr/bin/unzip {{download_dir}}/{{openig_zip}} -d {{tomcat_instance_dir}}/webapps/ROOT
   
 #- name: Copy web.xml to put in AM filter 
 #  copy:  src=web.xml dest=/home/fr/{{tomcat_instance}}/webapps/ROOT/WEB-INF/web.xml
