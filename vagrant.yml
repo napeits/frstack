@@ -11,8 +11,8 @@
 #   - iptables
 
   tasks:
-    - name: Disable NetworkManager as it intereres with suspend and resume 
-      service: name="NetworkManager.service" state=stopped enabled=false
+#    - name: Disable NetworkManager as it intereres with suspend and resume 
+#      service: name="NetworkManager.service" state=stopped enabled=false
 
 # Include the remaining plays 
 - include: frstack.yml

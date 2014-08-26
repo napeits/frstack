@@ -1,10 +1,20 @@
 ---
 # This role installs openidm
 
+- name: Check for staged OpenIDM bits - so we can skip download
+  stat: path=/vagrant/staging/{{openidm_zip}}
+  register: staged_openidm
+
+# Copy staged openidm dist bits
+- name: Copy staged OpenIDM bits to image
+  command: cp /vagrant/staging/{{openidm_zip}} {{download_dir}}
+  when: staged_openidm.stat.exists
+
 - name: Download openidm 
   get_url: url="{{ openidm_download_url }}" dest="{{download_dir}}/{{openidm_zip}}"
   environment:
     proxy_env
+  when: staged_openidm.stat.exists == false
     
 - name: unpack openidm
   command: creates={{install_root}}/openidm unzip {{download_dir}}/{{openidm_zip}} -d {{install_root}}

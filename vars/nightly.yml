@@ -3,6 +3,7 @@
 # to work if the build is broken - so you may have to edit this manually.
 
 
+
 jenkins: " https://builds.forgerock.org/view"
 
 # DJ
@@ -20,6 +21,7 @@ openam_jenkins: "{{jenkins}}/{{openam_last_build}}"
 openam_version: "12.0.0-SNAPSHOT"
 openam_zip_file: "openam-distribution-kit-{{openam_version}}.zip"
 openam_download_url: "{{openam_jenkins}}/{{openam_zip_file}}"
+openam_license_switch: "--acceptLicense"
 
 # Older build page...
 #openam_download_url: "http://download.forgerock.org/downloads/openam/{{ openam_zip_file }}"
@@ -36,12 +38,13 @@ apache_agent_download_url: "http://download.forgerock.org/downloads/openam/webag
 # OpenIG
 
 openig_jenkins: "{{jenkins}}/OpenIG/job/OpenIG%20-%203.0%20-%20nightly/lastSuccessfulBuild/artifact/openig-war/target"
-openig_version: OpenIG-3.0.1-SNAPSHOT
-openig_download_url: "{{openig_jenkins}}/{{openig_version}}.war"
+openig_version: "3.0.1-SNAPSHOT"
+openig_zip: "OpenIG-{{openig_version}}.war"
+openig_download_url: "{{openig_jenkins}}/{{openig_zip}}"
 
 # openidm
-openidm_version: openidm-3.1.0-SNAPSHOT
-openidm_zip: "{{openidm_version}}.zip"
+openidm_version: "3.1.0-SNAPSHOT"
+openidm_zip: "openidm-{{openidm_version}}.zip"
 openidm_download_url: "{{jenkins}}/OpenIDM/job/OpenIDM/lastSuccessfulBuild/artifact/openidm-zip/target/{{openidm_zip}}"
 
 
