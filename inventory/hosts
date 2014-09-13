@@ -1,6 +1,4 @@
-# Google compute engine nodes
-[gce]
-demo1
+
 
 # Target for frstack. Put the IP of guest to be configured with the OIS stack
 [ois]

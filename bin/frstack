@@ -1,11 +1,24 @@
-#!/bin/sh 
+#!/bin/bash 
 set -x
 
-DEBUG=-v
+# See http://docs.ansible.com/intro_getting_started.html#host-key-checking
+export ANSIBLE_HOST_KEY_CHECKING=False
+
+#export GCE_INI_PATH=./inventory/gce.ini 
+
+export GCE_EMAIL="224470185996-vsetlogpg407js2uogased4hkl2jr01l@developer.gserviceaccount.com"
+export GCE_PEM_FILE_PATH="/Users/warren/etc/gce-ansible.pem"
+export GCE_PROJECT="forgerockdemo"
+
+DEBUG=-vvv
 if [ $# -eq 0 ]
 then 
-   ansible-playbook -v -i hosts frstack.yml 
+   #ansible-playbook -v -i hosts frstack.yml 
+   ansible-playbook -v -i inventory/gce.py frstack.yml 
 else
   # use tags to run just selected roles
-  ansible-playbook $DEBUG -i hosts frstack.yml --tags $1
+  #ansible-playbook $DEBUG -i hosts frstack.yml --tags $1
+  ansible-playbook $DEBUG -i inventory/gce.py frstack.yml --tags $1
 fi
+
+

@@ -24,10 +24,10 @@
    - { role: apache-centos, when: ansible_os_family == 'RedHat', tags: ["http"]}
    - { role: postfix, tags: ["postfix"]}
    - { role: haproxy, tags: ["http","haproxy"]}
-   - { role: tomcat-centos, tomcat_instance: 'openam', tomcat_base_port: 8000,
-       tags: ["tomcat-centos", "openam"]}
-   - { role: tomcat-centos, tomcat_instance: 'openig', tomcat_base_port: 2000,
-       tags: ["tomcat-centos", "openig"]}
+   - { role: tomcat, tomcat_instance: 'openam', tomcat_base_port: 8000,
+       tags: ["tomcat", "openam"]}
+   - { role: tomcat, tomcat_instance: 'openig', tomcat_base_port: 2000,
+       tags: ["tomcat", "openig"]}
    - { role: opendj, tags: ["opendj","ois"]}
    - { role: openidm, tags: ["openidm","ois"]}
    - { role: openam,  tags: ["openam","ois"]}

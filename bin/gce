@@ -1,4 +1,5 @@
 #!/bin/sh
 
-export SSL_CERT_FILE=~/.ssh/cacert.pem
-ansible-playbook -vvv -i hosts gce.yml --private-key ~/.ssh/google_compute_engine
+#export SSL_CERT_FILE=~/.ssh/cacert.pem
+#ansible-playbook -vvv -i hosts gce.yml --private-key ~/.ssh/google_compute_engine
+ansible-playbook -vvv -i inventory/hosts gce.yml 

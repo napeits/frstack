@@ -10,33 +10,51 @@
 - name: Create a sandbox instance
   hosts: localhost
   connection: local
+  gather_facts: no
   vars:
-    names: foo
-    machine_type: f1-micro
-    image: centos-6-v20131120
+    names: ois
+    machine_type: g1-small
+    image: centos-7
     zone: us-central1-a
+    service_account_email: "224470185996-vsetlogpg407js2uogased4hkl2jr01l@developer.gserviceaccount.com"
+    pem_file: "/Users/warren/etc/gce-ansible.pem"
+    project_id: "forgerockdemo" 
   tasks:
     - name: Launch instances
-      local_action: gce machine_type={{machine_type}} instance_names={{names}} image={{image}} zone={{zone}}
+      gce:
+         machine_type: "{{machine_type}}"
+         instance_names: "{{names}}"
+         image: "{{image}}"
+         zone: "{{zone}}"
+         service_account_email: "{{service_account_email}}"
+         pem_file: "{{pem_file}}"
+         project_id: "{{project_id}}"
+         tags: "ois"
       register: gce
     - name: Add new instance to host group
       local_action: add_host hostname={{ item.public_ip }} groupname=launched
       with_items: gce.instance_data
     - name: Wait for SSH to come up
       local_action: wait_for host={{item.public_ip}} port=22 delay=10
-                    timeout=60 state=started
-      with_items: gce.instance_data
-
-
-- name: add se-linux support
+                    timeout=90 state=started
+      with_items: gce.instance_data    
+    - name: Allow HTTP
+      local_action: gce_net
+      args:
+        fwname: "all-http"
+        name: "default"
+        allowed: "tcp:80"
+        state: "present"
+        service_account_email: "{{ service_account_email }}"
+        pem_file: "{{ pem_file }}"
+        project_id: "{{ project_id }}"
+        
+            
+- name: Configure instance
   hosts: launched
-  sudo: True
+  sudo: true
   tasks:
-    - name: install  libselinux-python package on target
-      yum: name="libselinux-python" state=latest
- 
-- name: Configure instance(s)
-  hosts: launched
-  sudo: True
+    - selinux: state=disabled
+    - command: setenforce 0
   roles:
     - create-fr-user

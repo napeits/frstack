@@ -17,15 +17,17 @@
    - unzip
    - git
    - wget
-   - python-pip
    - haproxy
    - httpd
    - tomcat
    - gpg
    - java-1.7.0-openjdk-devel
-  
-- name: Install additional python packages
-  pip: name=httplib2
+# PIP is not on Centos 7?
+#     - python-pip
+ 
+# Why do we need httplib2 ?
+#- name: Install additional python packages
+#  pip: name=httplib2
     
 
 # Note: Vagrant does this for us 
@@ -34,3 +36,6 @@
   
 - name: create top level software dir
   file: state=directory path={{install_root}} owner={{fr_user}} mode=0755
+  
+# Disable SE linux
+- selinux: state=disabled
