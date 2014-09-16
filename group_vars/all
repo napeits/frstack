@@ -30,10 +30,6 @@ home_dir: "/home/{{fr_user}}"
 install_root: /opt/ois
 
 
-# Tomcat instance location
-# Note: This is the default Fedora location
-tomcat_parent: "/var/lib/tomcats"
-tomcat_openam_dir: "{{tomcat_parent}}/openam"
 
 
 # Java home on the guest. We use openjdk by default. This is the default location. 
@@ -73,7 +69,14 @@ opendj_password: password
 
 
 # Tomcat 
+
+# Tomcat instance location
+# Note: This is the default Fedora location
+#tomcat_parent: "/var/lib/tomcats"
+
+tomcat_parent: "{{ install_root }}"
+#tomcat_openam_dir: "{{tomcat_parent}}/tomcat-openam"
+
+
 tomcat_version: "7.0.55"
 tomcat_download_url: "http://apache.cs.utah.edu/tomcat/tomcat-7/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
-
-

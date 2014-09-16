@@ -7,33 +7,34 @@
 # tomcat_https_port
 
 # Download tomcat 
-- name: download tomcat 
-  get_url: url={{tomcat_download_url}} dest={{download_dir}}/apache-tomcat-{{tomcat_version}}.tar.gz
+#- name: download tomcat 
+#  get_url: url={{tomcat_download_url}} dest={{download_dir}}/apache-tomcat-{{tomcat_version}}.tar.gz
+# TODO: How can a role call another role
 
 - name: create instance dir
-  command: mkdir -p {{ tomcat_parent }}/{{ tomcat_instance }}
+  command: mkdir -p {{ tomcat_instance_dir}}
   
 - name: Extract archive
-  command: creates={{ tomcat_parent }}/{{ tomcat_instance }}/bin /bin/tar xfz {{download_dir }}/apache-tomcat-{{ tomcat_version }}.tar.gz
-             -C {{ tomcat_parent }}/{{ tomcat_instance }}  --strip-components=1
+  command: creates={{ tomcat_instance_dir }}/bin /bin/tar xfz {{download_dir }}/apache-tomcat-{{ tomcat_version }}.tar.gz
+             -C {{ tomcat_instance_dir}}  --strip-components=1
              
 - name: Configure Tomcat server
   template: src=server.xml dest={{ tomcat_parent }}/{{ tomcat_instance }}/conf/
 
 - name: Configure Tomcat users
-  template: src=tomcat-users.xml dest={{ tomcat_parent }}/{{ tomcat_instance }}/conf/
+  template: src=tomcat-users.xml dest={{ tomcat_instance_dir }}/conf/
  
 - name: cp setenv.sh to set jvm params
-  copy: src=setenv.sh dest={{ tomcat_parent }}/{{ tomcat_instance }}/bin
+  copy: src=setenv.sh dest="{{ tomcat_instance_dir }}/bin"
 
 - name: Install Tomcat init script
-  template: src=tomcat-initscript.sh dest=/etc/init.d/{{ tomcat_instance }} mode=0755
+  template: src="tomcat.service"  dest="/etc/systemd/system/{{tomcat_instance}}.service" 
   
 - name: Change ownership of Tomcat installation
-  file: path={{ tomcat_parent }}/{{ tomcat_instance }} owner={{ tomcat_user }} state=directory recurse=yes
+  file: path={{ tomcat_instance_dir }} owner={{ tomcat_user }} state=directory recurse=yes
 
 - name: Start Tomcat
-  service: name={{ tomcat_instance }} state=restarted enabled=yes
+  service: name={{ tomcat_instance }}.service state=restarted enabled=yes
 
 - name: wait for tomcat to start
   wait_for: port={{tomcat_http_port }} delay=10

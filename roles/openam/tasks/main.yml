@@ -3,7 +3,7 @@
 # This assumes tomcat has already been installed
 # Assumes the software has been downloaded and is available at {{ forgerock_download_dir }}/openam
 # Uses the variable {{ tomcat_openam_dir }} to know where to install the war file. 
-#  This should be the path to the openam tomcat instance (/var/lib/tomcats/openam on Fedora)
+#  This should be the path to the openam tomcat instance dir
 
 - name: Clean up old install dirs in case this is a re-install
   file: path="{{download_dir}}/openam" state=absent
