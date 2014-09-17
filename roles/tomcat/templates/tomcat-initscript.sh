@@ -12,6 +12,8 @@
 # Added usage of CATALINA_BASE
 # Added coloring and additional status
 # Added check for existence of the tomcat user
+
+#***** DEPRECATED - USE SYSTEMD INSTEAD ****
 #
  
 #Location of JAVA_HOME (bin files)

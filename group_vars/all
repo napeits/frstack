@@ -52,7 +52,7 @@ openam_site_url: "https://{{ openam_fqdn }}:443/openam"
 openam_server_port: 8080 
 
 
-## todo: Put passwords in ansible vault
+## todo: Put passwords in Ansible vault
 amadmin_password: password
 amldapuser_password: Passw0rd 
 

@@ -4,7 +4,7 @@
 
 
 [Unit]
-Description=Apache Tomcat Web Application Container
+Description=Tomcat instance {{tomcat_instance}}
 After=syslog.target network.target
 
 [Service]
@@ -12,8 +12,8 @@ Type=simple
 #EnvironmentFile=/etc/tomcat/tomcat.conf
 #Environment="NAME="
 #EnvironmentFile=-/etc/sysconfig/tomcat
-ExecStart=/opt/ois/tomcat-openam/bin/catalina.sh run
-ExecStop=/opt/ois/tomcat-openam/bin/catalina.sh stop
+ExecStart=/opt/ois/{{tomcat_instance}}/bin/catalina.sh run
+ExecStop=/opt/ois/{{tomcat_instance}}/bin/catalina.sh stop
 SuccessExitStatus=143
 User={{tomcat_user}}
 #Group=tomcat
