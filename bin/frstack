@@ -1,26 +1,32 @@
 #!/bin/bash 
-
+# Run the frstack.yml playbook
+# Any first optioanl arg is assumted to be tags to pass to the ansible-playbook command (comma delimited)
+# TODO: Make this work across all environments 
+#     
 # See http://docs.ansible.com/intro_getting_started.html#host-key-checking
 export ANSIBLE_HOST_KEY_CHECKING=False
 
-#export GCE_INI_PATH=./inventory/gce.ini 
 
+# Define GCE env vars for yor project
 export GCE_EMAIL="224470185996-vsetlogpg407js2uogased4hkl2jr01l@developer.gserviceaccount.com"
 export GCE_PEM_FILE_PATH="/Users/warren/etc/gce-ansible.pem"
 export GCE_PROJECT="forgerockdemo"
 
+# Define EC2 vars here....
+
+
+
+# Figure out which inventory to use for provisioning. This will vary 
+# Depending on the target (vagrant, gce, ec2, etc.)
 INVENTORY=inventory/hosts
 #INVENTORY=inventory/gce.py
 
+TAGS=""
 DEBUG=-vvv
-if [ $# -eq 0 ]
+if [ $# -gt 0 ]
 then 
-   #ansible-playbook -v -i hosts frstack.yml 
-   ansible-playbook -v -i inventory/gce.py frstack.yml 
-else
-  # use tags to run just selected roles
-  #ansible-playbook $DEBUG -i hosts frstack.yml --tags $1
-  ansible-playbook $DEBUG -i $INVENTORY frstack.yml --tags $1
+	TAGS="--tags $1"
 fi
+echo ansible-playbook $DEBUG -i $INVENTORY frstack.yml $TAGS
 
 
