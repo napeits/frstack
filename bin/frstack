@@ -22,11 +22,10 @@ INVENTORY=inventory/hosts
 #INVENTORY=inventory/gce.py
 
 TAGS=""
-DEBUG=-vvv
+#DEBUG=-vvv
 if [ $# -gt 0 ]
 then 
 	TAGS="--tags $1"
 fi
-echo ansible-playbook $DEBUG -i $INVENTORY frstack.yml $TAGS
-
+ansible-playbook $DEBUG -i $INVENTORY frstack.yml $TAGS
 

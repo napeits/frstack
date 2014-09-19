@@ -37,5 +37,6 @@
 - name: create top level software dir
   file: state=directory path={{install_root}} owner={{fr_user}} mode=0755
   
-# Disable SE linux
+# Disable SE linux and the firewall. Don't do this production!
 - selinux: state=disabled
+- service: name=firewalld state=stopped enabled=no

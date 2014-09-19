@@ -8,13 +8,13 @@ Description=Tomcat instance {{tomcat_instance}}
 After=syslog.target network.target
 
 [Service]
-Type=simple
+Type=forking
 #EnvironmentFile=/etc/tomcat/tomcat.conf
 #Environment="NAME="
 #EnvironmentFile=-/etc/sysconfig/tomcat
-ExecStart=/opt/ois/{{tomcat_instance}}/bin/catalina.sh run
+ExecStart=/opt/ois/{{tomcat_instance}}/bin/starup.sh
 ExecStop=/opt/ois/{{tomcat_instance}}/bin/catalina.sh stop
-SuccessExitStatus=143
+#SuccessExitStatus=143
 User={{tomcat_user}}
 #Group=tomcat
 

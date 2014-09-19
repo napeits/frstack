@@ -1,9 +1,0 @@
-# Agent User Response File for simple install (--install)
-# The profile has to exist in openam before you run this
-CONFIG_DIR= /home/fr/tomcat-apps/conf
-AM_SERVER_URL= http://openam.example.com:80/openam
-CATALINA_HOME= /home/fr/tomcat-apps
-INSTALL_GLOBAL_WEB_XML= true
-AGENT_URL= http://openam.example.com:18080/agentapp
-AGENT_PROFILE_NAME= tomcat2
-AGENT_PASSWORD_FILE= /home/fr/j2ee_agents/tomcat_v6_agent/agentpw

@@ -28,7 +28,11 @@
        tags: ["tomcat", "openam"]}
    - { role: tomcat, tomcat_instance: 'tomcat-openig', tomcat_base_port: 2000,
        tags: ["tomcat", "openig"]}
+   - { role: tomcat, tomcat_instance: 'tomcat-apps', tomcat_base_port: 3000,
+       tags: ["tomcat", "apps"]}
+   - { role: agent-tomcat,  tomcat_instance: 'tomcat-apps', 
+         tomcat_port: 3080, tags: ["agent"]}
    - { role: opendj, tags: ["opendj","ois"]}
    - { role: openidm, tags: ["openidm","ois"]}
-   - { role: openam,  tags: ["openam","ois"]}
+   - { role: openam,  tomcat_openam_dir: "/opt/ois/tomcat-openam", tags: ["openam","ois"]}
    - { role: openig,  tags: ["openig","ois"]}
