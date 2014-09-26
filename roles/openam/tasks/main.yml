@@ -38,11 +38,6 @@
 # In our case that is tomcat. TODO: Use group permissions here
 - file: path={{ install_root}}/openam owner={{fr_user}} state="directory" 
 
-
-- name: unpack ssoadm tools
-  command: creates={{ install_root }}/ssoadmin unzip {{ download_dir }}/openam/SSOAdminTools-{{ openam_version }}.zip -d {{ install_root }}/ssoadmin
-- command: chmod 0755 {{ install_root }}/ssoadmin/setup
-
 - name: unpack config tools
   command: creates="{{ install_root }}/ssoconfigtool" unzip {{ download_dir }}/openam/SSOConfiguratorTools-{{ openam_version }}.zip -d {{ install_root }}/ssoconfigtool
   
@@ -84,25 +79,7 @@
 - name: Run openam configurator
   command: creates={{install_root}}/openam/bootstrap java -jar {{ install_root }}/ssoconfigtool/openam-configurator-tool-{{ openam_version }}.jar 
          --file {{ install_root }}/ssoconfigtool/openam.config {{ openam_license_switch }}
- 
-
-# Create ssoadm tools - set JAVA_HOME=/usr/lib/jvm/java
-- name: setup ssoadm tools
-  command: chdir={{ install_root }}/ssoadmin {{ install_root }}/ssoadmin/setup -p {{ install_root }}/openam --acceptLicense
-  environment:
-    JAVA_HOME: "{{java_home}}"
 
 # Make sure everything is owned by fr user  
 - file: recurse=yes state=directory  owner="{{ fr_user }}" 
      group="tomcat" path="{{ install_root}}" mode=0775
-
-
-# Optional tasks.... this should probably be a separate role / playbook 
-
-#- name: copy policy.xml for import
-#  copy: src=policy.xml dest=etc/policy.xml  mode=0622
-
-# This is failing on the when we are not using example.com domain- find out why later
-# probably because root policy.xml needs to be fixed
-#- name: Import policy.xml
-#  command: bin/import-policies etc/policy.xml

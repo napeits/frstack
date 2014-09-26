@@ -35,4 +35,5 @@
    - { role: opendj, tags: ["opendj","ois"]}
    - { role: openidm, tags: ["openidm","ois"]}
    - { role: openam,  tomcat_openam_dir: "/opt/ois/tomcat-openam", tags: ["openam","ois"]}
+   - { role: ssoadm, tags: ["openam","ssoadm"]}
    - { role: openig,  tags: ["openig","ois"]}

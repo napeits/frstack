@@ -1,0 +1,3 @@
+#!/bin/bash
+# patch up ssoadm command for site fqdn issue
+sed '/bin\/java/s|$|\n-D"com.iplanet.am.naming.map.site.to.server=https://{{openam_fqdn}}:443/openam=http://{{openam_fqdn}}:{{openam_server_port}}/openam" \\|'  -i ssoadm

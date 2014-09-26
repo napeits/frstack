@@ -1,0 +1,23 @@
+---
+# This role installs openam ssoadm tools
+# This assumes tomcat and openam have already been installed and are running
+
+- name: unpack ssoadm tools
+  command: creates={{ install_root }}/ssoadmin unzip {{ download_dir }}/openam/SSOAdminTools-{{ openam_version }}.zip -d {{ install_root }}/ssoadmin
+- command: chmod 0755 {{ install_root }}/ssoadmin/setup
+  
+# Create ssoadm tools - set JAVA_HOME=/usr/lib/jvm/java
+- name: setup ssoadm tools
+  command: chdir={{ install_root }}/ssoadmin {{ install_root }}/ssoadmin/setup -p {{ install_root }}/openam --acceptLicense
+  environment:
+    JAVA_HOME: "{{java_home}}"
+
+# ssoadm fails if a site URL is defined and the command cant accept the SSL cert. 
+# See https://wikis.forgerock.org/confluence/display/openam/Using+the+ssoadm+command+with+a+Site+configuration
+# This command fixes up ssoadm to map the site URL. Using sed on the guest turns out to be much easier than lineinfile
+- template: src=ssoadm-patch dest="{{install_root}}/ssoadmin/openam/bin" mode=0755 owner={{fr_user}}
+- command: chdir="{{install_root}}/ssoadmin/openam/bin" ./ssoadm-patch 
+ 
+# Make sure everything is owned by fr user  
+- file: recurse=yes state=directory  owner="{{ fr_user }}" 
+     group="tomcat" path="{{ install_root}}/ssoadmin" mode=0775

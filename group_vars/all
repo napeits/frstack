@@ -79,4 +79,5 @@ tomcat_parent: "{{ install_root }}"
 
 
 tomcat_version: "7.0.55"
-tomcat_download_url: "http://apache.cs.utah.edu/tomcat/tomcat-7/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
+tomcat_archive: "apache-tomcat-{{ tomcat_version }}.tar.gz"
+tomcat_download_url: "http://apache.cs.utah.edu/tomcat/tomcat-7/v{{ tomcat_version }}/bin/{{tomcat_archive}}"

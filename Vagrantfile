@@ -6,7 +6,9 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-   config.vm.box = "hfm4/centos7"
+    # This box has dissappeared...
+    # config.vm.box = "hfm4/centos7"
+    config.vm.box = "matyunin/centos7"
 
     config.vm.define "oisserver" do |v| 
         #v.vm.box = "box-cutter/fedora20"

@@ -2,7 +2,8 @@
 # task that checks to see if a file has been staged, 
 # And skips the download if it finds it staged, otherwise it downloads it
 # It leaves the file  in {{download_dir}}
-# Role vars:  {{download_file}} - name of archive file
+# vars:  
+# {{download_file}} - name of archive file
 # {{download_url}}  - Complete URL for download (includes the file name as well)
 # Pass in: download_file - the name of the file to download 
 # download_url: The URL to download from

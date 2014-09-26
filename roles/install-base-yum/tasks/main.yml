@@ -2,12 +2,12 @@
 # This role installs common base pre-reqs for the ForgeRock stack using yum 
 # For Fedora and Centos based images
 
-# TODO: With Fedora20 we may not need EPEL
-#- name: get epel-repo rpm RHEL6
-#  get_url: dest=/tmp/epel-release.rpm  url=http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
+
+- name: get epel-repo 
+  get_url: dest=/tmp/epel-release.rpm  url=http://dl.fedoraproject.org/pub/epel/beta/7/x86_64/epel-release-7-1.noarch.rpm
 #
-#- name: install epel-repo rpm
-#  yum: pkg=/tmp/epel-release.rpm state=installed
+- name: install epel-repo rpm
+  yum: pkg=/tmp/epel-release.rpm state=installed
 
 - name: Install required packages
   yum: name={{item}} state=latest
@@ -22,8 +22,9 @@
    - tomcat
    - gpg
    - java-1.7.0-openjdk-devel
+   - python-pip
 # PIP is not on Centos 7?
-#     - python-pip
+
  
 # Why do we need httplib2 ?
 #- name: Install additional python packages
@@ -38,5 +39,6 @@
   file: state=directory path={{install_root}} owner={{fr_user}} mode=0755
   
 # Disable SE linux and the firewall. Don't do this production!
+- command: setenforce 0 
 - selinux: state=disabled
 - service: name=firewalld state=stopped enabled=no
