@@ -15,7 +15,7 @@
 
 - sudo: yes
   hosts: ois
-  remote_user: fr
+  remote_user: "{{fr_user}}"
   vars_files: 
     - "vars/{{release}}.yml"
   roles:
@@ -37,3 +37,4 @@
    - { role: openam,  tomcat_openam_dir: "/opt/ois/tomcat-openam", tags: ["openam","ois"]}
    - { role: ssoadm, tags: ["openam","ssoadm"]}
    - { role: openig,  tags: ["openig","ois"]}
+   - { role: agent-apache, tags: ["agent", "apache", "test"]}

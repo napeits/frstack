@@ -25,6 +25,11 @@
 - name: Create haproxy.pem
   shell: chdir=/etc/pki/tls creates=/etc/pki/tls/haproxy.pem /bin/cat certs/haproxy.crt private/haproxy.key > /etc/pki/tls/haproxy.pem 
   
+  # we ignore errors because this is not idempotent
+- name: Delete any old certificate 
+  command:  keytool -delete -noprompt -alias openam.example.com -storepass changeit -keystore /etc/pki/java/cacerts
+  ignore_errors: yes
+  
 # we ignore errors because this is not idempotent
 - name: Import the cert into java keystore for openam use. Ignore errors if this is run a second time
   command:  keytool -importcert -noprompt -alias openam.example.com -storepass changeit -file /etc/pki/tls/certs/haproxy.crt -trustcacerts -keystore /etc/pki/java/cacerts

@@ -58,10 +58,17 @@ tomcat_jenkins: "{{jee_agents_jenkins}}/org.forgerock.openam.agents$jee-agents-d
 tomcat_agent_zip: "{{tomcat_agent_version}}.zip"
 tomcat_agent_download_url: "{{tomcat_jenkins}}/{{tomcat_agent_zip}}"
 
+# Apache Agent
+
+apache_agent_version: apache_v24_Linux_64_agent_4.0.0-SNAPSHOT
+apache_agent_zip: "{{apache_agent_version}}.zip"
+apache_agent_download_url: "http://download.forgerock.org/downloads/openam/webagents/nightly/Linux/{{apache_agent_zip}}"
+
 
 
 # HA Proxy
-# DEPRECATED - Use the package version
+# DEPRECATED - Use the package version. Centos7 and Fedora now have 1.5 with SSL
+#
 # The rpm repos dont have the latest version needed to support SSL - so use a custom version
 # Not needed anymore - as Fedora and Centos 7 has 1.5 with SSL. Keep this for posterity
 #haproxy_rpm: "haproxy-1.5-dev19.el6.x86_64.rpm"

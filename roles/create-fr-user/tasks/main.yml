@@ -36,12 +36,15 @@
 - name: create password file for ssoadm command
   template: src=amadmin_pw dest={{home_dir}}/etc/amadmin_pw mode=0400 owner=fr
   
-- name: copy list-policies
-  copy: src=list-policies dest={{home_dir}}/bin/list-policies mode=0755 owner=fr
-   
-- name: copy import-policies
-  copy: src=import-policies dest={{home_dir}}/bin/import-policies mode=0755 owner=fr
+- name: copy bin helpers
+  template: src={{item}} dest={{home_dir}}/bin mode=0755 owner=fr
+  with_items:
+    - list-policies
+    - import-policies
   
 - name: set up bashrc 
   template: src=bashrc dest={{home_dir}}/.bashrc
+  
+- name: set up bash login 
+  template: src=bash_profile dest={{home_dir}}/.bash_profile
   
