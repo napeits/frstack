@@ -78,6 +78,6 @@ tomcat_parent: "{{ install_root }}"
 #tomcat_openam_dir: "{{tomcat_parent}}/tomcat-openam"
 
 
-tomcat_version: "7.0.55"
+tomcat_version: "7.0.56"
 tomcat_archive: "apache-tomcat-{{ tomcat_version }}.tar.gz"
 tomcat_download_url: "http://apache.cs.utah.edu/tomcat/tomcat-7/v{{ tomcat_version }}/bin/{{tomcat_archive}}"
