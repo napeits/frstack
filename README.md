@@ -173,7 +173,7 @@ Edit group_vars/all to switch between the released vs. nightly builds
 * looks like the HOSTNAME needs to be set to the fqdn on the machine /etc/sysconfig/network  or openam config bombs out
   This is fixed for Vagrant by setting config.vm.hostname. Will need a fix for other environments
 * tomcat agent installer does not put filter in global web.xml. Need to fix up apps web.xml
-* Configure agents 
+* Configure agents- in progesss. Basic Apache install working
 * Configure sample policies
 * Add HA, multi-master replication, etc
 * Configure openig as an agent
