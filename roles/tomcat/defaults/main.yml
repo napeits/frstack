@@ -1,5 +1,5 @@
 #Default variables
-# These can be overridden the parent playbook
+# These can be overridden in the parent playbook
 
 tomcat_parent: /opt
 tomcat_instance: tomcat
@@ -13,5 +13,5 @@ tomcat_ajp_port: "{{ tomcat_base_port + 9}}"
 tomcat_user: fr
 admin_username: admin
 admin_password: admin
-tomcat_version: "7.0.55"
+tomcat_version: "7.0.56"
 tomcat_download_url: "http://apache.cs.utah.edu/tomcat/tomcat-7/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"

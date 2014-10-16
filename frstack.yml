@@ -22,7 +22,6 @@
    - { role: install-base-apt, when: ansible_os_family == 'Debian', tags: ["common"]}
    - { role: install-base-yum, when: ansible_os_family == 'RedHat', tags: ["common"]}
    - { role: apache-centos, when: ansible_os_family == 'RedHat', tags: ["http"]}
-   - { role: postfix, tags: ["postfix"]}
    - { role: haproxy, tags: ["http","haproxy"]}
    - { role: tomcat, tomcat_instance: 'tomcat-openam', tomcat_base_port: 8000,
        tags: ["tomcat", "openam"]}
@@ -30,11 +29,12 @@
        tags: ["tomcat", "openig"]}
    - { role: tomcat, tomcat_instance: 'tomcat-apps', tomcat_base_port: 3000,
        tags: ["tomcat", "apps"]}
-   - { role: agent-tomcat,  tomcat_instance: 'tomcat-apps', 
-         tomcat_port: 3080, tags: ["agent"]}
    - { role: opendj, tags: ["opendj","ois"]}
    - { role: openidm, tags: ["openidm","ois"]}
    - { role: openam,  tomcat_openam_dir: "/opt/ois/tomcat-openam", tags: ["openam","ois"]}
    - { role: ssoadm, tags: ["openam","ssoadm"]}
    - { role: openig,  tags: ["openig","ois"]}
    - { role: agent-apache, tags: ["agent", "apache", "test"]}
+# Note that tomcat-agent install is currently not working.
+   - { role: agent-tomcat,  tomcat_instance: 'tomcat-apps', 
+         tomcat_port: 3080, tags: ["agent","tomcat-agent"]}

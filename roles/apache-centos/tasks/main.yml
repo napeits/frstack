@@ -26,5 +26,9 @@
   command:  keytool -importcert -noprompt -alias openam.example.com -storepass changeit -file /etc/pki/tls/certs/apacheserver.crt -trustcacerts -keystore /etc/pki/java/cacerts
   ignore_errors: yes
   
+# Make user Apache SSL does not start up - it will collide with haproxy
+- name: Disable apache ssl
+  command: chdir="/etc/httpd/conf.d" mv ssl.conf ssl.conf.disable
+  
 - name: http service state
   service: name=httpd state=restarted enabled=yes

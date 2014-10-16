@@ -10,7 +10,7 @@
   gather_facts: no
   vars:
     names: ois
-    machine_type: g1-small
+    machine_type: n1-standard-1
     image: centos-7
     zone: us-central1-a
     service_account_email: "224470185996-vsetlogpg407js2uogased4hkl2jr01l@developer.gserviceaccount.com"
@@ -53,5 +53,6 @@
   tasks:
     - selinux: state=disabled
     - command: setenforce 0
+    - include: roles/swap.yml
   roles:
     - create-fr-user

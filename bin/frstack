@@ -6,8 +6,11 @@
 # See http://docs.ansible.com/intro_getting_started.html#host-key-checking
 export ANSIBLE_HOST_KEY_CHECKING=False
 
+# Uncomment to debug
+#DEBUG=-vvv
 
-# TODO: Check for exiting 
+# Uncomment the correct env var here for your target
+
 export FRENV=vagrant
 #export FRENV=gce
 #export FRENV=ec2
@@ -19,7 +22,7 @@ INVENTORY=inventory/hosts
 # Set your GCE vars here.
 # The inventory uses a dynamic gce script to determine the GCE instance IP address.
 # See the ansible docs on dynamic inventory
-if [ "$FRENV" == "GCE" ]; then
+if [ "$FRENV" == "gce" ]; then
     # Define GCE env vars for yor project
     export GCE_EMAIL="224470185996-vsetlogpg407js2uogased4hkl2jr01l@developer.gserviceaccount.com"
     export GCE_PEM_FILE_PATH="/Users/warren/etc/gce-ansible.pem"
@@ -31,16 +34,14 @@ fi
 
 
 
-
-
 TAGS=""
-# Uncomment to debug
-#DEBUG=-vvv
+
 if [ $# -gt 0 ]
 then 
 	TAGS="--tags $1"
 fi
 
 # Run the frstack playbook 
+echo Running:  ansible-playbook $DEBUG -i $INVENTORY frstack.yml $TAGS
 ansible-playbook $DEBUG -i $INVENTORY frstack.yml $TAGS
 

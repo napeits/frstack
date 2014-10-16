@@ -31,9 +31,9 @@
 #  pip: name=httplib2
     
 
-# Note: Vagrant does this for us 
-#- name: Put our fqdn and short hostname in /etc/hosts
-#  lineinfile: dest=/etc/hosts line="127.0.0.1 {{openam_fqdn}} {{openam_hostname}}" regexp="{{openam_fqdn}}"  state=present
+# Note that 127.0.0.2 is also routable to localhost
+- name: Put our fqdn and short hostname in /etc/hosts
+  lineinfile: dest="/etc/hosts" line="127.0.0.2 {{openam_fqdn}} {{openam_hostname}}" regexp="{{openam_fqdn}}"  state=present
   
 - name: create top level software dir
   file: state=directory path={{install_root}} owner={{fr_user}} mode=0755

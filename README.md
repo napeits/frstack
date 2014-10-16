@@ -49,17 +49,28 @@ vagrant up
 * Using an ldap browser (Apache Directory Studio, for example) you can browse the user store at openam.example.com:389,   
   cn=Directory Manager / password
 
-## Troubleshooting the build
+## Troubleshooting 
 
-If the build fails the most likely reason is that a nightly build can not be downloaded from forgerock.org - usually due 
+
+### Can't download a binary zip file
+
+If the build fails it may be possible that a zip file can not be downloaded from forgerock.org - usually due 
 to a problem in determining the latest build products. Have a look at vars/nightly.yml. 
-This attempts to use the current date to get the latest build - but it may not always work. You can hard code the download url 
-in this file.
+This attempts to use the current date to get the latest build - but it may not always work. You can hard codthe download url  in this file.
+
+
+### SSH Issues
+
 
 If you have ssh issues, it could be that the create-fr-user role (called from vagrant.yml )
 was not able to find and append your ssh public key in ~/.ssh/id_rsa.pub.   The role
-attempts to automate that process.  Make sure you can ```ssh fr@openam.example.com```
-without requiring a password. 
+attempts to automate that process.  See [https://help.github.com/articles/generating-ssh-keys/]
+for a tutorial on how to generate an SSH key.
+
+Make sure you can ```ssh fr@openam.example.com``` into the guest image without requiring a password. If
+this does not work, Ansible will not be able to ssh into the guest either. 
+
+
 
 ## VM Services
 
@@ -70,9 +81,9 @@ the command systemctl:
 
 Where service is one of:
 
-* tomcat@openam.service
+* openam.service
 * openidm.service
-* tomcat@openig.service
+* openig.service
 * haproxy.service 
 
 
@@ -93,7 +104,7 @@ by caching packages and zip files.  You may want to edit the squid configuration
 the mac (~/Libraries/Preferences/squid.conf) and increase the size of maximum_object_size 
 to 400GB (the OpenAM all-in distribution is approx. 350 GB)
 
-[NOTE: See TODOs below. Caching of yum packages is more tricky than just using 
+[NOTE: See TODOs below. As it turn out, caching of yum packages is more tricky than just using 
 a proxy server].
 
 The OpenAM install bits can be pre-staged by placing them in a subdirectory called staging/.
@@ -101,7 +112,8 @@ For example:
 ```mkdir staging
 cp ~/Downloads OpenAM-12.0.0-SNAPSHOT_nightly_20140731.zip staging
 ```
-The version must match what is defined in vars/nightly.yml!
+The version must match what is defined in vars/nightly.yml! (or whatever .yml file your software versions are defined in)
+
 
 This directory is mounted on the guest in /vagrant/staging. If the openam role finds the zip file in that location
 it will use it rather than downloading it from forgerock.org.
@@ -109,23 +121,23 @@ it will use it rather than downloading it from forgerock.org.
 
 ## Implementation Notes
 
-* The guest is Fedora 20. The scripts assume the use of systemd - so this should work on 
+* The guest is Centos 7. The scripts assume the use of systemd - so this should work on 
 other distros that also support systemd. 
 * For consistency between environments a forgerock user is created ("fr" - because no one likes to type 
 long names). Most services run under this account. 
-* Optional:  To set up ssh for the fr user (so you can You can ```ssh fr@opename.example.com```)
+* To set up ssh for the fr user (so you can You can ```ssh fr@opename.example.com```)
  Add your public ssh key to roles/create-fr-user/files. Edit roles/create-fr-user/tasks/main.yml 
  to reflect the name of your pub key file.
 
 
-The install philosophy is to prefer the use of standard O/S packages wherever possible in preference to
-downloading zip files. For example, tomcat and the JDK are installed from a Fedora packages using yum.
+The install philosophy is to prefer the use of standard O/S packages in preference to
+downloading zip files. For example, the JDK is installed from a Centos packages using yum.
  This is a tradeoff. The O/S integration is better when using packages (for example, 
-Fedora comes with systemd scripts to manage tomcat), and it should be easier to upgrade in the future, 
+Centos comes with systemd scripts to manage tomcat), and it should be easier to upgrade in the future, 
 but this approach does make the install process quite O/S specific. 
 
 
-## Ansible Notes
+### Ansible Notes
 
 The install is split into two top level playbooks. The first playbook (vagrant.xml) primes the environment required 
 for the main ForgeRock playbook (frstack.yml). Over time there will be an aws.yml playbook, a gce.yml, and so on.
@@ -163,6 +175,7 @@ The default build uses nightly build binaries. Edit vars/nightly.yml with the UR
 If you want to use released products you will need to download these from forgerock.com and make them available on an http server. Edit released.yml with the product locations.
 
 Edit group_vars/all to switch between the released vs. nightly builds
+
 
 
 
