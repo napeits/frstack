@@ -46,6 +46,23 @@ vagrant up
 * Using an ldap browser (Apache Directory Studio, for example) you can browse the user store at openam.example.com:389,   
   cn=Directory Manager / password
 
+## Shell scripts
+
+Convience shell scripts are provided in the bin/ directory to re-run all or part of the provisioning process. Edit bin/frstack to suit your environment, and then run:
+
+```
+bin/frstack
+```
+
+To run the entire frstack.yml playbook. Ansible also supports the concept of "tags". If you want to run a subset of the playbook, provide a comma seperated value (no spaces) with a list of tags. For example:
+
+```
+bin/frstack openam,openidm
+```
+
+Will run just those roles that pertain to OpenAM and OpenIDM
+
+
 
 ## Troubleshooting 
 
@@ -114,9 +131,11 @@ a proxy server].
 
 The OpenAM install bits can be pre-staged by placing them in a subdirectory called staging/.
 For example:
-```mkdir staging
+```
+mkdir staging
 cp ~/Downloads OpenAM-12.0.0-SNAPSHOT_nightly_20140731.zip staging
 ```
+
 The version must match what is defined in vars/nightly.yml! (or whatever .yml file your software versions are defined in)
 
 
@@ -126,7 +145,7 @@ it will use it rather than downloading it from forgerock.org.
 
 ## Implementation Notes
 
-* The guest is Centos 7. The scripts assume the use of systemd - so this should work on 
+* The guest is Centos 7 (Fedora 20 also works). The scripts assume the use of systemd - so this should work on 
 other distros that also support systemd. 
 * For consistency between environments a forgerock user is created ("fr" - because no one likes to type 
 long names). Most services run under this account. 
