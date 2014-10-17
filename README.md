@@ -1,8 +1,7 @@
 # Install the ForgeRock Open Identity Stack (OIS)
 #
 
-NOTE: This is currently a work in progress. This works on Fedora / Vagrant. Other 
-combinations have not been tested. 
+NOTE: This is currently a work in progress. This currently works on Centos/Fedora using Vagrant, and on Google Compute Engine (GCE). Other combinations have not been tested. 
 
 Installs the ForgeRock Open Identity Stack (OIS) on a guest VM image.
 Uses [Ansible](https://github.com/ansible/ansible) to automate the installation. This has been
@@ -11,7 +10,7 @@ tested using [Vagrant](http://www.vagrantup.com/), but with modification it shou
 
 ## Installed products
 
-This will configure a Fedora  guest image to run the ForgeRock OIS stack. After completion guest will
+This will configure a Centos guest image to run the ForgeRock OIS stack. After completion guest will
 have the following configured:
 
 * haproxy to route ports 80/443 to various backend services
@@ -29,9 +28,7 @@ have the following configured:
   
 * Update group_vars/all with any environment specific configuration. See the comments on using a proxy server below
 * Execute the following:
-
 ```
-vagrant box add box-cutter/fedora20
 vagrant up
 ```
 
@@ -44,12 +41,29 @@ vagrant up
 * Login to OpenIDM at http://openam.example.com/openidmgui  (openidm-admin/openidm-admin)
 * View the OpenIG landing page at http://openam.example.com/openig/  
 * View the haproxy status page at https://openam.example.com/haproxy?stats
-* View the default Apache landing page at https://openam.example.com/  [NOT DONE YET]
+* View the default Apache landing page at https://openam.example.com/  
 * ssh into the guest using `vagrant ssh` 
 * Using an ldap browser (Apache Directory Studio, for example) you can browse the user store at openam.example.com:389,   
   cn=Directory Manager / password
 
+
 ## Troubleshooting 
+
+### SSH Issues
+
+
+Ansible uses ssh to connect to the guest image.  Make sure you can ```ssh fr@openam.example.com``` into the guest image *without* requiring a password. If
+this does not work, Ansible will not be able to ssh into the guest either. 
+
+The create-fr-user role attempts to copy your ssh public key in ~/.ssh/id_rsa.pub (on your local host) to the guests /home/fr/.ssh/known_hosts. If you don't have
+a public key in your ~.ssh directory create one following the instructions here: [https://help.github.com/articles/generating-ssh-keys/]
+
+You re-run the vagrant provisioner using:
+
+```
+vagrant provision
+```
+
 
 
 ### Can't download a binary zip file
@@ -59,16 +73,7 @@ to a problem in determining the latest build products. Have a look at vars/night
 This attempts to use the current date to get the latest build - but it may not always work. You can hard codthe download url  in this file.
 
 
-### SSH Issues
 
-
-If you have ssh issues, it could be that the create-fr-user role (called from vagrant.yml )
-was not able to find and append your ssh public key in ~/.ssh/id_rsa.pub.   The role
-attempts to automate that process.  See [https://help.github.com/articles/generating-ssh-keys/]
-for a tutorial on how to generate an SSH key.
-
-Make sure you can ```ssh fr@openam.example.com``` into the guest image without requiring a password. If
-this does not work, Ansible will not be able to ssh into the guest either. 
 
 
 
