@@ -90,10 +90,6 @@ to a problem in determining the latest build products. Have a look at vars/night
 This attempts to use the current date to get the latest build - but it may not always work. You can hard codthe download url  in this file.
 
 
-
-
-
-
 ## VM Services
 
 The VM uses systemd to control all services. You can start / stop and get service status using 
@@ -114,7 +110,7 @@ Use ```journalctl``` to view the system log. You can type "G" to skip to the end
 
 ## Running on Google Compute Engine (GCE)
 
-The gce.yml playbook will provision a base Centos image on GCE that is ready to for the frstack.yml playbook to run against. 
+The gce.yml playbook will create a base Centos image on GCE. The image will be ready to run the frstack.yml playbook against. 
 
 To use GCE:
 
