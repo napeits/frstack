@@ -103,13 +103,32 @@ the command systemctl:
 
 Where service is one of:
 
-* openam.service
+* tomcat-openam.service
 * openidm.service
-* openig.service
+* tomcat-openig.service
+* tomcat-apps.service
 * haproxy.service 
 
 
 Use ```journalctl``` to view the system log. You can type "G" to skip to the end of the log.
+
+## Running on Google Compute Engine (GCE)
+
+The gce.yml playbook will provision a base Centos image on GCE that is ready to for the frstack.yml playbook to run against. 
+
+To use GCE:
+
+* You must have a Google GCE account, and have access to the GCE cloud console 
+* Edit gce.yml as required (for example, to change the machine type or location)
+* Edit bin/gce and update with your GCE credentials 
+* Edit bin/frstack and set the environment variable to run against GCE instead of Vagrant
+
+Run:
+```
+bin/gce  # Creates the GCE image
+bin/frstack  # provision the image
+```
+
 
 ## Speeding up re-installs using a proxy server 
 
