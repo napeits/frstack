@@ -1,0 +1,3 @@
+#!/bin/sh
+
+ansible-playbook -vvv -i inventory/hosts aws.yml 
