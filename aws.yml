@@ -1,0 +1,55 @@
+---
+# Set up Amazon EC2 instance
+#
+# Edit the AWS parameters for your own account. 
+#
+# This will create the demo fr user account that is used to complete the rest of the install
+- name: Create aws instance
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  vars:
+    ec2_access_key: "<removed>"
+    ec2_secret_key: "<removed>"
+    keypair: "<removed>"
+    instance_type: "m3.medium"
+    image: "ami-5387c163"
+    group: "<removed>"
+    region: "us-west-2"
+    name: "frstack aws"
+  tasks:
+    - name: Provision Instance
+      ec2: image={{ image }}
+           instance_type={{ instance_type }}
+           aws_access_key={{ ec2_access_key }}
+           aws_secret_key={{ ec2_secret_key }}
+           keypair={{ keypair }}
+           instance_tags='{"Name":"frstack aws"}'
+           region={{ region }}
+           group={{ group }}
+           wait=true
+      register: ec2_info
+
+    - add_host: hostname={{ item.public_ip }} groupname=ois
+      with_items: ec2_info.instances
+
+    - name: wait for instances to listen on port:22
+      wait_for:
+        state=started
+        host={{ item.public_dns_name }}
+        port=22
+      with_items: ec2_info.instances
+        
+            
+- name: Prepare the instance for remaining install
+  hosts: ois
+  user: fedora
+  sudo: true
+  tasks:
+    - selinux: state=disabled
+    - command: setenforce 0
+  roles:
+    - create-fr-user
+    
+# Include the remaining plays 
+- include: frstack.yml
