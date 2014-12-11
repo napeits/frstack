@@ -3,5 +3,5 @@
 # Target for frstack. Put the IP of guest to be configured with the OIS stack
 [ois]
 # For direct ssh uncomment this
-#192.168.56.11
-default ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222
+192.168.56.11 
+#default ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222

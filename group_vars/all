@@ -3,7 +3,7 @@
 # If you use released binaries you will need to provide the downloaded zip files in
 #  the frstack/staging/ directory, and 
 # Edit vars/released.yml with the version info
-release: nightly
+release: staged
 #release: released
 #release: "maven-released"
 
@@ -79,6 +79,7 @@ tomcat_parent: "{{ install_root }}"
 #tomcat_openam_dir: "{{tomcat_parent}}/tomcat-openam"
 
 
-tomcat_version: "7.0.56"
+#tomcat_version: "7.0.56"
+tomcat_version: "8.0.15"
 tomcat_archive: "apache-tomcat-{{ tomcat_version }}.tar.gz"
 tomcat_download_url: "http://apache.cs.utah.edu/tomcat/tomcat-7/v{{ tomcat_version }}/bin/{{tomcat_archive}}"

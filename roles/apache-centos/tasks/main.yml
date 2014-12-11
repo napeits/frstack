@@ -29,6 +29,7 @@
 # Make user Apache SSL does not start up - it will collide with haproxy
 - name: Disable apache ssl
   command: chdir="/etc/httpd/conf.d" mv ssl.conf ssl.conf.disable
+  ignore_errors: yes
   
 - name: http service state
   service: name=httpd state=restarted enabled=yes

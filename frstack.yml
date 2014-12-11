@@ -34,7 +34,7 @@
    - { role: openam,  tomcat_openam_dir: "/opt/ois/tomcat-openam", tags: ["openam","ois"]}
    - { role: ssoadm, tags: ["openam","ssoadm"]}
    - { role: openig,  tags: ["openig","ois"]}
-   - { role: agent-apache, tags: ["agent", "apache", "test"]}
+   - { role: agent-apache, tags: ["agent", "apache", "agent-apache", "test"]}
 # Note that tomcat-agent install is currently not working.
    - { role: agent-tomcat,  tomcat_instance: 'tomcat-apps', 
          tomcat_port: 3080, tags: ["agent","tomcat-agent"]}

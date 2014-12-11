@@ -7,7 +7,7 @@
 export ANSIBLE_HOST_KEY_CHECKING=False
 
 # Uncomment to debug
-#DEBUG=-vvv
+DEBUG=-vvvv
 
 # Uncomment the correct env var here for your target
 

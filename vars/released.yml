@@ -1,6 +1,9 @@
 ####### Locations for downloading software bits
-
-
+#  YOU MUST EDIT THIS FILE. IT WILL NOT WORK AS-IS
+# Download the ForgeRock binaries from ForgeRock.com. Place 
+# them in a download location that can be accessed by the guest 
+# Set the product_zip and product_download_url variables as required
+# See the nightly.yml and maven-released.yml for examples
 
 
 # opendj
