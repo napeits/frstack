@@ -1,0 +1,35 @@
+#!/bin/bash 
+# Run the frstack.yml playbook
+# Any first optioanl arg is assumted to be tags to pass to the ansible-playbook command (comma delimited)
+# TODO: Make this work across all environments 
+#     
+# See http://docs.ansible.com/intro_getting_started.html#host-key-checking
+export ANSIBLE_HOST_KEY_CHECKING=False
+
+THISDIR=`pwd`
+
+# Uncomment to debug
+DEBUG=-vvvv
+
+# Uncomment the correct env var here for your target
+
+# Default inventory is for vagrant
+# todo: shell trick set dir of program
+#INVENTORY=$THISDIR/hosts
+
+INVENTORY=$THISDIR/.vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory
+
+
+export ANSIBLE_HOSTS=$INVENTORY
+
+TAGS=""
+
+if [ $# -gt 0 ]
+then 
+	TAGS="--tags $1"
+fi
+
+# Run the frstack playbook 
+cd ../ansible
+ansible-playbook $DEBUG --user=vagrant --private-key=~/.vagrant.d/insecure_private_key -i $INVENTORY frstack.yml $TAGS
+

@@ -15,4 +15,4 @@
 #      service: name="NetworkManager.service" state=stopped enabled=false
 
 # Include the remaining plays 
-- include: frstack.yml
+- include: ../ansible/frstack.yml

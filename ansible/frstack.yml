@@ -13,16 +13,28 @@
 # Right now this is very much dependent on Fedora/Centos packages, etc.  There is a start at making it 
 # Work on other platforms - but it needs work
 
-- sudo: yes
-  hosts: ois
-  remote_user: "{{fr_user}}"
+
+# These plays are common to all hosts
+
+- hosts: ois
+  roles:
+   - { role: install-base-apt, when: ansible_os_family == 'Debian', tags: ["common"]}
+   - { role: install-base-yum, when: ansible_os_family == 'RedHat', tags: ["common"]}
+   - { role: apache-centos, when: ansible_os_family == 'RedHat', tags: ["http"]}
+
+
+- hosts: haproxy
+  roles:
+    - { role: haproxy, tags: ["http","haproxy"]}
+
+# These are more specifc
+- hosts: oisa
   vars_files: 
     - "vars/{{release}}.yml"
   roles:
    - { role: install-base-apt, when: ansible_os_family == 'Debian', tags: ["common"]}
    - { role: install-base-yum, when: ansible_os_family == 'RedHat', tags: ["common"]}
    - { role: apache-centos, when: ansible_os_family == 'RedHat', tags: ["http"]}
-   - { role: haproxy, tags: ["http","haproxy"]}
    - { role: tomcat, tomcat_instance: 'tomcat-openam', tomcat_base_port: 8000,
        tags: ["tomcat", "openam"]}
    - { role: tomcat, tomcat_instance: 'tomcat-openig', tomcat_base_port: 2000,

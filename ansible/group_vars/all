@@ -41,7 +41,7 @@ java_home: /etc/alternatives/java_sdk
 
 # This is the short hostname that should be returned by the "hostname" command
 # This will get put in /etc/hosts by vagrant.
-# TODO: Find a better start script that puts the hostname in /etc/hosts on boot
+# TODO: Find a better start script that puts the hostname in /etc/hosts on boot. Vagrant does this for us
 openam_hostname: "openam"
 
 ### OpenAM ####
