@@ -18,7 +18,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         v.vm.hostname = "openam.example.com"
         v.vm.network :private_network, ip: "192.168.56.11"
     end
-  
+    
+    config.vm.synced_folder "../staging", "/vagrant/staging"
+
   
 
     config.vm.provider :virtualbox do |vb|
