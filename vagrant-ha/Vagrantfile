@@ -33,7 +33,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
    
     config.vm.provision "ansible" do |ansible|
-        ansible.playbook = "../ansible/vagrant.yml"
+        ansible.playbook = "../ansible/frstack.yml"
         #Use the auto-generated inventory
         #ansible.inventory_path = "hosts"
         ansible.verbose = true

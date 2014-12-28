@@ -45,14 +45,14 @@
         service_account_email: "{{ service_account_email }}"
         pem_file: "{{ pem_file }}"
         project_id: "{{ project_id }}"
-        
-            
+                  
+# GCE does not add swap by default - so it often runs out
+# of memory during the install swap.yml creates a swap file
 - name: Prepare the instance for remaining install
   hosts: launched
   sudo: true
   tasks:
     - selinux: state=disabled
     - command: setenforce 0
-    - include: roles/swap.yml
-  roles:
-    - create-fr-user
+    - include: anisble/roles/swap.yml
+ 

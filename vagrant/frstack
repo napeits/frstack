@@ -6,7 +6,7 @@
 # See http://docs.ansible.com/intro_getting_started.html#host-key-checking
 export ANSIBLE_HOST_KEY_CHECKING=False
 
-THISDIR=`pwd`
+SCRIPTPATH="$(cd "$(dirname "$0")"; pwd -P)"
 
 # Uncomment to debug
 DEBUG=-vvvv
@@ -14,11 +14,8 @@ DEBUG=-vvvv
 # Uncomment the correct env var here for your target
 
 # Default inventory is for vagrant
-# todo: shell trick set dir of program
-#INVENTORY=$THISDIR/hosts
 
-INVENTORY=$THISDIR/.vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory
-
+INVENTORY=$SCRIPTPATH/.vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory
 
 export ANSIBLE_HOSTS=$INVENTORY
 

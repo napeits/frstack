@@ -3,8 +3,9 @@
 # This assumes tomcat and openam have already been installed and are running
 
 - name: unpack ssoadm tools
-  command: creates={{ install_root }}/ssoadmin unzip {{ download_dir }}/openam/SSOAdminTools-{{ openam_version }}.zip -d {{ install_root }}/ssoadmin
-- command: chmod 0755 {{ install_root }}/ssoadmin/setup
+  command: creates="{{ install_root }}/ssoadmin" unzip "{{ download_dir }}/openam/SSOAdminTools-{{ openam_version }}.zip" -d "{{ install_root }}/ssoadmin"
+
+- file: path="{{ install_root }}/ssoadmin" owner="{{ fr_user}}" mode=0777 recurse=yes
   
 # Create ssoadm tools - set JAVA_HOME=/usr/lib/jvm/java
 - name: setup ssoadm tools

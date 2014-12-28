@@ -26,9 +26,10 @@ have the following configured:
   
   ```brew install ansible```
   
-* Update group_vars/all with any environment specific configuration. See the comments on using a proxy server below
+* Update ansible/group_vars/all with any environment specific configuration.
 * Execute the following:
 ```
+cd vagrant
 vagrant up
 ```
 
@@ -48,19 +49,64 @@ vagrant up
 
 ## Shell scripts
 
-Convience shell scripts are provided in the bin/ directory to re-run all or part of the provisioning process. Edit bin/frstack to suit your environment, and then run:
+Shell scripts are provided to re-run all or part of the provisioning process. For example,
 
 ```
-bin/frstack
+./frstack
 ```
 
-To run the entire frstack.yml playbook. Ansible also supports the concept of "tags". If you want to run a subset of the playbook, provide a comma seperated value (no spaces) with a list of tags. For example:
+Will run the entire frstack.yml playbook. 
+
+Ansible also supports the concept of "tags". If you want to run a subset of the playbook, provide a comma seperated value (no spaces) with a list of tags. For example:
 
 ```
-bin/frstack openam,openidm
+./frstack openam,openidm
 ```
 
 Will run just those roles that pertain to OpenAM and OpenIDM
+
+You can re-run the vagrant provisioner using:
+
+```
+vagrant provision
+```
+
+
+## Selecting the software versions to install
+
+The variable 'release' is set in the file ansible/global_vars/all.  This variable is the name of a file
+that will be included from the ansible/vars directory.  For example vars/nightly.yml.   The included
+file points to the download locations and versions of the various ForgeRock products to be installed.  To 
+customize which versions get installed, create a copy of one of the existing files (custom.yml, for example),
+and edit to suit your environment. 
+
+## Staging files
+
+For Vagrant installs, the "staging/" directory is mounted on the guest.  Most of the roles
+will first check this directory to see if an artifact exists already in this location. If it does,
+the install process will skip the download and use the staged version. This can save considerable time 
+if you are repeating build process.
+
+To take advantage of this, copy the appropriate artifacts to ansible/staging. Note the version numbers have to 
+match what is defined in your 'release' include file.
+
+
+
+## The 'fr' ForgeRock user
+
+The project runs an Ansible role called 'create-fr-user' that creates a ForgeRock user 'fr'. This user owns the directories and runs most of the JDKs for the stack.
+
+An older version 
+of this project used the 'fr' user for the ansible connection.  This is not longer used. Currently the project will
+connect using the default user for the target environment. For Vagrant this is the 'vagrant' user. For AWS, 'ec2uesr', and
+for Google Compute engine it will be the user account who created the VMs (your login id).
+
+It may be handy to be able to ssh into the guest as the fr user:
+
+```ssh fr@openam.example.com``` 
+
+The create-fr-user role attempts to copy your ssh public key in ~/.ssh/id_rsa.pub (on your local host) to the guests /home/fr/.ssh/known_hosts. If you don't have
+a public key in your ~.ssh directory create one following the instructions here: [https://help.github.com/articles/generating-ssh-keys/]
 
 
 
@@ -69,25 +115,18 @@ Will run just those roles that pertain to OpenAM and OpenIDM
 ### SSH Issues
 
 
-Ansible uses ssh to connect to the guest image.  Make sure you can ```ssh fr@openam.example.com``` into the guest image *without* requiring a password. If
-this does not work, Ansible will not be able to ssh into the guest either. 
-
-The create-fr-user role attempts to copy your ssh public key in ~/.ssh/id_rsa.pub (on your local host) to the guests /home/fr/.ssh/known_hosts. If you don't have
-a public key in your ~.ssh directory create one following the instructions here: [https://help.github.com/articles/generating-ssh-keys/]
-
-You re-run the vagrant provisioner using:
-
-```
-vagrant provision
-```
-
+Ansible uses ssh to connect to the guest image. To debug connection issues you can use the -vvvv option when running the playbook. 
+Edit the frstack script to set this variable (uncomment the DEBUG line).
 
 
 ### Can't download a binary zip file
 
 If the build fails it may be possible that a zip file can not be downloaded from forgerock.org - usually due 
 to a problem in determining the latest build products. Have a look at vars/nightly.yml. 
-This attempts to use the current date to get the latest build - but it may not always work. You can hard codthe download url  in this file.
+This attempts to use the current date to get the latest build - but it may not always work. 
+
+For your custom builds, copy one of the vars/release.yml files and edit the download locations for your environment. 
+
 
 
 ## VM Services
@@ -112,21 +151,20 @@ Use ```journalctl``` to view the system log. You can type "G" to skip to the end
 
 The gce.yml playbook will create a base Centos image on GCE. The image will be ready to run the frstack.yml playbook against. 
 
-To use GCE:
+## Environment specific configuration
 
-* You must have a Google GCE account, and have access to the GCE cloud console 
-* Edit gce.yml as required (for example, to change the machine type or location)
-* Edit bin/gce and update with your GCE credentials 
-* Edit bin/frstack and set the environment variable to run against GCE instead of Vagrant
+Refer to the README.md file in each environment directory. Current environments:
 
-Run:
-```
-bin/gce  # Creates the GCE image
-bin/frstack  # provision the image
-```
+* vagrant - single all in one install
+* vagrant-ha  - Two guest images in a HA config (work in progress)
+* gce/ - Google compute Engine 
+* 
+
 
 
 ## Speeding up re-installs using a proxy server 
+
+[Note: This does not reliably work right now - see below]
 
 Edit group_vars/all and uncomment the proxy server configuration.  Ansible will use 
 the proxy when installing packages and when downloading zip files. 
