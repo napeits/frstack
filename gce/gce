@@ -1,9 +1,6 @@
 #!/bin/sh
 
 #export SSL_CERT_FILE=~/.ssh/cacert.pem
-#ansible-playbook -vvv -i hosts gce.yml
 
+ansible-playbook -vvv -i hosts ./gce.yml 
 
-
-cd ../ansible
-ansible-playbook -vvv -i hosts gce.yml 

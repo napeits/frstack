@@ -29,7 +29,6 @@ openam_license_switch: "--acceptLicense"
 #openam_zip_file: "OpenAM-{{ openam_version }}_nightly_20140809.zip"
 
 
-
 # CentOS comes bundled with 2.2 - not 2.4
 apache_agent_version: "apache_v22_Linux_64_agent_4.0.0-SNAPSHOT"
 #apache_agent_version: "apache_v22_Linux_64_agent_4.0.0-SNAPSHOT"

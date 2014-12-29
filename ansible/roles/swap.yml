@@ -1,8 +1,8 @@
 ---
-# task that to add swap space
+# task to add swap space
 # Cloud images sometimes do not include swap - which can cause
 # the install to fail
-- name: Create swap file
+- name: Create 3GB swap file
   command: "dd if=/dev/zero of=/swapfile bs=1M count=3000"
   
 - command: mkswap /swapfile 

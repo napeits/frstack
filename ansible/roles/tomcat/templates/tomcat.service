@@ -12,8 +12,8 @@ Type=forking
 #EnvironmentFile=/etc/tomcat/tomcat.conf
 #Environment="NAME="
 #EnvironmentFile=-/etc/sysconfig/tomcat
-ExecStart=/opt/ois/{{tomcat_instance}}/bin/startup.sh
-ExecStop=/opt/ois/{{tomcat_instance}}/bin/catalina.sh stop
+ExecStart={{tomcat_instance_dir}}/bin/startup.sh
+ExecStop={{tomcat_instance_dir}}/bin/catalina.sh stop
 #SuccessExitStatus=143
 User={{tomcat_user}}
 #Group=tomcat

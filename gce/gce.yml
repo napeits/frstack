@@ -54,5 +54,5 @@
   tasks:
     - selinux: state=disabled
     - command: setenforce 0
-    - include: anisble/roles/swap.yml
+    - include: ../ansible/roles/swap.yml
  

@@ -14,7 +14,7 @@
 # Work on other platforms - but it needs work
 
 
-# These plays are common to all hosts
+# These plays are common to all hosts in the stack. This installs basic packages, java, etc.
 # Put roles here that need to be run on every host in stack
 - hosts: ois
   sudo: yes
@@ -24,7 +24,7 @@
    - { role: install-base-yum, when: ansible_os_family == 'RedHat', tags: ["common"]}
 
    
-# Play for ha-proxy server
+# Play for ha-proxy server. 
 - hosts: haproxy
   sudo: yes
   roles:
@@ -39,15 +39,15 @@
     - "vars/{{release}}.yml"
   roles:
    - { role: apache-centos, when: ansible_os_family == 'RedHat', tags: ["http"]}
-   - { role: tomcat, tomcat_instance: 'tomcat-openam', tomcat_base_port: 8000,
+   - { role: tomcat, tomcat_instance: 'openam', tomcat_base_port: 8000,
        tags: ["tomcat", "openam"]}
-   - { role: tomcat, tomcat_instance: 'tomcat-openig', tomcat_base_port: 2000,
+   - { role: tomcat, tomcat_instance: 'openig', tomcat_base_port: 2000,
        tags: ["tomcat", "openig"]}
-   - { role: tomcat, tomcat_instance: 'tomcat-apps', tomcat_base_port: 3000,
+   - { role: tomcat, tomcat_instance: 'apps', tomcat_base_port: 3000,
        tags: ["tomcat", "apps"]}
    - { role: opendj, tags: ["opendj","ois"]}
    - { role: openidm, tags: ["openidm","ois"]}
-   - { role: openam,  tomcat_openam_dir: "/opt/ois/tomcat-openam", tags: ["openam","ois"]}
+   - { role: openam,  tomcat_openam_dir: "{{tomcat_parent}}/openam", tags: ["openam","ois"]}
    - { role: ssoadm, tags: ["openam","ssoadm"]}
    - { role: openig,  tags: ["openig","ois"]}
    - { role: agent-apache, tags: ["agent", "apache", "agent-apache", "test"]}

@@ -75,9 +75,7 @@ opendj_password: password
 # Note: This is the default Fedora location
 #tomcat_parent: "/var/lib/tomcats"
 
-tomcat_parent: "{{ install_root }}"
-#tomcat_openam_dir: "{{tomcat_parent}}/tomcat-openam"
-
+tomcat_parent: "{{ install_root }}/tomcat"
 
 #tomcat_version: "7.0.56"
 tomcat_version: "8.0.15"
