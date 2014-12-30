@@ -40,7 +40,7 @@
   roles:
    - { role: apache-centos, when: ansible_os_family == 'RedHat', tags: ["http"]}
    - { role: tomcat, tomcat_instance: 'openam', tomcat_base_port: 8000,
-       tags: ["tomcat", "openam"]}
+       tags: ["tomcat", "openamx"]}
    - { role: tomcat, tomcat_instance: 'openig', tomcat_base_port: 2000,
        tags: ["tomcat", "openig"]}
    - { role: tomcat, tomcat_instance: 'apps', tomcat_base_port: 3000,
@@ -48,7 +48,7 @@
    - { role: opendj, tags: ["opendj","ois"]}
    - { role: openidm, tags: ["openidm","ois"]}
    - { role: openam,  tomcat_openam_dir: "{{tomcat_parent}}/openam", tags: ["openam","ois"]}
-   - { role: ssoadm, tags: ["openam","ssoadm"]}
+   - { role: ssoadm, tags: ["ssoadm"]}
    - { role: openig,  tags: ["openig","ois"]}
    - { role: agent-apache, tags: ["agent", "apache", "agent-apache", "test"]}
 # Note that tomcat-agent install is currently not working.

@@ -65,6 +65,16 @@ opendj_basedn: "dc=example,dc=com"
 # Datastore password. TODO: use ansible vault file
 opendj_password: password
 
+opendj_host: "openam.example.com"
+opendj_dirmgr: "cn=Directory Manager" 
+
+# These ovveride opendj role settings
+opendj_ldap_port: 389
+opendj_ldaps_port: 636
+opendj_admin_port: 4444
+opendj_jmx_port: 1689
+
+
 
 # Tomcat 
 
