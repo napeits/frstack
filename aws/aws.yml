@@ -48,8 +48,6 @@
   tasks:
     - selinux: state=disabled
     - command: setenforce 0
-  roles:
-    - create-fr-user
     
-# Include the remaining plays 
-- include: frstack.yml
+# Run the frstack script to complete the install..
+#- include: frstack.yml

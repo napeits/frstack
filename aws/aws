@@ -1,0 +1,8 @@
+#!/bin/sh
+
+#export SSL_CERT_FILE=~/.ssh/cacert.pem
+
+
+echo Creating AWS ec2 images
+ansible-playbook -vvv -i ../etc/hosts ./aws.yml 
+

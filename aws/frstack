@@ -1,0 +1,42 @@
+#!/bin/bash 
+# Run the frstack.yml playbook
+# Any first optioanl arg is assumted to be tags to pass to the ansible-playbook command (comma delimited)
+# TODO: Make this work across all environments 
+#     
+# See http://docs.ansible.com/intro_getting_started.html#host-key-checking
+export ANSIBLE_HOST_KEY_CHECKING=False
+
+# Uncomment to debug
+DEBUG=-vvvv
+
+SCRIPTPATH="$(cd "$(dirname "$0")"; pwd -P)"
+
+# Uncomment the correct env var here for your target
+
+
+# Set your GCE vars here.
+# The inventory uses a dynamic gce script to determine the GCE instance IP address.
+# See the ansible docs on dynamic inventory
+# Define GCE env vars for yor project
+
+
+# Set the ec2 inventory
+INVENTORY=$SCRIPTPATH/ec2.py  
+
+export ANSIBLE_HOSTS=$INVENTORY
+
+# GCE uses your logged in name as the sudo user
+USER=$LOGNAME
+
+TAGS=""
+
+if [ $# -gt 0 ]
+then 
+	TAGS="--tags $1"
+fi
+
+# Run the frstack playbook 
+
+cd ../ansible
+ansible-playbook $DEBUG -i $INVENTORY  --private-key ~/.ssh/google_compute_engine --user=$USER frstack.yml $TAGS
+
