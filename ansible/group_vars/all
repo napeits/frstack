@@ -3,7 +3,8 @@
 # If you use released binaries you will need to provide the downloaded zip files in
 #  the frstack/staging/ directory, and 
 # Edit vars/released.yml with the version info
-release: staged
+release: nightly
+#release: staged
 #release: released
 #release: "maven-released"
 
@@ -20,7 +21,7 @@ proxy_env:
 # location of downloaded software zip files relative to the guest image
 # We try to keep this consistent across environments
 download_dir: "/var/tmp"
-  
+ 
   
 # ForgeRock User. This account will run all non root s/w (openam, openidm, etc.)
 fr_user: fr
@@ -83,8 +84,3 @@ opendj_jmx_port: 1689
 #tomcat_parent: "/var/lib/tomcats"
 
 tomcat_parent: "{{ install_root }}/tomcat"
-
-#tomcat_version: "7.0.56"
-tomcat_version: "8.0.15"
-tomcat_archive: "apache-tomcat-{{ tomcat_version }}.tar.gz"
-tomcat_download_url: "http://apache.cs.utah.edu/tomcat/tomcat-7/v{{ tomcat_version }}/bin/{{tomcat_archive}}"

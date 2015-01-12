@@ -13,18 +13,18 @@
     ec2_secret_key: "<removed>"
     keypair: "<removed>"
     instance_type: "m3.medium"
-    image: "ami-5387c163"
+    image: "ami-6bcfc42e"
     group: "<removed>"
     region: "us-west-2"
-    name: "frstack aws"
+    name: "frstack aws ois"
   tasks:
     - name: Provision Instance
       ec2: image={{ image }}
-           instance_type={{ instance_type }}
+           instance_type="{{ instance_type }}"
            aws_access_key={{ ec2_access_key }}
            aws_secret_key={{ ec2_secret_key }}
            keypair={{ keypair }}
-           instance_tags='{"Name":"frstack aws"}'
+           instance_tags='{"Name":"frstack aws ois"}'
            region={{ region }}
            group={{ group }}
            wait=true
@@ -36,14 +36,14 @@
     - name: wait for instances to listen on port:22
       wait_for:
         state=started
-        host={{ item.public_dns_name }}
+        host="{{ item.public_dns_name }}"
         port=22
       with_items: ec2_info.instances
         
             
 - name: Prepare the instance for remaining install
   hosts: ois
-  user: fedora
+  user: centos
   sudo: true
   tasks:
     - selinux: state=disabled

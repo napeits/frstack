@@ -7,7 +7,7 @@
 export ANSIBLE_HOST_KEY_CHECKING=False
 
 # Uncomment to debug
-DEBUG=-vvvv
+#DEBUG=-vvvv
 
 SCRIPTPATH="$(cd "$(dirname "$0")"; pwd -P)"
 
@@ -23,10 +23,11 @@ SCRIPTPATH="$(cd "$(dirname "$0")"; pwd -P)"
 # Set the ec2 inventory
 INVENTORY=$SCRIPTPATH/ec2.py  
 
-export ANSIBLE_HOSTS=$INVENTORY
+#export ANSIBLE_HOSTS=$INVENTORY
 
 # GCE uses your logged in name as the sudo user
-USER=$LOGNAME
+#USER=$LOGNAME
+USER=centos
 
 TAGS=""
 
@@ -38,5 +39,6 @@ fi
 # Run the frstack playbook 
 
 cd ../ansible
-ansible-playbook $DEBUG -i $INVENTORY  --private-key ~/.ssh/google_compute_engine --user=$USER frstack.yml $TAGS
+#ansible-playbook $DEBUG -i $INVENTORY  --private-key ~/.ssh/google_compute_engine --user=$USER frstack.yml $TAGS
+ansible-playbook $DEBUG -i $SCRIPTPATH/hosts  --private-key ~/tmp/warren-operative.pem --user=$USER frstack.yml $TAGS
 

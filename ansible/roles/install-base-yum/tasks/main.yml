@@ -41,4 +41,7 @@
 # Disable SE linux and the firewall. Don't do this production!
 - command: setenforce 0 
 - selinux: state=disabled
+
+# This is not in Centos7  - so ignore any errors
 - service: name=firewalld state=stopped enabled=no
+  ignore_errors: yes

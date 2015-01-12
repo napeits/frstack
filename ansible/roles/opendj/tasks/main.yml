@@ -25,8 +25,10 @@
 - name: Change the ownership on the files so the fr user can execute ldap commands
   file: path={{install_root}}/opendj state=directory owner={{fr_user}} recurse=yes
 
+# Ignore errors as the installer may start DJ
 - name: Start opendj
   service: name={{opendj_service_name}} state=started enabled=yes
+  ignore_errors: yes
   
 - name: Create base suffix for openam config store. This makes it easier if we want to use OpenAM later
   command: "{{install_root}}/opendj/bin/dsconfig set-backend-prop --backend-name userRoot --add base-dn:dc=openam,dc=forgerock,dc=org
