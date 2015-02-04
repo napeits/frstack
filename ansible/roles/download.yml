@@ -8,12 +8,12 @@
 # Pass in: download_file - the name of the file to download 
 # download_url: The URL to download from
 - name: Check for staged  bits - so we can skip download
-  stat: path=/vagrant/staging/{{download_file}}
+  stat: path=/staging/{{download_file}}
   register: staged_present
   
   # Copy staged bits
 - name: Copy staged archive 
-  command: cp /vagrant/staging/{{download_file}} {{download_dir}}
+  command: cp /staging/{{download_file}} {{download_dir}}
   when: staged_present.stat.exists
   
 - name: No staged archive found. Downloading

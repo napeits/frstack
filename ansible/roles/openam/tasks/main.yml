@@ -34,7 +34,7 @@
   service: name="openam.service" state=restarted enabled=yes
 
 - name: Wait for openam war to be fully deployed before running configurator
-  wait_for: port={{openam_server_port}} delay=10
+  wait_for: port="{{openam_server_port}}" delay=10
 
 # Bit of hack. The previous command waits for the port -but AM could still be deploying
 # So this waits another 30 seconds to be safe

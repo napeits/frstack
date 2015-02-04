@@ -14,18 +14,11 @@ SCRIPTPATH="$(cd "$(dirname "$0")"; pwd -P)"
 # Uncomment the correct env var here for your target
 
 
-# Set your GCE vars here.
-# The inventory uses a dynamic gce script to determine the GCE instance IP address.
-# See the ansible docs on dynamic inventory
-# Define GCE env vars for yor project
-
-
 # Set the ec2 inventory
 INVENTORY=$SCRIPTPATH/ec2.py  
 
 #export ANSIBLE_HOSTS=$INVENTORY
 
-# GCE uses your logged in name as the sudo user
 #USER=$LOGNAME
 USER=centos
 
@@ -36,9 +29,12 @@ then
 	TAGS="--tags $1"
 fi
 
+
+KEYPAIR=~/etc/frstack-demo.pem
+
 # Run the frstack playbook 
 
 cd ../ansible
 #ansible-playbook $DEBUG -i $INVENTORY  --private-key ~/.ssh/google_compute_engine --user=$USER frstack.yml $TAGS
-ansible-playbook $DEBUG -i $SCRIPTPATH/hosts  --private-key ~/tmp/warren-operative.pem --user=$USER frstack.yml $TAGS
+ansible-playbook $DEBUG -i $SCRIPTPATH/hosts  --private-key $KEYPAIR --user=$USER frstack.yml $TAGS
 

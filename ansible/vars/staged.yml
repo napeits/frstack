@@ -6,12 +6,11 @@
 maven: "http://maven.forgerock.org/repo/releases/org/forgerock"
 
 # DJ
-# Where we can grab nightly builds
-opendj_version: "2.6.0"
-opendj_maven_url: "{{maven}}/opendj/opendj-server/{{opendj_version}}"
+# Staged
 #opendj_major: "opendj-server-{{opendj_version}}" 
-opendj_zip: "opendj-server-{{opendj_version}}.zip"
-opendj_download_url: "{{opendj_maven_url}}/{{opendj_zip}}"
+opendj_version: "2.6.2"
+opendj_zip: "OpenDJ-{{opendj_version}}.zip"
+opendj_download_url: "{{opendj_zip}}"
 
 
 # OpenAM builds

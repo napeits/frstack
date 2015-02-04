@@ -9,28 +9,35 @@
   connection: local
   gather_facts: no
   vars:
-    ec2_access_key: "<removed>"
-    ec2_secret_key: "<removed>"
-    keypair: "<removed>"
-    instance_type: "m3.medium"
-    image: "ami-6bcfc42e"
-    group: "<removed>"
+#    instance_type: "m3.medium"
+    instance_type: "t2.micro"
+    # Centos 7 AMI
+    image: "ami-c7d092f7"
+    group: "default"
     region: "us-west-2"
     name: "frstack aws ois"
+    keyname: "frstack-demo"
+    vpc_subnet_id: "subnet-4ef7af26"
   tasks:
     - name: Provision Instance
-      ec2: image={{ image }}
-           instance_type="{{ instance_type }}"
-           aws_access_key={{ ec2_access_key }}
-           aws_secret_key={{ ec2_secret_key }}
-           keypair={{ keypair }}
-           instance_tags='{"Name":"frstack aws ois"}'
-           region={{ region }}
-           group={{ group }}
-           wait=true
+      ec2:
+        image: "{{ image }}"
+        instance_type: "{{ instance_type }}"
+        instance_tags:
+          name:  'frstack ois'
+          comment: 'created by ansible'
+          created-by: "{{lookup('env','USER')}}"
+        region: "{{ region }}"
+        group: "{{ group }}"
+        key_name:  "{{keyname}}"
+        wait: true
+#        assign_public_ip: yes
+#        vpc_subnet_id: "{{vpc_subnet_id}}"
+#        volumes:
+#          - delete_on_termination: true
       register: ec2_info
 
-    - add_host: hostname={{ item.public_ip }} groupname=ois
+    - add_host: hostname="{{ item.public_ip }}" groupname=ois
       with_items: ec2_info.instances
 
     - name: wait for instances to listen on port:22

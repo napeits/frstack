@@ -1,29 +1,18 @@
 ---
 # This role installs openidm
 
-- name: Check for staged OpenIDM bits - so we can skip download
-  stat: path=/vagrant/staging/{{openidm_zip}}
-  register: staged_openidm
 
-# Copy staged openidm dist bits
-- name: Copy staged OpenIDM bits to image
-  command: cp /vagrant/staging/{{openidm_zip}} {{download_dir}}
-  when: staged_openidm.stat.exists
+# download openam or used cached copy
+- include: ../../download.yml download_file="{{openidm_zip}}" download_url="{{openidm_download_url}}"
 
-- name: Download openidm 
-  get_url: url="{{ openidm_download_url }}" dest="{{download_dir}}/{{openidm_zip}}"
-  environment:
-    proxy_env
-  when: staged_openidm.stat.exists == false
-    
 - name: unpack openidm
-  command: creates={{install_root}}/openidm unzip {{download_dir}}/{{openidm_zip}} -d {{install_root}}
+  command: creates="{{install_root}}/openidm" unzip "{{download_dir}}/{{openidm_zip}}" -d "{{install_root}}"
 
 - name: copy boot to use custom ports
-  template: src=boot.properties dest={{install_root}}/openidm/conf/boot
+  template: src=boot.properties dest="{{install_root}}/openidm/conf/boot/boot.properties"
   
 - name: config.props fix up
-  template: src=config.properties dest={{install_root}}/openidm/conf
+  template: src=config.properties dest="{{install_root}}/openidm/conf/config.properties"
 
 # For now we skip this as a lot has changed since idm 2.x
 #- name: copy conf files
@@ -42,7 +31,7 @@
 #  template: src=openidm dest=/etc/init.d/openidm  mode=0755
 
 - name: Create systemd script 
-  template: src=openidm.service dest=/etc/systemd/system
+  template: src=openidm.service dest=/etc/systemd/system/openidm.service
   
 - name: Change ownership of openidm to fr user
   file: path={{install_root}}/openidm owner={{fr_user}} state=directory recurse=yes

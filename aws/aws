@@ -1,6 +1,13 @@
 #!/bin/sh
 
 #export SSL_CERT_FILE=~/.ssh/cacert.pem
+# You must export your AWS keys like so:
+#export AWS_ACCESS_KEY_ID='AK123'
+#export AWS_SECRET_ACCESS_KEY='abc123'
+
+# Put these in a file that is OUTSIDE of this project (do not commit to git)
+# or define them in your profile
+source ~/etc/aws.sh
 
 
 echo Creating AWS ec2 images

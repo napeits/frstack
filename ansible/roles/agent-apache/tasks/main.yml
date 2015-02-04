@@ -9,7 +9,7 @@
   unarchive: src="{{download_dir}}/{{apache_agent_zip}}" dest="{{install_root}}" copy=no
     
 - name: create password file
-  copy: src=agentpw dest="{{ webagents_home }}"
+  copy: src=agentpw dest="{{ webagents_home }}/agentpw"
   
 #- name: Copy license agreement so we don't get prompted
 #  copy: src=license.log dest={{ webagents_home }}/apache22_agent/data
@@ -18,7 +18,7 @@
   service: name=httpd state=stopped
   
 - name: Copy agent response template 
-  template: src=agentresponse-custom.txt dest="{{ webagents_home }}" 
+  template: src=agentresponse-custom.txt dest="{{ webagents_home }}/agentresponse-custom.txt" 
 
 - name: Run agentadmin 
   shell: "{{ webagents_home }}/apache24_agent/bin/agentadmin --acceptLicense --custom-install --useResponse {{ webagents_home }}/agentresponse-custom.txt"
@@ -28,3 +28,4 @@
   
 - name: start apache
   service: name=httpd state=started
+  
