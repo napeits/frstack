@@ -50,6 +50,10 @@ openam_site_url: "https://{{ openam_fqdn }}:443/openam"
 # Port where internal am instance is running
 openam_server_port: 8080 
 
+# URL where OpenAM server is listening ready to be configured
+# This could be different than the above URL if we are going directly to
+# an instance vs. via the LB
+openam_config_base: "http://{{openam_fqdn}}:{{openam_server_port}}"
 
 ## todo: Put passwords in Ansible vault
 amadmin_password: password
