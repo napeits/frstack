@@ -1,5 +1,4 @@
 tmp/
-staging/*
 .vagrant/
 .settings/
 old/
