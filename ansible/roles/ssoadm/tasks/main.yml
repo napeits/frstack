@@ -16,7 +16,7 @@
 # ssoadm fails if a site URL is defined and the command cant accept the SSL cert. 
 # See https://wikis.forgerock.org/confluence/display/openam/Using+the+ssoadm+command+with+a+Site+configuration
 # This command fixes up ssoadm to map the site URL. Using sed on the guest turns out to be much easier than lineinfile
-- template: src=ssoadm-patch dest="{{install_root}}/ssoadmin/openam/bin" mode=0755 owner={{fr_user}}
+- template: src=ssoadm-patch dest="{{install_root}}/ssoadmin/openam/bin/" mode=0755 owner={{fr_user}}
 - command: chdir="{{install_root}}/ssoadmin/openam/bin" ./ssoadm-patch 
  
 # Make sure everything is owned by fr user  
