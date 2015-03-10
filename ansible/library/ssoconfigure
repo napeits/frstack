@@ -245,7 +245,7 @@ def main():
                                                                   'LDAPv3ForTivoli']),
             userstore_ssl           = dict(default=None, choices=['SIMPLE', 'SSL']),
             userstore_host          = dict(default=None),
-            userstore_port          = dict(default=None, type='int'),
+            userstore_port          = dict(default=None),
             userstore_suffix        = dict(default=None),
             userstore_mgrdn         = dict(default='cn=Directory Manager'),
             userstore_passwd        = dict(default=None),
