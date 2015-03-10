@@ -9,6 +9,8 @@ import threading
 import os
 from ansible.module_utils.basic import *
 
+progress = ""
+
 
 DOCUMENTATION = '''
 ---
@@ -202,21 +204,24 @@ class ProgressThread (threading.Thread):
 
     @staticmethod
     def exit(self):
-        print "Exiting"
+        global progress
+        progress = progress +  "@@@Exiting@@@@"
 
 
 def readstatus(openamurl):
+    global progress
     retry = 0
     while retry <= 1:
         retry += 1
         response = requests.request('GET', openamurl + '/setup/setSetupProgress?mode=text', allow_redirects=False)
         if response.status_code == requests.codes.ok:
             for line in response.iter_content(chunk_size=512):
-                print line
+                progress = progress + line
         response.close()
 
 
 def main():
+    global progress
     module = AnsibleModule(
         argument_spec=dict(
             server_url              = dict(default=None, required=True),
@@ -389,8 +394,8 @@ def main():
     response.close()
 
     if response.status_code == requests.codes.ok:
-        module.exit_json(changed=True, msg=response.text)
+        module.exit_json(changed=True, msg='Progress: ' + progress + '; Response: ' + response.text)
     else:
-        module.fail_json(msg='Configuration failed!' + response.text)
+        module.fail_json(msg='Configuration failed! Response:' + response.text + '; Progress: ' + progress + '.')
 
 main()
