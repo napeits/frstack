@@ -44,14 +44,21 @@
   ssoconfigure: server_url="http://openam.example.com:8080"
     deployment_uri="/openam"
     base_dir="{{install_root}}/openam"
-    directory_server="{{opendj_host}}"
+    directory_server="{{embedded_dj_host}}"
     root_suffix="o=openam"
-    directory_admin_port="{{opendj_admin_port}}"
-    directory_jmx_port="{{opendj_jmx_port}}"
-    directory_port="{{opendj_ldap_port}}"
-    ds_dirmgrdn="{{opendj_dirmgr}}"
+    directory_admin_port="{{embedded_dj_admin_port}}"
+    directory_jmx_port="{{embedded_dj_jmx_port}}"
+    directory_port="{{embedded_dj_ldap_port}}"
+    ds_dirmgrdn="{{embedded_dj_dirmgr}}"
     data_store="embedded"
-    ds_dirmgrpasswd="{{opendj_password}}"
+    ds_dirmgrpasswd="{{embedded_dj_password}}"
+    userstore_type="LDAPv3ForOpenDS"
+    userstore_ssl="SIMPLE"
+    userstore_host="{{opendj_host}}"
+    userstore_port="{{opendj_ldap_port}}"
+    userstore_suffix="{{opendj_basedn}}"
+    userstore_mgrdn="{{opendj_dirmgr}}"
+    userstore_passwd="{{opendj_password}}"
     amldapuserpasswd="{{amldapuser_password}}"
     cookie_domain="{{openam_cookie_domain}}"
     admin_pwd="{{amadmin_password}}"
@@ -59,7 +66,7 @@
     am_enc_key="AQICY6Za5J5noktyqnhW10JiPVNUdKuiZYwS"
     lb_site_name="sitea"
     lb_primary_url="{{openam_site_url}}"
-    
+
 #  - name: Run openam configurator
 #  command: creates={{install_root}}/openam/bootstrap java -jar {{ install_root }}/ssoconfigtool/openam-configurator-tool-{{ openam_version }}.jar 
 #         --file {{ install_root }}/ssoconfigtool/openam.config --acceptLicense

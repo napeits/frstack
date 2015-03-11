@@ -79,6 +79,18 @@ opendj_ldaps_port: 636
 opendj_admin_port: 4444
 opendj_jmx_port: 1689
 
+##
+# Embedded OpenDJ for OpenAM config store
+embedded_dj_host: "{{openam_fqdn}}"
+embedded_dj_dirmgr: "cn=Directory Manager"
+embedded_dj_password: "{{amadmin_password}}"
+embedded_dj_ldap_port: 10389
+embedded_dj_ldaps_port: 10636
+embedded_dj_admin_port: 14444
+embedded_dj_jmx_port: 11689
+##
+
+######
 
 # Tomcat 
 

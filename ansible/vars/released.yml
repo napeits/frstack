@@ -18,10 +18,10 @@ openam_license_switch: ""
 # Agents
 
 tomcat_agent_version: "3.3.0"
-tomcat_agent_zip_file: "Tomcat-v6-7-Agent-{{tomcat_agent_version}}.zip"
+tomcat_agent_zip: "Tomcat-v6-7-Agent-{{tomcat_agent_version}}.zip"
 
 apache_agent_version: "3.3.2"
-apache_agent_zip_file: "Apache-v2.2-Linux-64-Agent-{{apache_agent_version}}.zip"
+apache_agent_zip: "Apache-v2.4-Linux-64-Agent-{{apache_agent_version}}.zip"
 
 #tomcat_agent_version: tomcat_v6_agent_3.2.0-SNAPSHOT
 #tomcat_agent_download_url: "http://download.forgerock.org/downloads/openam/j2eeagents/nightly/{{ tomcat_agent_version }}.zip"
