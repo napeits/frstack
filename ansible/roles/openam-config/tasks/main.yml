@@ -1,0 +1,23 @@
+---
+# This role configures OpenAM. 
+# It is assumed OpenAM is already running but not configured
+
+- name: Run ssoconfigure
+  ssoconfigure: server_url="{{openam_config_base}}"
+    deployment_uri="/openam"
+    base_dir="{{install_root}}/openam"
+    directory_server="{{opendj_host}}"
+    root_suffix="o=openam"
+    directory_admin_port="{{opendj_admin_port}}"
+    directory_jmx_port="{{opendj_jmx_port}}"
+    directory_port="{{opendj_ldap_port}}"
+    ds_dirmgrdn="{{opendj_dirmgr}}"
+    data_store="embedded"
+    ds_dirmgrpasswd="{{opendj_password}}"
+    amldapuserpasswd="{{amldapuser_password}}"
+    cookie_domain="{{openam_cookie_domain}}"
+    admin_pwd="{{amadmin_password}}"
+    acceptlicense="true"
+    am_enc_key="AQICY6Za5J5noktyqnhW10JiPVNUdKuiZYwS"
+    lb_site_name="sitea"
+    lb_primary_url="{{openam_site_url}}"

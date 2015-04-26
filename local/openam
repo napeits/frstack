@@ -1,0 +1,32 @@
+#!/bin/bash 
+# Run the frstack.yml playbook
+# Any first optioanl arg is assumted to be tags to pass to the ansible-playbook command (comma delimited)
+# TODO: Make this work across all environments 
+#     
+# See http://docs.ansible.com/intro_getting_started.html#host-key-checking
+export ANSIBLE_HOST_KEY_CHECKING=False
+
+SCRIPTPATH="$(cd "$(dirname "$0")"; pwd -P)"
+
+# Uncomment to debug
+DEBUG=-vvvv
+
+# Uncomment the correct env var here for your target
+
+# Default inventory is for vagrant
+
+INVENTORY=$SCRIPTPATH/hosts
+
+export ANSIBLE_HOSTS=$INVENTORY
+
+TAGS=""
+
+if [ $# -gt 0 ]
+then 
+	TAGS="--tags $1"
+fi
+
+# Run the playbook 
+cd ../ansible
+#ansible-playbook $DEBUG --user=vagrant -i $INVENTORY openam.yml $TAGS
+ansible-playbook $DEBUG openam.yml $TAGS

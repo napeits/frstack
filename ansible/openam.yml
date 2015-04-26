@@ -1,0 +1,27 @@
+---
+# Install openam in a docker image
+
+- hosts: 127.0.0.1
+  connection: local
+  vars_files:
+    - "vars/{{release}}.yml"
+  tasks:
+  - name: SSO config
+    ssoconfigure: server_url="{{openam_config_base}}"
+      deployment_uri="/openam"
+      base_dir="/var/tmp/openam"
+      directory_server="localhost"
+      root_suffix="o=openam"
+      directory_admin_port="{{opendj_admin_port}}"
+      directory_jmx_port="{{opendj_jmx_port}}"
+      directory_port="1389"
+      ds_dirmgrdn="{{opendj_dirmgr}}"
+      data_store="embedded"
+      ds_dirmgrpasswd="{{opendj_password}}"
+      amldapuserpasswd="{{amldapuser_password}}"
+      cookie_domain="{{openam_cookie_domain}}"
+      admin_pwd="{{amadmin_password}}"
+      acceptlicense="true"
+      am_enc_key="AQICY6Za5J5noktyqnhW10JiPVNUdKuiZYwS"
+      lb_site_name="sitea"
+      lb_primary_url="{{openam_site_url}}"

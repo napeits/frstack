@@ -3,8 +3,8 @@
 # If you use released binaries you will need to provide the downloaded zip files in
 #  the frstack/staging/ directory, and 
 # Edit vars/released.yml with the version info
-#release: nightly
-release: staged
+release: nightly
+#release: staged
 #release: released
 #release: "maven-released"
 
@@ -17,6 +17,8 @@ proxy_env:
   foo: bar
   
 
+# default location of the staging diretory relative to the guest 
+staging_dir: "/staging"
 
 # location of downloaded software zip files relative to the guest image
 # We try to keep this consistent across environments

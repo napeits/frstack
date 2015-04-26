@@ -9,10 +9,10 @@
 - include: ../../openam-uninstall.yml
 
 # download openam or used cached copy
-- include: ../../download.yml download_file="{{openam_zip_file}}" download_url="{{openam_download_url}}"
+- include: ../../download.yml download_file="{{openam_zip}}" download_url="{{openam_download_url}}"
   
 - name: Unpack downloaded OpenAM bits
-  command: chdir="{{download_dir}}" unzip "{{openam_zip_file}}"
+  command: chdir="{{download_dir}}" unzip "{{openam_zip}}"
 
 # create install dir, openam dir
 - file: path="{{ install_root}}" owner="{{ fr_user }}" state="directory" 
