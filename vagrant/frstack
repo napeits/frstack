@@ -1,6 +1,6 @@
 #!/bin/bash 
 # Run the frstack.yml playbook
-# Any first optioanl arg is assumted to be tags to pass to the ansible-playbook command (comma delimited)
+# Any optional args are tags to pass to the ansible-playbook command (comma delimited)
 # TODO: Make this work across all environments 
 #     
 # See http://docs.ansible.com/intro_getting_started.html#host-key-checking
@@ -26,7 +26,11 @@ then
 	TAGS="--tags $1"
 fi
 
+PRIVATE_KEY="$SCRIPTPATH/.vagrant/machines/oisserver/virtualbox/private_key"
 # Run the frstack playbook 
 cd ../ansible
-ansible-playbook $DEBUG --user=vagrant --private-key=~/.vagrant.d/insecure_private_key -i $INVENTORY frstack.yml $TAGS
+#ansible-playbook $DEBUG --user=vagrant --private-key=~/.vagrant.d/insecure_private_key -i $INVENTORY frstack.yml
 
+#ansible-playbook $DEBUG --user=vagrant --private-key=./.vagrant/machines/oisserver/virtualbox/private_key -i $INVENTORY frstack.yml $TAGS
+
+ansible-playbook $DEBUG --user=vagrant --private-key $PRIVATE_KEY -i $INVENTORY frstack.yml $TAGS

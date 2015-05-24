@@ -338,8 +338,8 @@ def main():
         DS_DIRMGRPASSWD             = ds_dirmgrpasswd.decode('utf8')
     )
 
-    if not os.path.exists(base_dir):
-        module.fail_json('Configuration base directory ' + base_dir + ' does not exist.')
+    #if not os.path.exists(base_dir):
+    #    module.fail_json('Configuration base directory ' + base_dir + ' does not exist.')
 
     p = re.compile('^\.([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,3}$')
     if not p.match(cookie_domain):
@@ -381,6 +381,9 @@ def main():
     body = urllib.urlencode(formparams)
     openssourl = server_url.rstrip('/') + '/' + deployment_uri.lstrip('/').rstrip('/') + '/config/configurator'
 
+
+    #module.fail_json(msg=openssourl)
+    #module.fail_json(msg=body)
     try:
         thread = ProgressThread( server_url.rstrip('/') + '/' + deployment_uri.lstrip('/').rstrip('/'), 'progress')
         thread.start()

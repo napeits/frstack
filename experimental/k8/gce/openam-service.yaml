@@ -1,0 +1,16 @@
+apiVersion: v1beta3
+kind: Service
+metadata:
+  name: openam-svc
+  labels:
+    name: openam-svc
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: "TCP"
+      name: openam-80
+  createExternalLoadBalancer: true
+  sessionAffinity: ClientIP
+  selector:
+    site: site1

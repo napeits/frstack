@@ -3,10 +3,11 @@
 # If you use released binaries you will need to provide the downloaded zip files in
 #  the frstack/staging/ directory, and 
 # Edit vars/released.yml with the version info
-release: nightly
+#release: nightly
 #release: staged
 #release: released
 #release: "maven-released"
+release: custom
 
 # Use a caching proxy server if possible to speed up re-installs
 # Comment these lines out if you do not have a proxy. Note that 
@@ -75,7 +76,7 @@ opendj_password: password
 opendj_host: "openam.example.com"
 opendj_dirmgr: "cn=Directory Manager" 
 
-# These ovveride opendj role settings
+# These overide opendj role settings
 opendj_ldap_port: 389
 opendj_ldaps_port: 636
 opendj_admin_port: 4444

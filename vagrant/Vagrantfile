@@ -7,10 +7,9 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-
-    # This box has dissappeared...
-    # config.vm.box = "hfm4/centos7"
     config.vm.box = "matyunin/centos7"
+
+    #config.ssh.private_key_path = File.expand_path('~/.vagrant.d/insecure_private_key')
 
     # Change oisserver to ois. Used by vagrant provisioner
     config.vm.define "oisserver" do |v| 

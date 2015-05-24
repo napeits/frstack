@@ -1,0 +1,60 @@
+# Sample custom file
+
+# Defines where to find the various ForgeRock nightly builds.
+#  This will attempt to use the date to get the most recent build. This is not always going
+# to work if the build is broken - so you may have to edit this manually.
+
+jenkins: "https://builds.forgerock.org/view"
+fr_downloads: "http://download.forgerock.org/downloads"
+
+# We try to calculate the datestamp based on when this is run. It is possible that
+# Not all artifacts are built - so you may have to manually adjust this
+datestamp: "{{ansible_date_time.year}}{{ansible_date_time.month}}{{ansible_date_time.day }}"
+
+# DJ
+# Where we can grab nightly builds
+# Todo: How do we make DJ download url predictable. Where does te _0130 come from?
+# http://download.forgerock.org/downloads/opendj/nightly/20150425_0130/OpenDJ-2.7.0-20150425.zip
+
+opendj_datestamp: "{{datestamp}}"
+opendj_major: "OpenDJ-2.6.2"
+opendj_zip: "{{opendj_major}}.zip"
+opendj_download_url: "{{fr_downloads}}/opendj/nightly/{{opendj_datestamp}}_0130/{{opendj_zip}}"
+
+# OpenAM builds
+openam_version: "13.0.0-SNAPSHOT"
+openam_zip: "OpenAM-{{openam_version}}_nightly_{{datestamp}}.zip"
+openam_download_url: "{{ fr_downloads}}/openam/{{ openam_zip }}"
+
+# OpenIG
+openig_version: "4.0.0-SNAPSHOT"
+openig_zip: "OpenIG-{{openig_version}}.war"
+openig_download_url:  "{{ fr_downloads}}/openig/nightly/{{openig_zip}}"
+
+# openidm
+openidm_version: "3.2.0-SNAPSHOT"
+openidm_zip: "openidm-{{openidm_version}}.zip"
+openidm_download_url: "{{fr_downloads}}/openidm/snapshot/{{openidm_zip}}"
+
+
+# Agents
+# Tomcat - currently agent 4.0.0
+# http://download.forgerock.org/downloads/openam/j2eeagents/nightly/tomcat_v6_agent_4.0.0-SNAPSHOT.zip
+tomcat_agent_version: "tomcat_v6_agent_4.0.0-SNAPSHOT"
+tomcat_agent_zip: "{{tomcat_agent_version}}.zip"
+tomcat_agent_download_url: "{{fr_downloads}}/openam/j2eeagents/nightly/{{tomcat_agent_zip}}"
+
+# Apache
+apache_agent_version: apache_v24_Linux_64_agent_4.0.0-SNAPSHOT
+apache_agent_zip: "{{apache_agent_version}}.zip"
+apache_agent_download_url: "{{fr_downloads}}/openam/webagents/nightly/Linux/{{apache_agent_zip}}"
+
+
+
+# HA Proxy
+# DEPRECATED - Use the package version. Centos7 and Fedora now have 1.5 with SSL
+#
+# The rpm repos dont have the latest version needed to support SSL - so use a custom version
+# Not needed anymore - as Fedora and Centos 7 has 1.5 with SSL. Keep this for posterity
+#haproxy_rpm: "haproxy-1.5-dev19.el6.x86_64.rpm"
+#haproxy_download_url: "http://silverdire.com/files/repo/el6/x86_64/{{ haproxy_rpm }}"

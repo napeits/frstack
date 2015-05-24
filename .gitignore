@@ -3,3 +3,5 @@ tmp/
 .settings/
 old/
 ldif/
+.project
+.idea
