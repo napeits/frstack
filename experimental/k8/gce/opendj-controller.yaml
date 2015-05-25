@@ -17,6 +17,6 @@ spec:
       - name: opendj
         image: wstrange/opendj-nightly
         ports:
-        - name: opendj-389
+        - name: ldap
           containerPort: 389
           protocol: TCP

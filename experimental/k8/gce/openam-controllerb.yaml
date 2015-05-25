@@ -18,6 +18,6 @@ spec:
       - name: openam-b
         image: wstrange/openam-nightly
         ports:
-        - name: openamb-8080
+        - name: openam
           containerPort: 8080
           protocol: TCP

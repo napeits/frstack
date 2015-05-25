@@ -2,7 +2,7 @@
 
 date
 # Delete any existing cluster
-gcloud alpha container clusters -q delete openam
+#gcloud alpha container clusters -q delete openam
 
 
 gcloud alpha container clusters create openam --num-nodes 2 --machine-type  n1-standard-1
