@@ -8,25 +8,25 @@ These files are used to create images on a Kubernetes.io cluster running on Goog
    GKE).
 
 The create-all.sh script will create a cluster (2 nodes), and then provision the k8 replication controllers and services to run
-OpenAM
+OpenAM and OpenDJ
 
 
 
 # Vagrant Directory
 
 I have tested these using https://github.com/pires/kubernetes-vagrant-coreos-cluster - which runs
-   the k8 cluster on using  VirtualBox / Vagrant.
+   the k8 cluster on VirtualBox / Vagrant.
 
 
 # Ansible
 
 The Ansible playbook openam.yml completes the cluster install by configuring OpenAM. The provision shell script calls
-the ansible playbook.
+the ansible playbook openam.yml
 
 
 # Operation
 
-The k8 config files use two Docker images (OpenDJ and OpenAM) to stand up a cluster of two OpenAM nodes and a single OpenDj server.
+The k8 config files use  Docker images for OpenDJ and OpenAM to stand up a cluster of two OpenAM nodes and a single OpenDj server.
 
 Once the cluster is ready, the OpenAM nodes will be running but need to be configured.
 
@@ -49,9 +49,9 @@ Then you can run ./provision - which will invoke the ansible playbook openam.yml
 
 See https://www.google.com/url?q=https%3A%2F%2Fgithub.com%2FGoogleCloudPlatform%2Fkubernetes%2Fissues%2F8673&sa=D&sntz=1&usg=AFQjCNGGTYFumFL21JDxfI-SNJqXHR2Tcw
 
-You will need to login to GCE cloud console, find Network load balancer target pool, and configure a health check
+You will need to login to GCE cloud console, find the Network load balancer target pool, and configure a health check
    for port 80.  Otherwise the LB will send traffic to both OpenAM nodes - which will cause issues.
 
-   
+
 
 
