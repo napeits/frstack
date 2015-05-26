@@ -6,10 +6,10 @@
 kubectl  config use-context vagrant-k8
 
 
-# Bring up a shell in a container
+# Example: Bring up a shell in a container
 kubectl exec -p openam-rhc70 -c openam -i -t -- bash -il
 
-# Show dns logs
+# Example: Show dns logs
 kubectl log kube-dns-6968t skydns
 
 
@@ -26,5 +26,6 @@ kubectl delete pods,rc,services -l name=opendj
 kubectl  config use-context vagrant-k8
 
 
+# Example: Using context argument
 kubectl --context=vagrant-k8 create -f openam-controller.yaml
 

@@ -35,5 +35,6 @@
     with_items:
       - http://openam-a.example.com/
       - http://openam-b.example.com/
-#      - http://openam-svc-a:80/
-#      - http://openam-svc-b:80/
+     # - http://openam-svc-a:80/
+     # - http://openam-svc-b:80/
+

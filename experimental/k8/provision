@@ -12,9 +12,9 @@ DEBUG=-vvvv
 
 # Default inventory is for vagrant
 
-INVENTORY=../../../etc/hosts
+INVENTORY=../../etc/hosts
 export ANSIBLE_PATH
-export ANSIBLE_LIBRARY=../../../ansible/library
+export ANSIBLE_LIBRARY=../../ansible/library
 
 
 ansible-playbook  $DEBUG -i $INVENTORY openam.yml
