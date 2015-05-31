@@ -1,6 +1,9 @@
 ---
 # Configure OpenAM on base image
 # This assumes openam is running
+# todo: Second server install needs to be fixed
+# Use existingserverid
+# http://docs.forgerock.org/en/openam/12.0.0/reference/index/man-configurator-jar-1.html
 
 - hosts: localhost
   connection: local
