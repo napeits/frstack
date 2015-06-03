@@ -7,4 +7,4 @@ metadata:
 spec:
     containers:
     - name: openam-a
-      image: wstrange/ssoconfig
+      image: wstrange/ssoconfig:latest
