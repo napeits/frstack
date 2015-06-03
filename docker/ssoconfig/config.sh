@@ -6,7 +6,13 @@ C=openam-configurator-tool*.jar
 
 # todo: Put a wait loop for the openam-svc-a:80 to come up before runnign
 
+echo configuring first instance
+
 java -jar $C -f master.properties
+
+sleep 60
+echo Configuring second instance
+
 java -jar $C -f second.properties
 
 echo done config
