@@ -13,6 +13,6 @@ spec:
   selector:
     name: openam-a
 #  type: NodePort
-  publicIPs:
-    - 10.245.1.3
+#  publicIPs:
+#    - 10.245.1.3
   createExternalLoadBalancer: true
