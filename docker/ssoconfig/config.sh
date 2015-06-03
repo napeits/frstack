@@ -2,8 +2,10 @@
 
 cd /var/tmp
 
-java -jar configurator.jar --acceptLicense -f master.properties
-java -jar configurator.jar --acceptLicense -f second.properties
+C=openam-configurator-tool*.jar
+
+java -jar $C -f master.properties
+java -jar $C -f second.properties
 
 echo done config
 
