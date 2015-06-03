@@ -9,7 +9,8 @@ spec:
     - port: 8080
       targetPort: 8080
       protocol: "TCP"
+      name: openam
   publicIPs:
-    - 172.17.8.102
+    - 10.245.1.3
   selector:
-    name: openam-a
+    site: site1

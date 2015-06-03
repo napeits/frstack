@@ -10,6 +10,7 @@ spec:
       targetPort: 8080
       protocol: "TCP"
   publicIPs:
-    - 172.17.8.102
+#    - 172.17.8.102
+    - 10.245.1.3
   selector:
     name: openam-b
