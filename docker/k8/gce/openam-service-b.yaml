@@ -12,4 +12,6 @@ spec:
       name: openam-b
   selector:
     name: openam-b
-  createExternalLoadBalancer: true
+# If for some reason you need to admin the instance externally
+# uncomment this
+#  createExternalLoadBalancer: true

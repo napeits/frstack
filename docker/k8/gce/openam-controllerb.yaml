@@ -2,8 +2,8 @@ apiVersion: v1beta3
 kind: ReplicationController
 metadata:
   labels:
-    name: openamb
-  name: openamb
+    name: openam-b
+  name: openam-b
 spec:
   replicas: 1
   selector:
@@ -21,3 +21,11 @@ spec:
         - name: openam
           containerPort: 8080
           protocol: TCP
+        volumeMounts:
+        - name: openam-disk-b
+          mountPath: /root/openam
+      volumes:
+      - name: openam-disk-b
+        gcePersistentDisk:
+          pdName: openam-disk-b
+          fsType: ext4

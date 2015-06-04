@@ -16,10 +16,18 @@ spec:
     spec:
       containers:
       - name: openam-a
-        image: wstrange/openam-base-nightly
+        image: wstrange/openam-nightly
         env:
           - name: "OPENAM_INSTANCE"
             value: "openam01"
         ports:
         - name: openam
           containerPort: 8080
+        volumeMounts:
+        - name: openam-disk-a
+          mountPath: /root/openam
+      volumes:
+      - name: openam-disk-a
+        gcePersistentDisk:
+          pdName: openam-disk-a
+          fsType: ext4

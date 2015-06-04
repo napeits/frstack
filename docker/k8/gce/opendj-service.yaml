@@ -10,6 +10,8 @@ spec:
       targetPort: ldap
       protocol: "TCP"
       name: opendj-389
-  createExternalLoadBalancer: true
   selector:
     name: opendj
+# Uncomment to access externally
+#  createExternalLoadBalancer: true
+

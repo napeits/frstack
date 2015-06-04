@@ -15,4 +15,6 @@ spec:
 #  type: NodePort
 #  publicIPs:
 #    - 10.245.1.3
-  createExternalLoadBalancer: true
+# If for some reason you need to admin the instance externally
+# uncomment this
+#  createExternalLoadBalancer: true

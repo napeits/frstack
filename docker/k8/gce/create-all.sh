@@ -4,8 +4,10 @@ date
 # Delete any existing cluster
 #gcloud alpha container clusters -q delete openam
 
+export ZONE=us-central1-a
 
-gcloud alpha container clusters create openam --num-nodes 2 --machine-type  n1-standard-1
+
+gcloud alpha container clusters create openam --num-nodes 2 --machine-type  n1-standard-1 --zone $ZONE
 
 
 # Use kubectl locally

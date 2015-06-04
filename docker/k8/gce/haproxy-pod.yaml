@@ -1,3 +1,4 @@
+# haproxy in case you want to use this instead of k8 LB
 apiVersion: v1beta3
 kind: Pod
 metadata:
